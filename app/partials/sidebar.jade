@@ -1,0 +1,10 @@
+section
+  md-toolbar
+    h2.md-toolbar-tools
+      md-button(ng-click="toggleSideNav()", aria-label="toogle menu")
+        .icon-navigation-black.icon-navigation-black-ic_arrow_back_black_24dp
+      p @{{userService.name}}
+  md-content(layout="column")
+    md-button(ui-sref="logged.accueil", ui-sref-active="md-primary") Accueil
+    md-divider
+    md-button(ng-click="signOut()") Déconnexion

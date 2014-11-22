@@ -1,0 +1,10 @@
+md-content(layout="column", layout-fill, layout-align="center center")
+  md-card
+    md-toolbar
+      h2.md-toolbar-tools
+        span Connexion
+    form(name="loginForm", ng-submit="onFormSubmit()", novalidate="")
+      md-text-float(label="User ID", ng-model="name", required, maxlength="15")
+      md-text-float(label="Mot de passe", ng-model="password", type="password", required, maxlength="15")
+      div(layout="row")
+        md-button.md-raised.md-primary(type="submit", ng-disabled="loginForm.$invalid", flex) Connexion
