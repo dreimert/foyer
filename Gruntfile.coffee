@@ -126,3 +126,4 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-contrib-copy')
 
   grunt.registerTask('default', ['copy', 'concurrent:dev'])
+  grunt.registerTask('production', ['copy', 'jade', 'coffee', 'uglify', 'cssmin', 'nodemon'])
