@@ -9,3 +9,8 @@
 .full {
   max-width: 100%;
 }
+
+.nolink {
+  text-decoration: none;
+  color: black;
+}

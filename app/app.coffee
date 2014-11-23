@@ -33,6 +33,10 @@ angular.module("aae", [
       url: "/accueil"
       templateUrl: "logged.accueil.html"
       controller: "LoggedAccueilController"
+    ).state("logged.user",
+      url: "/user"
+      templateUrl: "logged.user.html"
+      controller: "LoggedUserController"
     )
 ]).run([
   '$state', 'UserService', '$rootScope'

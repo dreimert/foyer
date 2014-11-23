@@ -34,5 +34,13 @@ angular.module("aae.controllers", [
       $scope.userService.signOut()
     
 ]).controller("LoggedAccueilController", [
+  "$scope"
+  ($scope) ->
+    $scope.$watch 'search', (value) ->
+      if not value? or value.length is 0
+        $scope.results = []
+      else
+        $scope.results = (nom: "Dubois", prenom: "Damien", others: "blabla" for i in [1..10])
+]).controller("LoggedUserController", [
   () ->
 ])
