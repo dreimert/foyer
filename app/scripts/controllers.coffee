@@ -12,8 +12,12 @@ angular.module("aae.controllers", [
   ($scope, $state, UserService, $mdToast) ->
     $scope.name = UserService.name or ""
     $scope.onFormSubmit = ->
-      UserService.signIn($scope.name)
-      $state.go "logged.accueil"
+      UserService.signIn($scope.login, $scope.password)
+      .then () ->
+        $state.go "logged.accueil"
+      ,
+        () ->
+          $mdToast.show($mdToast.simple().content('Login ou mot de passe incorrect !'))
 
 ]).controller("LoggedController", [
   "$scope", "$state", "$window" , "UserService", "$mdSidenav", "TitleService"

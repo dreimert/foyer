@@ -13,19 +13,29 @@ angular.module("aae.services", [])
         @title
 
 ]).factory("UserService", [
-  "$http"
-  ($http) ->
+  "$http", "$q"
+  ($http, $q) ->
     new class UserService
       constructor: ->
         @name = false
+        $http.get '/logged'
+        .success (data) =>
+          @name = data.name
 
-      signIn: (name) ->
-        @name    = name
-        @entered = Date.now()
+      signIn: (login, password) ->
+        $q (resolve, reject) =>
+          $http.post '/login', {login: login, password: password}
+          .success (data) =>
+            @name = data.name
+            resolve @name
+          .error (data) =>
+            reject data
 
       signOut: ->
         # hard refresh of the page on logout to run constructor of all services
-        window.location.reload()
+        $http.get '/logout'
+        .success () ->
+          window.location.reload()
         
       signedIn: ->
         @name

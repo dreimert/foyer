@@ -12,7 +12,9 @@
     "node": "~0.10.29"
   },
   "dependencies": {
-    "express": "^4.8.3"
+    "body-parser": "^1.9.3",
+    "express": "^4.8.3",
+    "express-session": "^1.9.2"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
