@@ -10,6 +10,12 @@ app.use express.static(__dirname + '/build')
 app.use session(secret: 'keyboard cat', cookie: maxAge: 3600000)
 app.use bodyParser.json()
 
+logged = (req, res, next) ->
+  if req.session.logged is true
+    next()
+  else
+    res.send 401
+
 app.post '/login', (req, res) ->
   if req.body.login is "test" and req.body.password is "test"
     req.session.logged = true
@@ -17,13 +23,10 @@ app.post '/login', (req, res) ->
   else
     res.send 401
 
-app.get '/logged', (req, res) ->
-  if req.session.logged
-    res.send name: "test"
-  else
-    res.send 401
+app.get '/logged', logged, (req, res) ->
+  res.send name: "test"
 
-app.get '/logout', (req, res) ->
+app.get '/logout', logged, (req, res) ->
   req.session.destroy()
   res.send(200)
 
