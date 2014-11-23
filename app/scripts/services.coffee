@@ -18,12 +18,12 @@ angular.module("aae.services", [])
     new class UserService
       constructor: ->
         @name = false
-        $http.get '/logged'
-        .success (data) =>
+        @promise = $http.get('/logged').success (data) =>
           @name = data.name
+          @name
 
       signIn: (login, password) ->
-        $q (resolve, reject) =>
+        @promise = $q (resolve, reject) =>
           $http.post '/login', {login: login, password: password}
           .success (data) =>
             @name = data.name
@@ -31,12 +31,12 @@ angular.module("aae.services", [])
           .error (data) =>
             reject data
 
+      getUser: () ->
+        @promise
+
       signOut: ->
         # hard refresh of the page on logout to run constructor of all services
         $http.get '/logout'
         .success () ->
           window.location.reload()
-        
-      signedIn: ->
-        @name
 ])

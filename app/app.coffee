@@ -14,7 +14,7 @@ angular.module("aae", [
   ($stateProvider, $urlRouterProvider) ->
 
     # For any unmatched url, redirect to /state1
-    $urlRouterProvider.otherwise "/login"
+    $urlRouterProvider.otherwise "/accueil"
     
     # Now set up the states
     $stateProvider.state("login",
@@ -23,9 +23,12 @@ angular.module("aae", [
       controller: "LoginController"
     ).state("logged",
       abstract: true
-      url: "/"
       templateUrl: "logged.html"
       controller: "LoggedController"
+      resolve:
+        user: ["UserService", (UserService) ->
+          UserService.getUser()
+        ]
     ).state("logged.accueil",
       url: "/accueil"
       templateUrl: "logged.accueil.html"
@@ -34,13 +37,9 @@ angular.module("aae", [
 ]).run([
   '$state', 'UserService', '$rootScope'
   ($state, UserService, $rootScope) ->
-    $rootScope.$on '$stateChangeStart', (e, toState, toParams, fromState, fromParams) ->
-      # if user is not logged in and wants to access pages other than login,
-      # than force a redirect to the login page
-      unless UserService.signedIn()
-        console.log "not Signed In"
-        unless toState.name is 'login'
-          console.log "reroute"
-          e.preventDefault()
-          $state.go 'login'
+    $rootScope.$on '$stateChangeError', (event, toState, toParams, fromState, fromParams, error) ->
+      if error.data is "Unauthorized"
+        event.preventDefault()
+        $state.go 'login'
+    
 ])
