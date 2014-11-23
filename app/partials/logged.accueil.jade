@@ -1,12 +1,11 @@
-div(layout-padding)
-  md-text-float.long(label="Ma recherche", ng-model="search")
-  
-  md-list
-    md-item(ng-repeat="result in results")
-      md-item-content
-        a.nolink.md-tile-content(layout="row", layout-fill, ui-sref="logged.user")
-          div(layout="column", layout-fill)
-            h3 {{result.nom}} {{result.prenom}}
-            p {{result.others}}
-          
-          .icon-navigation-black.icon-navigation-black-ic_chevron_right_black_24dp
+md-text-float.long(label="Ma recherche", ng-model="search")
+
+md-list
+  md-item(ng-repeat="result in results")
+    md-item-content
+      a.nolink.md-tile-content(layout="row", layout-fill, ui-sref="logged.user")
+        div(layout="column", layout-fill)
+          h3 {{result.nom}} {{result.prenom}}
+          p {{result.others}}
+        
+        .icon-navigation-black.icon-navigation-black-ic_chevron_right_black_24dp
