@@ -1,6 +1,7 @@
 express = require('express')
 app     = express()
 server  = require('http').Server(app)
+mysql   = require('mysql')
 
 bodyParser = require('body-parser')
 session = require('express-session')
@@ -10,6 +11,12 @@ app.use express.static(__dirname + '/build')
 app.use session(secret: 'keyboard cat', cookie: maxAge: 3600000)
 app.use bodyParser.json()
 
+sql = require("./sql.conf")
+
+connection = mysql.createConnection sql.config
+
+connection.connect()
+
 logged = (req, res, next) ->
   if req.session.logged is true
     next()
@@ -17,11 +24,15 @@ logged = (req, res, next) ->
     res.send 401
 
 app.post '/login', (req, res) ->
-  if req.body.login is "test" and req.body.password is "test"
-    req.session.logged = true
-    res.send name: "test"
-  else
-    res.send 401
+  sql.login connection, req.body.login, req.body.password, (err, user) ->
+    if err?
+      res.send 500
+    else if user?
+      req.session.logged = true
+      req.session.user = user
+      res.send name: user.personne_prenom
+    else
+      res.send 401
 
 app.get '/logged', logged, (req, res) ->
   res.send name: "test"

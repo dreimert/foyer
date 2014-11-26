@@ -14,7 +14,8 @@
   "dependencies": {
     "body-parser": "^1.9.3",
     "express": "^4.8.3",
-    "express-session": "^1.9.2"
+    "express-session": "^1.9.2",
+    "mysql": "^2.5.3"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
