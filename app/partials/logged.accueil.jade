@@ -1,4 +1,4 @@
-md-text-float.long(label="Ma recherche", ng-model="search")
+md-text-float.long(label="Ma recherche", ng-model="search", ng-model-options="{ debounce: 500 }")
 
 md-list
   md-item(ng-repeat="result in results")

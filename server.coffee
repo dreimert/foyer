@@ -34,6 +34,15 @@ app.post '/login', (req, res) ->
     else
       res.send 401
 
+app.get '/search', logged, (req, res) ->
+  console.log "req.query :", req.query
+  sql.search connection, req.query.search, (err, users) ->
+    if err?
+      res.send 500
+      console.error err
+    else
+      res.send users
+
 app.get '/logged', logged, (req, res) ->
   res.send name: "test"
 
