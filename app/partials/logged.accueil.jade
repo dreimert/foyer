@@ -3,7 +3,7 @@ md-text-float.long(label="Ma recherche", ng-model="search", ng-model-options="{ 
 md-list
   md-item(ng-repeat="result in results")
     md-item-content
-      a.nolink.md-tile-content(layout="row", layout-fill, ui-sref="logged.user")
+      a.nolink.md-tile-content(layout="row", layout-fill, ui-sref="logged.user({id:result.id})")
         div(layout="column", layout-fill)
           h3 {{result.nom}} {{result.prenom}}
           p {{result.others}}

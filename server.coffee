@@ -24,17 +24,20 @@ app.post '/login', (req, res) ->
     if status is 200
       req.session.logged = true
       req.session.user = data
-      res.send name: data.prenom
+      res.send data
     else
       res.send status, data
 
 app.get '/search', logged, (req, res) ->
-  console.log "req.query :", req.query
   db.search req.query.search, (status, data) ->
     res.send(status, data)
 
+app.get '/user', logged, (req, res) ->
+  db.user req.query.id, (status, data) ->
+    res.send(status, data)
+
 app.get '/logged', logged, (req, res) ->
-  res.send name: req.session.user.prenom
+  res.send req.session.user
 
 app.get '/logout', logged, (req, res) ->
   req.session.destroy()

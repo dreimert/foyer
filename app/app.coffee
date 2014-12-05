@@ -34,9 +34,19 @@ angular.module("aae", [
       templateUrl: "logged.accueil.html"
       controller: "LoggedAccueilController"
     ).state("logged.user",
-      url: "/user"
+      url: "/user/:id"
       templateUrl: "logged.user.html"
       controller: "LoggedUserController"
+      resolve:
+        user: ['$stateParams', '$http', '$q', ($stateParams, $http, $q) ->
+          $q (resolve, reject) ->
+            $http.get '/user', params: id: $stateParams.id
+            .success (data) ->
+              resolve data
+            .error (data) ->
+              reject data
+        ]
+
     )
 ]).run([
   '$state', 'UserService', '$rootScope'

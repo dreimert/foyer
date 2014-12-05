@@ -23,6 +23,7 @@ angular.module("aae.controllers", [
   "$scope", "$state", "$window" , "UserService", "$mdSidenav", "TitleService"
   ($scope, $state, $window, UserService, $mdSidenav, TitleService) ->
     $scope.userService = UserService
+    $scope.user = UserService.user
 
     $scope.getTitle = () ->
       TitleService.getTitle()
@@ -34,16 +35,20 @@ angular.module("aae.controllers", [
       $scope.userService.signOut()
     
 ]).controller("LoggedAccueilController", [
-  "$scope", "$http"
-  ($scope, $http) ->
+  "$scope", "$http", "TitleService"
+  ($scope, $http, TitleService) ->
+    TitleService.setTitle("Accueil")
     $scope.$watch 'search', (value) ->
       if not value? or value.length <= 2
         $scope.results = []
       else
         $http.get '/search', params: {search: value}
         .success (data) ->
-          console.log data
           $scope.results = data
 ]).controller("LoggedUserController", [
-  () ->
+  "$scope", "user", "TitleService"
+  ($scope, user, TitleService) ->
+    TitleService.setTitle("#{user.prenom} #{user.nom}")
+    $scope.personne = user
+    console.log "user :", user
 ])

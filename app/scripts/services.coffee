@@ -18,15 +18,18 @@ angular.module("aae.services", [])
     new class UserService
       constructor: ->
         @name = false
+        @user = null
         @promise = $http.get('/logged').success (data) =>
-          @name = data.name
+          @user = data
+          @name = data.prenom
           @name
 
       signIn: (login, password) ->
         @promise = $q (resolve, reject) =>
           $http.post '/login', {login: login, password: password}
           .success (data) =>
-            @name = data.name
+            @user = data
+            @name = data.prenom
             resolve @name
           .error (data) =>
             reject data
