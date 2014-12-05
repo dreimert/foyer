@@ -7,8 +7,11 @@ angular.module("aae.services", [])
     new class TitleService
       constructor: () ->
         @title = "Accueil"
-      setTitle: (title) ->
+      setTitle: (title, backButton = false) ->
         @title = title
+        @backButton = backButton
+      showBackButton: () ->
+        @backButton
       getTitle: () ->
         @title
 

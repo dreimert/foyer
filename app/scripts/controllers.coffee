@@ -28,6 +28,12 @@ angular.module("aae.controllers", [
     $scope.getTitle = () ->
       TitleService.getTitle()
 
+    $scope.backButton = () ->
+      TitleService.showBackButton()
+
+    $scope.back = () ->
+      $state.go "logged.accueil"
+
     $scope.toggleSideNav = () ->
       $mdSidenav('left').toggle()
 
@@ -48,7 +54,7 @@ angular.module("aae.controllers", [
 ]).controller("LoggedUserController", [
   "$scope", "user", "TitleService"
   ($scope, user, TitleService) ->
-    TitleService.setTitle("#{user.prenom} #{user.nom}")
+    TitleService.setTitle("#{user.prenom} #{user.nom}", true)
     $scope.personne = user
     console.log "user :", user
 ])
