@@ -12,6 +12,11 @@
     npm install
     bower install
 
+* Copier et configurer le système
+
+    cp conf.default.coffee conf.coffee
+    nano conf.coffee
+
 * Lancer l'application
 
     grunt
