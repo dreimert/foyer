@@ -4,7 +4,7 @@ app     = express()
 bodyParser = require('body-parser')
 session = require('express-session')
 
-app.use express.static(__dirname + '/build')
+app.use express.static(__dirname + '/../build')
 
 app.use session(secret: 'keyboard cat', cookie: maxAge: 3600000)
 app.use bodyParser.json()

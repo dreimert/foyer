@@ -73,12 +73,12 @@ module.exports = (grunt) ->
 
     nodemon:
       web:
-        script: 'server.coffee'
+        script: 'serveur/server.coffee'
         options:
           args: []
           ext: 'js,coffee'
           delayTime: 1
-          watch: ['server.coffee']
+          watch: ['serveur/server.coffee']
 
     concurrent:
       dev:

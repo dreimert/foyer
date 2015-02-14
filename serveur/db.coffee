@@ -1,6 +1,6 @@
 pg = require('pg')
 Promise = require("bluebird")
-conf = require('./conf')
+conf = require('../conf')
 
 connect = () ->
   new Promise (resolve, reject) ->
