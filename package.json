@@ -1,21 +1,19 @@
 {
   "author": "Damien Reimert",
-  "name": "annuaire_ancien_eleve",
-  "description": "Annuaire des anciens éléves",
+  "name": "ardoise_alt",
+  "description": "Système d'ardoises alternatif pour le foyer",
   "version": "0.0.1",
   "homepage": "",
   "repository": {
     "type": "git",
     "url": ""
   },
-  "engines": {
-    "node": "~0.10.29"
-  },
   "dependencies": {
+    "bluebird": "^2.9.9",
     "body-parser": "^1.9.3",
     "express": "^4.8.3",
     "express-session": "^1.9.2",
-    "mysql": "^2.5.3"
+    "pg": "^4.2.0"
   },
   "devDependencies": {
     "grunt": "^0.4.5",

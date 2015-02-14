@@ -1,31 +1,8 @@
 h2 {{personne.nom}} {{personne.prenom}}
 md-list
-  md-item(ng-if="personne.tel || personne.portable")
-    md-item-content
-      .md-tile-left
-        .icon-communication-black.icon-communication-black-ic_phone_black_24dp
-      .md-tile-content
-        h3 {{personne.tel || personne.portable}}
-  md-item(ng-if="personne.dateNaissance && personne.dateNaissance !== '0000-00-00'")
-    md-item-content
-      .md-tile-left
-        .icon-social-black.icon-social-black-ic_cake_black_24dp
-      .md-tile-content
-        h3 le {{personne.dateNaissance | amDateFormat:'dddd D MMMM YYYY'}}
-          span(ng-if="personne.lieuNaiss")  à {{personne.lieuNaiss}}
-  md-item(ng-if="personne.email")
+  md-item
     md-item-content
       .md-tile-left
         .icon-communication-black.icon-communication-black-ic_email_black_24dp
       .md-tile-content
-        h3 {{personne.email}}
-  md-item(ng-if="personne.adress1")
-    md-item-content
-      .md-tile-left
-        .icon-maps-black.icon-maps-black-ic_place_black_24dp
-      .md-tile-content
-        h3(layout="column")
-          span {{personne.adress1}} <br/>
-          span(ng-if="personne.adress2") {{personne.adress2}} <br/>
-          span {{personne.cp}} {{personne.ville}} <br/>
-          span(ng-if="personne.pays") {{personne.pays}} <br/>
+        h3 {{personne.mail}}

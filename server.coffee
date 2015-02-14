@@ -1,6 +1,5 @@
 express = require('express')
 app     = express()
-server  = require('http').Server(app)
 
 bodyParser = require('body-parser')
 session = require('express-session')
@@ -43,5 +42,5 @@ app.get '/logout', logged, (req, res) ->
   req.session.destroy()
   res.sendStatus(200)
 
-server.listen 3333, () ->
+app.listen 3333, () ->
   console.log "Serveur lancé sur le port 3333"
