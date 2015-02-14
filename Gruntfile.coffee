@@ -48,7 +48,7 @@ module.exports = (grunt) ->
           atBegin: true
 
       jade:
-        files: ['app/**/*.jade', 'jade.conf.coffee']
+        files: ['app/**/*.jade']
         tasks: ['jade']
         options:
           livereload: true
@@ -95,7 +95,7 @@ module.exports = (grunt) ->
         options:
           pretty: true
           data: () ->
-            require('./jade.conf.coffee')
+            require('./conf.coffee').jade
         files:
           "build/index.html": 'app/index.static.jade'
   

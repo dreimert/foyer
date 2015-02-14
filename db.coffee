@@ -1,11 +1,10 @@
 pg = require('pg')
 Promise = require("bluebird")
-
-conString = "postgres://localhost/dreimert"
+conf = require('./conf')
 
 connect = () ->
   new Promise (resolve, reject) ->
-    pg.connect conString, (err, client, done) ->
+    pg.connect conf.db, (err, client, done) ->
       if err?
         return reject err
       else
@@ -27,18 +26,18 @@ module.exports =
   ###
   login: (login, mdp, callback) ->
     connect().then (connection) ->
-      connection.client.query 'SELECT * FROM utilisateur WHERE login = $1 AND mdp = md5($2)', [login, mdp], (err, row) ->
-        if (err)
-          callback 500, err
+      new Promise (resolve, reject) ->
+        connection.client.query 'SELECT * FROM utilisateur WHERE login = $1 AND mdp = md5($2)', [login, mdp], (err, row) ->
+          if err?
+            connection.done()
+            return reject status: 500, msg: err
+
+          if row.rows[0]?
+            resolve row.rows[0]
+          else
+            reject status: 401, msg: "not match"
+
           connection.done()
-          return
-
-        if row.rows[0]?
-          callback 200, row.rows[0]
-        else
-          callback 401, "not match"
-
-        connection.done()
 
   search: (search, callback) ->
     connect().then (connection) ->
@@ -64,10 +63,11 @@ module.exports =
           console.error "user #{login} :", err, row
           if (err)
             callback 500, err
+            connection.done()
             return
 
           if row.rows[0]?
             callback 200, row.rows[0]
           else
             callback 401, "not match"
-          
+          connection.done()
