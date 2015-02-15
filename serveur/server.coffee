@@ -15,6 +15,12 @@ app.use require './login'
 
 # after here, the user must be login
 
+app.use (req, res, next) ->
+  if req.session.user.roles.indexOf("rf") isnt -1
+    next()
+  else
+    res.sendStatus 401
+
 app.use '/api', require './api'
 
 app.listen 3333, () ->

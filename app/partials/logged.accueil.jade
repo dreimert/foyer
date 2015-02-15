@@ -1,13 +1,3 @@
-md-input-container
-  label "Ma recherche"
-  input(ng-model="search", ng-model-options="{ debounce: 500 }")
+p Pour le moment, un simple utilisateur ne peut rien faire.
+a(ui-sref="logged.rf") Rechercher un utilisateur
 
-md-list
-  md-item(ng-repeat="result in results")
-    md-item-content
-      a.nolink.md-tile-content(layout="row", layout-fill, ui-sref="logged.user({id:result.id})")
-        div(layout="column", layout-fill)
-          h3 {{result.nom}} {{result.prenom}}
-          p {{result.others}}
-        
-        .icon-navigation-black.icon-navigation-black-ic_chevron_right_black_24dp

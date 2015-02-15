@@ -8,7 +8,7 @@ app.get '/search', (req, res) ->
     res.send(status, data)
 
 app.get '/user', (req, res) ->
-  db.user req.query.id, (status, data) ->
+  db.user req.query.login, (status, data) ->
     res.send(status, data)
 
 module.exports = app

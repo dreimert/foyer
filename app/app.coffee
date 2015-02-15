@@ -9,10 +9,7 @@ angular.module("aae", [
   "aae.directives"
   "aae.controllers"
   "ardoise.templates"
-]).config([
-  "$stateProvider"
-  "$urlRouterProvider"
-  ($stateProvider, $urlRouterProvider) ->
+]).config ($stateProvider, $urlRouterProvider) ->
 
     # For any unmatched url, redirect to /state1
     $urlRouterProvider.otherwise "/accueil"
@@ -27,42 +24,35 @@ angular.module("aae", [
       templateUrl: "logged.jade"
       controller: "LoggedController"
       resolve:
-        user: ["UserService", (UserService) ->
+        user: (UserService) ->
           UserService.getUser()
-        ]
     ).state("logged.accueil",
       url: "/accueil"
       templateUrl: "logged.accueil.jade"
-      controller: "LoggedAccueilController"
     ).state("logged.user",
-      url: "/user/:id"
+      url: "/user/:login"
       templateUrl: "logged.user.jade"
       controller: "LoggedUserController"
       resolve:
-        user: ['$stateParams', '$http', '$q', ($stateParams, $http, $q) ->
+        user: ($stateParams, $http, $q) ->
           $q (resolve, reject) ->
-            $http.get '/api/user', params: id: $stateParams.id
+            $http.get '/api/user', params: login: $stateParams.login
             .success (data) ->
               resolve data
             .error (data) ->
               reject data
-        ]
     )
     .state("logged.rf",
-      abstract: true
+      url: "/rf"
       templateUrl: "logged.rf.jade"
-      controller: "RfController"
+      controller: "LoggedAccueilController"
       resolve:
-        rf: ["UserService", (UserService) ->
-          UserService.getRf()
-        ]
+        rf: (UserService) ->
+          UserService.hasRole('rf')
     )
-]).run([
-  '$state', 'UserService', '$rootScope'
-  ($state, UserService, $rootScope) ->
+.run ($state, UserService, $rootScope) ->
     $rootScope.$on '$stateChangeError', (event, toState, toParams, fromState, fromParams, error) ->
+      console.log "stateChangeError", error
       if error.data is "Unauthorized"
         event.preventDefault()
         $state.go 'login'
-    
-])

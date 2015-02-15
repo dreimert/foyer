@@ -24,6 +24,7 @@ angular.module("aae.controllers", [
   ($scope, $state, $window, UserService, $mdSidenav, TitleService) ->
     $scope.userService = UserService
     $scope.user = UserService.user
+    console.log "User", UserService.user
 
     $scope.getTitle = () ->
       TitleService.getTitle()

@@ -24,12 +24,12 @@ module.exports =
   #   - mdp
   #   - callback : (err, userInfo) ->
   ###
-  login: (login, mdp, callback) ->
+  login: (login, mdp) ->
     connect().then (connection) ->
       new Promise (resolve, reject) ->
-        connection.client.query 'SELECT * FROM utilisateur WHERE login = $1 AND mdp = md5($2)', [login, mdp], (err, row) ->
+        connection.client.query 'SELECT id, login, mail, nom, prenom FROM utilisateur WHERE login = $1 AND mdp = md5($2)', [login, mdp], (err, row) ->
+          connection.done()
           if err?
-            connection.done()
             return reject status: 500, msg: err
 
           if row.rows[0]?
@@ -37,21 +37,26 @@ module.exports =
           else
             reject status: 401, msg: "not match"
 
+
+  getRoles: (utilisateurId) ->
+    connect().then (connection) ->
+      new Promise (resolve, reject) ->
+        connection.client.query 'SELECT nom FROM utilisateur_role inner join role on role_id = role.id WHERE utilisateur_id = $1', [utilisateurId], (err, row) ->
           connection.done()
+          if err?
+            return reject status: 500, msg: err
+
+          resolve row.rows.map (role) -> role.nom
 
   search: (search, callback) ->
     connect().then (connection) ->
-      connection.client.query "SELECT login as id, prenom, nom FROM utilisateur WHERE prenom ~* $1 OR nom ~* $1 ORDER BY nom, prenom", [search], (err, result) ->
+      connection.client.query "SELECT login, id, prenom, nom FROM utilisateur WHERE prenom ~* $1 OR nom ~* $1 ORDER BY nom, prenom", [search], (err, result) ->
+        connection.done()
         if (err)
           callback 500, err
-          connection.done()
           return
 
-        console.log "rows :", result.rows
         callback 200, result.rows
-        connection.done()
-    .catch (err) ->
-      console.log "err::search:", err
 
   user: (login, callback) ->
     connect().then (connection) ->
@@ -60,14 +65,12 @@ module.exports =
         FROM utilisateur
         WHERE login = $1
         """, [login], (err, row) ->
-          console.error "user #{login} :", err, row
+          connection.done()
           if (err)
             callback 500, err
-            connection.done()
             return
 
           if row.rows[0]?
             callback 200, row.rows[0]
           else
             callback 401, "not match"
-          connection.done()

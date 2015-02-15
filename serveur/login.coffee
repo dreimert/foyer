@@ -14,7 +14,10 @@ app.post '/login', (req, res) ->
     console.log "login : ", data
     req.session.logged = true
     req.session.user = data
-    res.send data
+    db.getRoles(req.session.user.id)
+  .then (roles) ->
+    req.session.user.roles = roles
+    res.send req.session.user
   , (err) ->
     res.send err.status, err.msg
 

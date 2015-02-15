@@ -22,23 +22,34 @@ angular.module("aae.services", [])
       constructor: ->
         @name = false
         @user = null
-        @promise = $http.get('/logged').success (data) =>
-          @user = data
-          @name = data.prenom
-          @name
+        @promise = $http.get('/logged').then (data) =>
+          @user = data.data
+          @name = data.data.prenom
+          @user
 
       signIn: (login, password) ->
         @promise = $q (resolve, reject) =>
           $http.post '/login', {login: login, password: password}
-          .success (data) =>
-            @user = data
-            @name = data.prenom
-            resolve @name
-          .error (data) =>
+          .then (data) =>
+            @user = data.data
+            @name = data.data.prenom
+            resolve @user
+          , (data) =>
             reject data
 
       getUser: () ->
         @promise
+
+      hasRole: (role) ->
+        new Promise (resolve, reject) =>
+          @promise.then (user) ->
+            console.log "user : ", user
+            if user.roles.indexOf(role) isnt -1
+              resolve true
+            else
+              reject "not role"
+          , reject
+          
 
       signOut: ->
         # hard refresh of the page on logout to run constructor of all services
