@@ -15,13 +15,7 @@ app.use require './login'
 
 # after here, the user must be login
 
-app.get '/search', (req, res) ->
-  db.search req.query.search, (status, data) ->
-    res.send(status, data)
-
-app.get '/user', (req, res) ->
-  db.user req.query.id, (status, data) ->
-    res.send(status, data)
+app.use '/api', require './api'
 
 app.listen 3333, () ->
   console.log "Serveur lancé sur le port 3333"

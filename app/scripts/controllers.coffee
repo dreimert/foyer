@@ -48,7 +48,7 @@ angular.module("aae.controllers", [
       if not value? or value.length <= 2
         $scope.results = []
       else
-        $http.get '/search', params: {search: value}
+        $http.get '/api/search', params: {search: value}
         .success (data) ->
           $scope.results = data
 ]).controller("LoggedUserController", [

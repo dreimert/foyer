@@ -42,14 +42,14 @@ module.exports = (grunt) ->
 
       coffee:
         files: '<%= assets.coffee %>'
-        tasks: ['coffee:frontend']
+        tasks: ['coffee:frontend', 'ngAnnotate']
         options:
           livereload: true
           atBegin: true
 
       jade:
         files: ['app/**/*.jade']
-        tasks: ['jade']
+        tasks: ['jade', 'ngtemplates']
         options:
           livereload: true
           atBegin: true
@@ -58,6 +58,11 @@ module.exports = (grunt) ->
       frontend:
         files:
           'build/js/app.js': '<%= assets.coffee %>'
+
+    ngAnnotate:
+      app:
+        files:
+          "build/js/app.annotated.js": "build/js/app.js"
 
     uglify:
       vendor:
@@ -76,9 +81,9 @@ module.exports = (grunt) ->
         script: 'serveur/server.coffee'
         options:
           args: []
-          ext: 'js,coffee'
+          ext: 'coffee'
           delayTime: 1
-          watch: ['serveur/server.coffee']
+          watch: ['serveur/*.coffee']
 
     concurrent:
       dev:
@@ -91,14 +96,32 @@ module.exports = (grunt) ->
           limit: 6
 
     jade:
-      compile:
+      local:
         options:
           pretty: true
           data: () ->
             require('./conf.coffee').jade
         files:
-          "build/index.html": 'app/index.static.jade'
+          "build/index.html": 'app/index.jade'
+      template:
+        options:
+          pretty: true
+          doctype: "html"
+        files: [
+          expand: true
+          cwd: 'app/partials'
+          src: '*'
+          dest: 'build/templates/'
+        ]
   
+    ngtemplates:
+      "ardoise.templates":
+        cwd: 'build/templates'
+        src: '*.jade'
+        dest: 'build/js/templates.js'
+        options:
+          standalone: true
+
     copy:
       assets:
         expand: true
@@ -124,6 +147,8 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-concurrent')
   grunt.loadNpmTasks('grunt-contrib-jade')
   grunt.loadNpmTasks('grunt-contrib-copy')
+  grunt.loadNpmTasks('grunt-ng-annotate')
+  grunt.loadNpmTasks('grunt-angular-templates')
 
   grunt.registerTask('default', ['copy', 'concurrent:dev'])
   grunt.registerTask('production', ['copy', 'jade', 'coffee', 'uglify', 'cssmin', 'nodemon'])

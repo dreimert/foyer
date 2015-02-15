@@ -56,7 +56,7 @@ module.exports =
   user: (login, callback) ->
     connect().then (connection) ->
       connection.client.query """
-        SELECT * 
+        SELECT id, nom, prenom, mail, login
         FROM utilisateur
         WHERE login = $1
         """, [login], (err, row) ->

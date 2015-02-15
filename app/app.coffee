@@ -8,6 +8,7 @@ angular.module("aae", [
   "aae.services"
   "aae.directives"
   "aae.controllers"
+  "ardoise.templates"
 ]).config([
   "$stateProvider"
   "$urlRouterProvider"
@@ -19,11 +20,11 @@ angular.module("aae", [
     # Now set up the states
     $stateProvider.state("login",
       url: "/login"
-      templateUrl: "login.html"
+      templateUrl: "login.jade"
       controller: "LoginController"
     ).state("logged",
       abstract: true
-      templateUrl: "logged.html"
+      templateUrl: "logged.jade"
       controller: "LoggedController"
       resolve:
         user: ["UserService", (UserService) ->
@@ -31,22 +32,30 @@ angular.module("aae", [
         ]
     ).state("logged.accueil",
       url: "/accueil"
-      templateUrl: "logged.accueil.html"
+      templateUrl: "logged.accueil.jade"
       controller: "LoggedAccueilController"
     ).state("logged.user",
       url: "/user/:id"
-      templateUrl: "logged.user.html"
+      templateUrl: "logged.user.jade"
       controller: "LoggedUserController"
       resolve:
         user: ['$stateParams', '$http', '$q', ($stateParams, $http, $q) ->
           $q (resolve, reject) ->
-            $http.get '/user', params: id: $stateParams.id
+            $http.get '/api/user', params: id: $stateParams.id
             .success (data) ->
               resolve data
             .error (data) ->
               reject data
         ]
-
+    )
+    .state("logged.rf",
+      abstract: true
+      templateUrl: "logged.rf.jade"
+      controller: "RfController"
+      resolve:
+        rf: ["UserService", (UserService) ->
+          UserService.getRf()
+        ]
     )
 ]).run([
   '$state', 'UserService', '$rootScope'
