@@ -1,13 +1,1 @@
-md-input-container
-  label "Ma recherche"
-  input(ng-model="search", ng-model-options="{ debounce: 500 }")
-
-md-list
-  md-item(ng-repeat="result in results")
-    md-item-content
-      a.nolink.md-tile-content(layout="row", layout-fill, ui-sref="logged.user({login:result.login})")
-        div(layout="column", layout-fill)
-          h3 {{result.nom}} {{result.prenom}}
-          p {{result.others}}
-        
-        .icon-navigation-black.icon-navigation-black-ic_chevron_right_black_24dp
+ui-view

@@ -3,12 +3,27 @@ app     = express()
 
 db = require("./db")
 
-app.get '/search', (req, res) ->
-  db.search req.query.search, (status, data) ->
-    res.send(status, data)
+errorHandler = (res) ->
+  (rep) ->
+    res.status(rep.status).send rep.msg
 
-app.get '/user', (req, res) ->
-  db.user req.query.login, (status, data) ->
-    res.send(status, data)
+sendRep = (res) ->
+  (data) ->
+    res.send data
+
+app.route '/user'
+.get (req, res) ->
+  if req.query.search?
+    db.userSearch(req.query.search).then sendRep(res), errorHandler(res)
+  else
+    db.userAll(req.query.skip or 0).then sendRep(res), errorHandler(res)
+ 
+app.route '/user/:login'
+.get (req, res) ->
+  db.user(req.params.login).then sendRep(res), errorHandler(res)
+
+app.route '/consommation'
+.get (req, res) ->
+  db.consommation(req.query.skip or 0).then sendRep(res), errorHandler(res)
 
 module.exports = app

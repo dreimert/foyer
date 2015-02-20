@@ -23,5 +23,5 @@ app.use (req, res, next) ->
 
 app.use '/api', require './api'
 
-app.listen 3333, () ->
-  console.log "Serveur lancé sur le port 3333"
+app.listen 3232, () ->
+  console.log "Serveur lancé sur le port 3232"

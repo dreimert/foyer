@@ -48,29 +48,59 @@ module.exports =
 
           resolve row.rows.map (role) -> role.nom
 
-  search: (search, callback) ->
+  userSearch: (search, callback) ->
     connect().then (connection) ->
-      connection.client.query "SELECT login, id, prenom, nom FROM utilisateur WHERE prenom ~* $1 OR nom ~* $1 ORDER BY nom, prenom", [search], (err, result) ->
-        connection.done()
-        if (err)
-          callback 500, err
-          return
-
-        callback 200, result.rows
-
-  user: (login, callback) ->
-    connect().then (connection) ->
-      connection.client.query """
-        SELECT id, nom, prenom, mail, login
-        FROM utilisateur
-        WHERE login = $1
-        """, [login], (err, row) ->
+      new Promise (resolve, reject) ->
+        connection.client.query "SELECT login, id, prenom, nom FROM utilisateur WHERE prenom ~* $1 OR nom ~* $1 OR login ~* $1 ORDER BY nom, prenom", [search], (err, result) ->
           connection.done()
           if (err)
-            callback 500, err
+            return reject status: 500, msg: err
+
+          resolve result.rows
+
+  userAll: (skip = 0) ->
+    connect().then (connection) ->
+      new Promise (resolve, reject) ->
+        connection.client.query "SELECT login, id, prenom, nom FROM utilisateur ORDER BY nom, prenom LIMIT 50 OFFSET $1", [skip], (err, result) ->
+          connection.done()
+          if (err)
+            reject status: 500, msg: err
             return
 
-          if row.rows[0]?
-            callback 200, row.rows[0]
-          else
-            callback 401, "not match"
+          resolve result.rows
+
+  consommation: (skip = 0) ->
+    connect().then (connection) ->
+      new Promise (resolve, reject) ->
+        connection.client.query """
+        SELECT consommation.date, uniteachetee, "public"."groupe".nom, login
+        FROM consommation
+        INNER JOIN "public"."groupeV" ON "public"."groupeV".id = "public"."consommation"."groupeV_id"
+        INNER JOIN "public"."groupe" ON "public"."groupeV".groupe_id = "public"."groupe"."id"
+        LEFT JOIN utilisateur ON consommation.ardoise_id = utilisateur.ardoise_id
+        ORDER BY consommation.date DESC
+        LIMIT 50 OFFSET $1
+        """, [skip], (err, result) ->
+          connection.done()
+          if (err)
+            reject status: 500, msg: err
+            return
+
+          resolve result.rows
+
+  user: (login) ->
+    connect().then (connection) ->
+      new Promise (resolve, reject) ->
+        connection.client.query """
+          SELECT id, nom, prenom, mail, login
+          FROM utilisateur
+          WHERE login = $1
+          """, [login], (err, row) ->
+            connection.done()
+            if (err)
+              return reject status: 500, msg: err
+
+            if row.rows[0]?
+              resolve row.rows[0]
+            else
+              reject status: 401, msg: "not match"

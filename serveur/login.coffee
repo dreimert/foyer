@@ -19,7 +19,7 @@ app.post '/login', (req, res) ->
     req.session.user.roles = roles
     res.send req.session.user
   , (err) ->
-    res.send err.status, err.msg
+    res.status(err.status).send err.msg
 
 app.use logged
 

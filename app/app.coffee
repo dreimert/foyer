@@ -36,19 +36,35 @@ angular.module("aae", [
       resolve:
         user: ($stateParams, $http, $q) ->
           $q (resolve, reject) ->
-            $http.get '/api/user', params: login: $stateParams.login
+            $http.get "/api/user/#{$stateParams.login}"
             .success (data) ->
               resolve data
             .error (data) ->
               reject data
     )
-    .state("logged.rf",
-      url: "/rf"
+    .state "logged.rf",
+      abstract: true
       templateUrl: "logged.rf.jade"
-      controller: "LoggedAccueilController"
+      url: "/rf"
       resolve:
         rf: (UserService) ->
           UserService.hasRole('rf')
+    .state("logged.rf.user",
+      url: "/user"
+      templateUrl: "logged.rf.user.jade"
+      controller: "LoggedAccueilController"
+    ).state("logged.rf.consommation",
+      url: "/consommation"
+      templateUrl: "logged.rf.consommation.jade"
+      controller: "loggedRfConsommationController"
+      resolve:
+        consommations: ($http, $q) ->
+          $q (resolve, reject) ->
+            $http.get "/api/consommation"
+            .success (data) ->
+              resolve data
+            .error (data) ->
+              reject data
     )
 .run ($state, UserService, $rootScope) ->
     $rootScope.$on '$stateChangeError', (event, toState, toParams, fromState, fromParams, error) ->
