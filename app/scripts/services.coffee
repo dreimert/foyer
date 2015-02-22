@@ -43,7 +43,6 @@ angular.module("aae.services", [])
       hasRole: (role) ->
         new Promise (resolve, reject) =>
           @promise.then (user) ->
-            console.log "user : ", user
             if user.roles.indexOf(role) isnt -1
               resolve true
             else

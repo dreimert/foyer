@@ -68,7 +68,7 @@ angular.module("aae", [
     )
 .run ($state, UserService, $rootScope) ->
     $rootScope.$on '$stateChangeError', (event, toState, toParams, fromState, fromParams, error) ->
-      console.log "stateChangeError", error
+      console.error "stateChangeError", error
       if error.data is "Unauthorized"
         event.preventDefault()
         $state.go 'login'

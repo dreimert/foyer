@@ -5,7 +5,7 @@ angular.module "aae.controllers", [
   "angularMoment"
 ]
 .controller "BodyController", ($scope, $state) ->
-  console.log "body"
+  console.log ""
 .controller "LoginController", ($scope, $state, UserService, $mdToast) ->
   $scope.name = UserService.name or ""
   $scope.onFormSubmit = ->
