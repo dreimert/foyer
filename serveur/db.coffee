@@ -37,6 +37,18 @@ module.exports =
           else
             reject status: 401, msg: "not match"
 
+  loginRf: (login, mdp) ->
+    connect().then (connection) ->
+      new Promise (resolve, reject) ->
+        connection.client.query 'SELECT true  FROM utilisateur WHERE login = $1 AND mdp_super = md5($2)', [login, mdp], (err, row) ->
+          connection.done()
+          if err?
+            return reject status: 500, msg: err
+
+          if row.rows[0]?
+            resolve true
+          else
+            reject status: 401, msg: "not match"
 
   getRoles: (utilisateurId) ->
     connect().then (connection) ->

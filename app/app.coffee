@@ -29,13 +29,20 @@ angular.module("aae", [
     .state "logged.accueil",
       url: "/accueil"
       templateUrl: "logged.accueil.jade"
+    .state "logged.auth",
+      url: "/auth"
+      templateUrl: "logged.auth.jade"
+      controller: "LoggedAuthController"
+      resolve:
+        rf: (UserService) ->
+          UserService.hasRole('rf')
     .state "logged.rf",
       abstract: true
       templateUrl: "logged.rf.jade"
       url: "/rf"
       resolve:
-        rf: (UserService) ->
-          UserService.hasRole('rf')
+        auth: (UserService) ->
+          UserService.authRf()
     .state "logged.rf.user",
       url: "/user"
       templateUrl: "logged.rf.user.jade"
@@ -70,3 +77,6 @@ angular.module("aae", [
       if error.data is "Unauthorized"
         event.preventDefault()
         $state.go 'login'
+      else if error is "not auth like rf"
+        event.preventDefault()
+        $state.go 'logged.auth'

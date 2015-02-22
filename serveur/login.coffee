@@ -30,4 +30,13 @@ app.get '/logout', (req, res) ->
   req.session.destroy()
   res.sendStatus(200)
 
+app.post '/loginRf', (req, res) ->
+  db.loginRf(req.body.login, req.body.password)
+  .then (data) ->
+    console.log "rf : ", data
+    req.session.loginRf = true
+    res.send true
+  , (err) ->
+    res.status(err.status).send err.msg
+
 module.exports = app
