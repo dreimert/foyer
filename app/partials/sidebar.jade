@@ -6,5 +6,9 @@ section
       p @{{userService.name}}
   md-content(layout="column")
     md-button(ui-sref="logged.accueil", ui-sref-active="md-primary") Accueil
+    div(ng-if="userService.user.roles.indexOf('rf') !== -1", layout="column")
+      md-divider
+      md-button(ui-sref="logged.rf.user", ui-sref-active="md-primary") Search
+      md-button(ui-sref="logged.rf.consommation", ui-sref-active="md-primary") Consommation
     md-divider
     md-button(ng-click="signOut()") Déconnexion
