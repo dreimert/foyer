@@ -4,8 +4,6 @@ angular.module "aae.controllers", [
   "ui.router"
   "angularMoment"
 ]
-.controller "BodyController", ($scope, $state) ->
-  console.log ""
 .controller "LoginController", ($scope, $state, UserService, $mdToast) ->
   $scope.name = UserService.name or ""
   $scope.onFormSubmit = ->
@@ -35,7 +33,7 @@ angular.module "aae.controllers", [
     $scope.signOut = ->
       $scope.userService.signOut()
     
-.controller "LoggedAccueilController", ($scope, $http, TitleService) ->
+.controller "LoggedRfUserController", ($scope, $http, TitleService) ->
   TitleService.setTitle("Accueil")
   $scope.$watch 'search', (value) ->
     if not value? or value.length <= 2
@@ -45,7 +43,7 @@ angular.module "aae.controllers", [
       .success (data) ->
         $scope.results = data
 
-.controller "LoggedUserController", ($scope, user, TitleService) ->
+.controller "LoggedRfUserDetailController", ($scope, user, TitleService) ->
   TitleService.setTitle("#{user.prenom} #{user.nom}", true)
   $scope.personne = user
 

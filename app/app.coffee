@@ -15,24 +15,35 @@ angular.module("aae", [
     $urlRouterProvider.otherwise "/accueil"
     
     # Now set up the states
-    $stateProvider.state("login",
+    $stateProvider.state "login",
       url: "/login"
       templateUrl: "login.jade"
       controller: "LoginController"
-    ).state("logged",
+    .state "logged",
       abstract: true
       templateUrl: "logged.jade"
       controller: "LoggedController"
       resolve:
         user: (UserService) ->
           UserService.getUser()
-    ).state("logged.accueil",
+    .state "logged.accueil",
       url: "/accueil"
       templateUrl: "logged.accueil.jade"
-    ).state("logged.user",
+    .state "logged.rf",
+      abstract: true
+      templateUrl: "logged.rf.jade"
+      url: "/rf"
+      resolve:
+        rf: (UserService) ->
+          UserService.hasRole('rf')
+    .state "logged.rf.user",
+      url: "/user"
+      templateUrl: "logged.rf.user.jade"
+      controller: "LoggedRfUserController"
+    .state "logged.rf.user.detail",
       url: "/user/:login"
-      templateUrl: "logged.user.jade"
-      controller: "LoggedUserController"
+      templateUrl: "logged.rf.user.detail.jade"
+      controller: "LoggedRfUserDetailController"
       resolve:
         user: ($stateParams, $http, $q) ->
           $q (resolve, reject) ->
@@ -41,19 +52,7 @@ angular.module("aae", [
               resolve data
             .error (data) ->
               reject data
-    )
-    .state "logged.rf",
-      abstract: true
-      templateUrl: "logged.rf.jade"
-      url: "/rf"
-      resolve:
-        rf: (UserService) ->
-          UserService.hasRole('rf')
-    .state("logged.rf.user",
-      url: "/user"
-      templateUrl: "logged.rf.user.jade"
-      controller: "LoggedAccueilController"
-    ).state("logged.rf.consommation",
+    .state "logged.rf.consommation",
       url: "/consommation"
       templateUrl: "logged.rf.consommation.jade"
       controller: "loggedRfConsommationController"
@@ -65,7 +64,6 @@ angular.module("aae", [
               resolve data
             .error (data) ->
               reject data
-    )
 .run ($state, UserService, $rootScope) ->
     $rootScope.$on '$stateChangeError', (event, toState, toParams, fromState, fromParams, error) ->
       console.error "stateChangeError", error
