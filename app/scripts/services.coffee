@@ -1,6 +1,6 @@
 "use strict"
 
-angular.module("aae.services", [])
+angular.module("ardoise.services", [])
 .value "version", "0.1"
 .factory "TitleService", () ->
     new class TitleService

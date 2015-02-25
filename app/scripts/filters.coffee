@@ -1,7 +1,7 @@
 "use strict"
 
 # Filters 
-angular.module("aae.filters", []).filter( "interpolate", [
+angular.module("ardoise.filters", []).filter( "interpolate", [
   "version"
   (version) ->
     return (text) ->

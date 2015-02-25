@@ -1,4 +1,4 @@
 "use strict"
 
 # Directives 
-angular.module("aae.directives", [])
+angular.module("ardoise.directives", [])

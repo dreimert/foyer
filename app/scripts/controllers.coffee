@@ -1,6 +1,6 @@
 "use strict"
 
-angular.module "aae.controllers", [
+angular.module "ardoise.controllers", [
   "ui.router"
   "angularMoment"
 ]
@@ -57,5 +57,5 @@ angular.module "aae.controllers", [
   $scope.personne = user
 
 .controller "loggedRfConsommationController", ($scope, TitleService, consommations) ->
-  TitleService.setTitle("Dernière consommation", true)
+  TitleService.setTitle("Dernière consommation")
   $scope.consommations = consommations

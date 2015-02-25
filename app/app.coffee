@@ -1,13 +1,13 @@
 "use strict"
 
-angular.module("aae", [
+angular.module("ardoise", [
   "ui.router"
   'ngAnimate'
   'ngMaterial'
-  "aae.filters"
-  "aae.services"
-  "aae.directives"
-  "aae.controllers"
+  "ardoise.filters"
+  "ardoise.services"
+  "ardoise.directives"
+  "ardoise.controllers"
   "ardoise.templates"
 ]).config ($stateProvider, $urlRouterProvider) ->
 
