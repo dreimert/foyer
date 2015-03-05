@@ -73,10 +73,12 @@ angular.module("ardoise", [
               reject data
 .run ($state, UserService, $rootScope) ->
     $rootScope.$on '$stateChangeError', (event, toState, toParams, fromState, fromParams, error) ->
-      console.error "stateChangeError", error
       if error.data is "Unauthorized"
         event.preventDefault()
         $state.go 'login'
       else if error is "not auth like rf"
         event.preventDefault()
         $state.go 'logged.auth'
+      else
+        console.error "stateChangeError", error
+        

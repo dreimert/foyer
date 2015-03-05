@@ -1,14 +1,9 @@
 express = require('express')
 app     = express()
 mongoose = require 'mongoose'
+access   = require "./accessControl"
 
 User = mongoose.model "User"
-
-logged = (req, res, next) ->
-  if req.session.logged is true
-    next()
-  else
-    res.sendStatus 401
 
 app.post '/login', (req, res) ->
   User
@@ -31,7 +26,7 @@ app.post '/login', (req, res) ->
   , (err) ->
     res.status(500).send(err)
 
-app.use logged
+app.use access.logged
 
 app.get '/logged', (req, res) ->
   res.send req.session.user
