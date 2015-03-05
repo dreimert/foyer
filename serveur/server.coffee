@@ -1,5 +1,15 @@
 express = require('express')
 app     = express()
+conf = require('../conf')
+
+mongoose = require('mongoose')
+mongoose.connect(conf.db.mongo)
+
+Consommation = mongoose.model "Consommation", require "../models/ConsommationSchema"
+User         = mongoose.model "User"        , require "../models/UserSchema"
+Consommable  = mongoose.model "Consommable" , require "../models/ConsommableSchema"
+Transfert    = mongoose.model "Transfert"   , require "../models/TransfertSchema"
+Credit       = mongoose.model "Credit"      , require "../models/CreditSchema"
 
 bodyParser = require('body-parser')
 session = require('express-session')
@@ -8,8 +18,6 @@ app.use express.static(__dirname + '/../build')
 
 app.use session(secret: 'keyboard cat', cookie: maxAge: 3600000)
 app.use bodyParser.json()
-
-db = require("./db")
 
 app.use require './login'
 

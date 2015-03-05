@@ -1,11 +1,13 @@
 express = require('express')
 app     = express()
+mongoose = require "mongoose"
 
-db = require("./db")
+User         = mongoose.model "User"
+Consommation = mongoose.model "Consommation"
 
 errorHandler = (res) ->
-  (rep) ->
-    res.status(rep.status).send rep.msg
+  (err) ->
+    res.status(500).send err
 
 sendRep = (res) ->
   (data) ->
@@ -14,16 +16,43 @@ sendRep = (res) ->
 app.route '/user'
 .get (req, res) ->
   if req.query.search?
-    db.userSearch(req.query.search).then sendRep(res), errorHandler(res)
+    regexp = new RegExp(req.query.search, "i")
+    User
+    .find()
+    .or [
+      {login:  regexp}
+      {nom:    regexp}
+      {prenom: regexp}
+      {mail:   regexp}
+    ]
+    .skip(req.query.skip or 0)
+    .limit(req.query.limit or 50)
+    .sort "nom prenom"
+    .exec()
+    .then sendRep(res), errorHandler(res)
   else
-    db.userAll(req.query.skip or 0).then sendRep(res), errorHandler(res)
+    User
+    .find()
+    .skip(req.query.skip or 0)
+    .limit(req.query.limit or 50)
+    .sort "nom prenom"
+    .exec()
+    .then sendRep(res), errorHandler(res)
  
 app.route '/user/:login'
 .get (req, res) ->
-  db.user(req.params.login).then sendRep(res), errorHandler(res)
+  User
+  .findOne(login: req.params.login)
+  .exec()
+  .then sendRep(res), errorHandler(res)
 
 app.route '/consommation'
 .get (req, res) ->
-  db.consommation(req.query.skip or 0).then sendRep(res), errorHandler(res)
+  Consommation
+  .find()
+  .skip(req.query.skip or 0)
+  .limit(req.query.limit or 50)
+  .exec()
+  .then sendRep(res), errorHandler(res)
 
 module.exports = app

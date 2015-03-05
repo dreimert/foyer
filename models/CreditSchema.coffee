@@ -4,10 +4,10 @@ mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
 CreditSchema = new Schema
-  ardoise:
+  user:
     type: Schema.Types.ObjectId
     required: true
-    ref: 'Ardoise'
+    ref: 'User'
   montant:
     type: Number
     required: true
@@ -16,7 +16,6 @@ CreditSchema = new Schema
     required: true
   date:
     type: Date
-    required: true
     default: Date.now
 
 module.exports = CreditSchema

@@ -1,6 +1,8 @@
 express = require('express')
 app     = express()
-db = require("./db")
+mongoose = require 'mongoose'
+
+User = mongoose.model "User"
 
 logged = (req, res, next) ->
   if req.session.logged is true
@@ -9,17 +11,25 @@ logged = (req, res, next) ->
     res.sendStatus 401
 
 app.post '/login', (req, res) ->
-  db.login(req.body.login, req.body.password)
-  .then (data) ->
-    console.log "login : ", data
-    req.session.logged = true
-    req.session.user = data
-    db.getRoles(req.session.user.id)
-  .then (roles) ->
-    req.session.user.roles = roles
-    res.send req.session.user
+  User
+  .findOne(login:req.body.login)
+  .exec()
+  .then (user) ->
+    if user is null
+      res.status(404).send()
+    else if user.authenticate req.body.password
+      req.session.logged = true
+      req.session.user =
+        id: user._id
+        login: user.login
+        nom: user.nom
+        prenom: user.prenom
+        roles: user.roles.map (role) -> role.name
+      res.send req.session.user
+    else
+      res.status(404).send()
   , (err) ->
-    res.status(err.status).send err.msg
+    res.status(500).send(err)
 
 app.use logged
 
@@ -31,12 +41,18 @@ app.get '/logout', (req, res) ->
   res.sendStatus(200)
 
 app.post '/loginRf', (req, res) ->
-  db.loginRf(req.body.login, req.body.password)
-  .then (data) ->
-    console.log "rf : ", data
-    req.session.loginRf = true
-    res.send true
-  , (err) ->
-    res.status(err.status).send err.msg
+  User
+  .findOne(_id: req.session.user.id)
+  .exec()
+  .then (user) ->
+    if user is null
+      res.status(404).send()
+    else if user.authenticateWithRole("rf", req.body.password)
+      req.session.loginRf = true
+      res.send true
+    else
+      res.status(404).send()
+  .then null, (err) ->
+    res.status(500).send(err)
 
 module.exports = app

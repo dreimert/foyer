@@ -33,14 +33,13 @@ transformTable = (sql) ->
           reject err
 
 module.exports =
-  ###
-  # params:
-  #   - connection
-  #   - login
-  #   - mdp
-  #   - callback : (err, userInfo) ->
-  ###
-  ardoises: transformTable 'SELECT * FROM ardoise'
+  users: transformTable """
+    SELECT DISTINCT ardoise.id, login, mdp AS pass_hash, utilisateur.nom AS nom, prenom, promo, mail, mailvalide AS trustMail, departement.nom AS departement, date_dernier_envoi_mail AS lastMail, role_id, mdp_super, montant, dernierenegativite AS lastNegatif, archive
+    FROM "public"."ardoise"
+    LEFT JOIN utilisateur on "utilisateur".ardoise_id = ardoise.id
+    LEFT JOIN departement on departement_id = departement.id
+    LEFT JOIN utilisateur_role on utilisateur_role.utilisateur_id = utilisateur.id
+  """
 
   consommations: transformTable """
     SELECT nom AS consommable, uniteachetee AS quantity, prix_adh * uniteachetee AS montant, 'foyer' AS lieu, ardoise_id AS ardoise, "public"."consommation".date AS date
@@ -48,13 +47,6 @@ module.exports =
     INNER JOIN "public"."groupeV" on "public"."consommation"."groupeV_id" = "public"."groupeV"."id"
     INNER JOIN "public"."groupe"   on "public"."groupeV"."groupe_id" = "public"."groupe"."id"
     WHERE uniteachetee != 0
-  """
-
-  users: transformTable """
-    SELECT DISTINCT utilisateur.id, login, mdp AS pass_hash, utilisateur.nom AS nom, prenom, ardoise_id AS ardoise, promo, mail, mailvalide AS trustMail, departement.nom AS departement, date_dernier_envoi_mail AS lastMail, role_id, mdp_super
-    FROM utilisateur
-    LEFT JOIN departement on departement_id = departement.id
-    LEFT JOIN utilisateur_role on utilisateur_role.utilisateur_id = utilisateur.id
   """
 
   consommables: transformTable """

@@ -6,12 +6,6 @@ mongoose = require 'mongoose'
 Schema = mongoose.Schema
 
 UserSchema = new Schema
-  montant: Number
-  lastNegatif:
-    type: Date
-    default: Date.now
-  archive: Boolean
-
   login:
     type: String
     required: true
@@ -26,13 +20,21 @@ UserSchema = new Schema
   prenom:
     type: String
     required: true
-  ardoise:
-    type: Schema.Types.ObjectId
+  mail:
+    type: String
     required: true
-    index: unique: true
-    ref: 'Ardoise'
+  
+  montant:
+    type: Number
+    default: 0
+  lastNegatif:
+    type: Date
+    default: Date.now
+  archive:
+    type: Boolean
+    default: false
+
   promo: Number
-  mail: String
   trustMail: Boolean
   departement: String
   lastMail: Date
@@ -49,7 +51,7 @@ UserSchema.virtual('password').get () ->
   @pass_hash
 
 UserSchema.methods.encryptPassword = (plaintext) ->
-  crypto.createHash('md5').update(plaintext).digest("hex")
+  Crypto.createHash('md5').update(plaintext).digest("hex")
 
 UserSchema.methods.authenticate = (plaintext) ->
   @encryptPassword(plaintext) is @password
@@ -57,7 +59,7 @@ UserSchema.methods.authenticate = (plaintext) ->
 UserSchema.methods.authenticateWithRole = (roleName, plaintext) ->
   for role in @roles
     if role.name is roleName
-      return @encryptPassword(plaintext) is @password
+      return (@encryptPassword(plaintext) is role.pass_hash)
 
   false
 

@@ -47,7 +47,7 @@ angular.module("ardoise", [
       url: "/user"
       templateUrl: "logged.rf.user.jade"
       controller: "LoggedRfUserController"
-    .state "logged.rf.user.detail",
+    .state "logged.rf.detail",
       url: "/user/:login"
       templateUrl: "logged.rf.user.detail.jade"
       controller: "LoggedRfUserDetailController"

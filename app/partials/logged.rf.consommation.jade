@@ -6,6 +6,6 @@ table
     th Utilisateur
   tr(ng-repeat="conso in consommations")
     td {{conso.date | amDateFormat:'h:mm:ss DD/MM/YY'}}
-    td {{conso.uniteachetee}}
-    td {{conso.nom}}
-    td {{conso.login || "Anonyme"}}
+    td {{conso.quantity}}
+    td {{conso.consommable}}
+    td {{conso.user || "Anonyme"}}
