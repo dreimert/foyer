@@ -78,7 +78,7 @@ module.exports = (grunt) ->
 
     nodemon:
       web:
-        script: 'serveur/server.coffee'
+        script: 'serveur/index.coffee'
         options:
           args: []
           ext: 'coffee'
