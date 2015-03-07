@@ -20,6 +20,7 @@ app.post '/login', (req, res) ->
         nom: user.nom
         prenom: user.prenom
         roles: user.roles.map (role) -> role.name
+        montant: user.montant
       res.send req.session.user
     else
       res.status(404).send()

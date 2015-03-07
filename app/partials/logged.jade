@@ -1,4 +1,4 @@
-section(layout="column", layout-fill)
+section(layout="column", layout-fill, flex)
   md-toolbar
     h2.md-toolbar-tools
       md-button(ng-click="toggleSideNav()", aria-label="toogle menu")
@@ -6,7 +6,7 @@ section(layout="column", layout-fill)
       md-button(ng-click="back()", aria-label="back menu", ng-if="backButton()")
         .icon-navigation-black.icon-navigation-black-ic_arrow_back_black_24dp
       span(flex) {{getTitle()}}
-  div(layout="row", layout-fill)
+  div(layout="column", layout-fill, flex)
     md-sidenav.md-sidenav-left.md-whiteframe-z3(md-component-id="left")
       include sidebar.jade
-    md-content(ui-view, layout-fill, layout-padding)
+    md-content(ui-view, layout="column", layout-padding, flex)

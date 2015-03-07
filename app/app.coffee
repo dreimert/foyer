@@ -29,6 +29,15 @@ angular.module("ardoise", [
     .state "logged.accueil",
       url: "/accueil"
       templateUrl: "logged.accueil.jade"
+      controller: "LoggedAccueilController"
+      resolve:
+        consommables: ($stateParams, $http, $q) ->
+          $q (resolve, reject) ->
+            $http.get "/api/consommable"
+            .success (data) ->
+              resolve data
+            .error (data) ->
+              reject data
     .state "logged.auth",
       url: "/auth"
       templateUrl: "logged.auth.jade"
