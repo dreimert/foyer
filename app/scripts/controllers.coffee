@@ -33,7 +33,7 @@ angular.module "ardoise.controllers", [
     $scope.signOut = ->
       $scope.userService.signOut()
     
-.controller "LoggedAccueilController", ($scope, UserService, $mdToast, consommables, TitleService) ->
+.controller "LoggedAccueilController", ($scope, $http, UserService, $mdToast, consommables, TitleService) ->
   TitleService.setTitle("#{UserService.user.nom} #{UserService.user.prenom} : #{UserService.user.montant}")
   $scope.consommations = []
   $scope.sum = 0
@@ -79,9 +79,20 @@ angular.module "ardoise.controllers", [
     computeSum()
 
   $scope.payer = () ->
-    console.log "Payer #{$scope.sum.toFixed(2)} €"
-    $scope.consommations = []
-    computeSum()
+    $http.post 'api/me/consommation', consommations: $scope.consommations
+    .success (data) ->
+      console.log data.montant
+      UserService.user.montant = data.montant
+      TitleService.setTitle("#{UserService.user.nom} #{UserService.user.prenom} : #{UserService.user.montant}")
+      console.log "Payer #{$scope.sum.toFixed(2)} €"
+      $scope.consommations = []
+      computeSum()
+    .error (data) ->
+      console.error data
+
+.controller "LoggedConsommationController", ($scope, UserService, $mdToast, consommations, TitleService) ->
+  TitleService.setTitle("#{UserService.user.nom} #{UserService.user.prenom} : #{UserService.user.montant}")
+  $scope.consommations = consommations
 
 .controller "LoggedAuthController", ($scope, $state, UserService, $mdToast) ->
   $scope.onFormSubmit = ->

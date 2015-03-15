@@ -38,6 +38,18 @@ angular.module("ardoise", [
               resolve data
             .error (data) ->
               reject data
+    .state "logged.consommation",
+      url: "/consommation"
+      templateUrl: "logged.consommation.jade"
+      controller: "LoggedConsommationController"
+      resolve:
+        consommations: ($stateParams, $http, $q) ->
+          $q (resolve, reject) ->
+            $http.get "/api/me/consommation"
+            .success (data) ->
+              resolve data
+            .error (data) ->
+              reject data
     .state "logged.auth",
       url: "/auth"
       templateUrl: "logged.auth.jade"

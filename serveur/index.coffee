@@ -3,7 +3,10 @@ app     = express()
 conf = require('../conf')
 
 mongoose = require('mongoose')
-mongoose.connect(conf.db.mongo)
+console.log "mongo", conf.db.mongo
+mongoose.connect conf.db.mongo, (err) ->
+  if err
+    throw err
 
 Consommation = mongoose.model "Consommation", require "../models/ConsommationSchema"
 User         = mongoose.model "User"        , require "../models/UserSchema"

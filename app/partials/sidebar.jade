@@ -6,6 +6,8 @@ section
       p @{{userService.name}}
   md-content(layout="column")
     md-button(ui-sref="logged.accueil", ui-sref-active="md-primary") Accueil
+    md-divider
+    md-button(ui-sref="logged.consommation", ui-sref-active="md-primary") Mes consommations
     div(ng-if="userService.user.roles.indexOf('rf') !== -1", layout="column")
       md-divider
       md-button(ui-sref="logged.rf.user", ui-sref-active="md-primary") Search
