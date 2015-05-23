@@ -26,6 +26,7 @@ app.route '/me/consommation'
   .find(user: req.session.user.id)
   .skip(req.query.skip or 0)
   .limit(req.query.limit or 50)
+  .sort("-date")
   .exec()
   .then sendRep(res), errorHandler(res)
 .post access.logged, (req, res) ->
@@ -77,7 +78,7 @@ app.route '/me/consommation'
         console.log "send Montant"
         montant: req.session.user.montant
     .then sendRep(res), errorHandler(res)
-      
+
 app.route '/user'
 .get access.rf, (req, res) ->
   if req.query.search?
@@ -103,7 +104,7 @@ app.route '/user'
     .sort "nom prenom"
     .exec()
     .then sendRep(res), errorHandler(res)
- 
+
 app.route '/user/:login'
 .get access.rf, (req, res) ->
   User
