@@ -14,7 +14,7 @@ angular.module "ardoise.controllers", [
       () ->
         $mdToast.show($mdToast.simple().content('Login ou mot de passe incorrect !'))
 
-.controller "LoggedController", ($scope, $state, $window, UserService, $mdSidenav, TitleService) ->
+.controller "LoggedController", ($scope, $state, $window, UserService, TitleService) ->
     $scope.userService = UserService
     $scope.user = UserService.user
 
@@ -27,16 +27,17 @@ angular.module "ardoise.controllers", [
     $scope.back = () ->
       $state.go "logged.accueil"
 
-    $scope.toggleSideNav = () ->
-      $mdSidenav('left').toggle()
-
     $scope.signOut = ->
       $scope.userService.signOut()
-    
+
 .controller "LoggedAccueilController", ($scope, $http, UserService, $mdToast, consommables, TitleService) ->
-  TitleService.setTitle("#{UserService.user.nom} #{UserService.user.prenom} : #{UserService.user.montant}")
+  TitleService.setTitle("#{UserService.user.nom} #{UserService.user.prenom} : #{UserService.user.montant.toFixed(2)}")
   $scope.consommations = []
   $scope.sum = 0
+  $scope.conso = {}
+
+  $scope.$watchCollection 'consommations', ->
+    computeSum()
 
   computeSum = () ->
     sum = 0
@@ -44,32 +45,33 @@ angular.module "ardoise.controllers", [
       sum += conso.prix * conso.quantity
     $scope.sum = sum
 
-  $scope.displayAll = () ->
-    unless $scope.conso?
-      $scope.conso = {}
-    $scope.conso.search = "."
-
   $scope.keyPress = (e) ->
     if $scope.conso?.search.length is 0 and e.charCode is 13
       $scope.payer()
+    return
 
   $scope.selected = (conso) ->
+    console.log "selected", conso
     if conso
+      if conso.ignore
+        conso.ignore = false
+        return
+
+      conso.ignore = true
       if (index = $scope.consommations.indexOf(conso)) isnt -1
         $scope.consommations[index].quantity++
       else
         conso.quantity = 1
-        $scope.consommations.unshift conso
+        $scope.consommations.push conso
+      conso.selected = null
       computeSum()
-      $scope.conso.search = ""
-      $scope.conso.selected = null
 
   $scope.search = (search) ->
     unless search
       return consommables
     consommables.filter (consommable) ->
       consommable.nom.match(new RegExp(search, "i"))
- 
+
   $scope.add = (index) ->
     $scope.consommations[index].quantity++
     computeSum()

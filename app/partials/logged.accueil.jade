@@ -1,18 +1,30 @@
 div(layout="column", flex)
-  div(layout="row")
-    md-autocomplete(flex, placeholder="Votre consommation", md-selected-item="conso.selected", md-search-text="conso.search", md-items="consommable in search(conso.search)", md-item-text="consommable.nom", md-selected-item-change="selected(conso.selected)", md-no-cache="true", ng-keypress="keyPress($event)")
-      span {{consommable.nom}} : {{consommable.prix}}
-    md-button.md-raised(ng-click="displayAll()") Tout afficher
-
+  div(layout-padding)
+    md-chips(ng-model="consommations", md-autocomplete-snap, md-require-match)
+      md-autocomplete(
+        flex,
+        md-autofocus,
+        placeholder="Votre consommation",
+        md-selected-item="conso.selected",
+        md-search-text="conso.search",
+        md-items="consommable in search(conso.search)",
+        md-item-text="consommable.nom",
+        md-selected-item-change="selected(conso.selected)",
+        md-min-length="0",
+        md-no-cache="true",
+        ng-keypress="keyPress($event)"
+      )
+        span {{consommable.nom}} : {{consommable.prix}}€
+      md-chip-template
+        span
+          strong {{$chip.nom}}
+          em  ({{$chip.prix}}€ x {{$chip.quantity}})
   md-list
-    md-item(ng-repeat="consommation in consommations track by $index")
-      md-item-content
-        .md-tile-left
-          md-button.md-fab(md-no-ink) {{consommation.nom[0]}}
-        .md-tile-content(layout="row", layout-align="start center", layout-margin)
-          h3(flex) {{consommation.nom}} : {{consommation.prix}} * {{consommation.quantity}} = {{consommation.prix*consommation.quantity | number:2}} €
-          md-button.md-raised.md-fab(ng-click="add($index)") +1
-          md-button.md-raised.md-fab(ng-click="supp($index)") Supp
-      md-divider
+    md-list-item.no-padding(ng-repeat="consommation in consommations track by $index")
+      md-button.md-fab(md-no-ink) {{consommation.nom[0]}}
+      h3(flex) {{consommation.nom}} : {{consommation.prix}} * {{consommation.quantity}} = {{consommation.prix*consommation.quantity | number:2}} €
+      md-button.md-raised.md-fab(ng-click="add($index)") +1
+      md-button.md-raised.md-fab(ng-click="supp($index)") Supp
+    //md-divider(ng-if="consommations.length > 0")
 
   md-button.md-primary.md-raised(ng-disabled="sum === 0", ng-click="payer()") Payer {{sum | number:2}} €

@@ -1,6 +1,6 @@
 express = require('express')
 app     = express()
-conf = require('../conf')
+conf    = require('../conf')
 
 mongoose = require('mongoose')
 console.log "mongo", conf.db.mongo
@@ -15,7 +15,7 @@ Transfert    = mongoose.model "Transfert"   , require "../models/TransfertSchema
 Credit       = mongoose.model "Credit"      , require "../models/CreditSchema"
 
 bodyParser = require('body-parser')
-session = require('express-session')
+session    = require('express-session')
 
 app.use express.static(__dirname + '/../build')
 

@@ -3,7 +3,7 @@
 }
 
 .hide {
-  display: none;  
+  display: none;
 }
 
 .full {
@@ -13,4 +13,8 @@
 .nolink {
   text-decoration: none;
   color: black;
+}
+
+md-list-item.no-padding {
+  padding: 0px;
 }

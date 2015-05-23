@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = (grunt) ->
-  
+
   grunt.initConfig
     assets:
       jade: ['app/index.static.jade']
@@ -21,7 +21,6 @@ module.exports = (grunt) ->
       css: [
         "bower_components/angular-material/angular-material.min.css"
         "bower_components/angular-material/themes/*.css"
-        "bower_components/material-design-icons/sprites/css-sprite/*.css"
         "app/styles/*.css"
       ]
 
@@ -113,7 +112,7 @@ module.exports = (grunt) ->
           src: '*'
           dest: 'build/templates/'
         ]
-  
+
     ngtemplates:
       "ardoise.templates":
         cwd: 'build/templates'
@@ -135,8 +134,8 @@ module.exports = (grunt) ->
         flatten: true
       icons:
         expand: true
-        src: 'bower_components/material-design-icons/sprites/css-sprite/*.png'
-        dest: 'build/css/'
+        src: 'bower_components/material-design-icons/**/production/*_24px.svg'
+        dest: 'build/css/icons/'
         flatten: true
 
   grunt.loadNpmTasks('grunt-contrib-coffee')
