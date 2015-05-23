@@ -22,17 +22,12 @@ angular.module "ardoise.controllers"
   $scope.selected = (conso) ->
     console.log "selected", conso
     if conso
-      if conso.ignore
-        conso.ignore = false
-        return
-
-      conso.ignore = true
       if (index = $scope.consommations.indexOf(conso)) isnt -1
         $scope.consommations[index].quantity++
       else
         conso.quantity = 1
         $scope.consommations.push conso
-      conso.selected = null
+      $scope.conso.selected = null
       computeSum()
 
   $scope.search = (search) ->
@@ -54,7 +49,7 @@ angular.module "ardoise.controllers"
     .success (data) ->
       console.log data.montant
       UserService.user.montant = data.montant
-      TitleService.setTitle("#{UserService.user.nom} #{UserService.user.prenom} : #{UserService.user.montant}")
+      TitleService.setTitle("#{UserService.user.nom} #{UserService.user.prenom} : #{UserService.user.montant.toFixed(2)}")
       console.log "Payer #{$scope.sum.toFixed(2)} €"
       $scope.consommations = []
       computeSum()
