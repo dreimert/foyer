@@ -1,1 +1,5 @@
-p(ng-repeat="conso in consommations") {{conso.consommable}}
+md-list
+  md-list-item.no-padding(ng-repeat="consommation in consommations track by $index")
+    md-button.md-fab(md-no-ink) {{consommation.consommable[0]}}
+    h3(flex) {{consommation.consommable}} : {{consommation.montant / consommation.quantity | number:2}} * {{consommation.quantity}} = {{consommation.montant | number:2}} €
+    span(am-time-ago="consommation.date")
