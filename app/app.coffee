@@ -16,7 +16,7 @@ angular.module("ardoise", [
 
     # Now set up the states
     $stateProvider.state "login",
-      url: "/login"
+      url: "/login/:lieu"
       templateUrl: "login.jade"
       controller: "LoginCtrl"
     .state "logged",

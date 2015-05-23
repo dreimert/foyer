@@ -2,6 +2,9 @@ angular.module "ardoise.services"
 .factory "UserService", ($http, $q) ->
   new class UserService
     constructor: ->
+      @init()
+
+    init: ->
       @name = false
       @user = null
       @authedRf = false
@@ -10,7 +13,8 @@ angular.module "ardoise.services"
         @name = data.data.prenom
         @user
 
-    signIn: (login, password) ->
+    signIn: (login, password, lieu) ->
+      @lieu = lieu
       @promise = $q (resolve, reject) =>
         $http.post '/login', {login: login, password: password}
         .then (data) =>
@@ -50,5 +54,6 @@ angular.module "ardoise.services"
     signOut: ->
       # hard refresh of the page on logout to run constructor of all services
       $http.get '/logout'
-      .success () ->
-        window.location.reload()
+      .success () =>
+        #@init()
+        window.location.replace("/#/login/#{@lieu}")
