@@ -29,6 +29,7 @@ div(layout="column", flex)
         md-icon(aria-label="add one", md-svg-src="css/icons/ic_add_24px.svg")
       md-button.md-accent.md-fab(ng-click="supp($index)")
         md-icon(aria-label="delete", md-svg-src="css/icons/ic_delete_24px.svg")
-    //md-divider(ng-if="consommations.length > 0")
+
+  span(flex)
 
   md-button.md-primary.md-raised(ng-disabled="sum === 0", ng-click="payer()") Payer {{sum | number:2}} €

@@ -27,8 +27,9 @@ angular.module "ardoise.controllers"
       else
         conso.quantity = 1
         $scope.consommations.push conso
-      $scope.conso.selected = null
       computeSum()
+      $scope.conso.selected = ""
+      $scope.conso.search = ""
 
   $scope.search = (search) ->
     unless search
