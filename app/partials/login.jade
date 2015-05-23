@@ -1,12 +1,9 @@
-md-content(layout="column", layout-fill, layout-align="center center")
-  md-card
-    md-toolbar
-      h2.md-toolbar-tools
-        span Connexion
+md-content.prime(layout="column", layout-fill, layout-align="center center")
+  md-card.nopadding(layout-padding)
     form(name="loginForm", ng-submit="onFormSubmit()", novalidate="")
       md-input-container
         label Login
-        input(ng-model="login", required, maxlength="15", name="login")
+        input(ng-model="login", maxlength="15", name="login", required)
       md-input-container
         label Mot de passe
         input(ng-model="password", type="password", required, maxlength="255", name="password")
