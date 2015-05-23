@@ -13,23 +13,23 @@ angular.module("ardoise", [
 
     # For any unmatched url, redirect to /state1
     $urlRouterProvider.otherwise "/accueil"
-    
+
     # Now set up the states
     $stateProvider.state "login",
       url: "/login"
       templateUrl: "login.jade"
-      controller: "LoginController"
+      controller: "LoginCtrl"
     .state "logged",
       abstract: true
       templateUrl: "logged.jade"
-      controller: "LoggedController"
+      controller: "LoggedCtrl"
       resolve:
         user: (UserService) ->
           UserService.getUser()
     .state "logged.accueil",
       url: "/accueil"
       templateUrl: "logged.accueil.jade"
-      controller: "LoggedAccueilController"
+      controller: "LoggedAccueilCtrl"
       resolve:
         consommables: ($stateParams, $http, $q) ->
           $q (resolve, reject) ->
@@ -41,7 +41,7 @@ angular.module("ardoise", [
     .state "logged.consommation",
       url: "/consommation"
       templateUrl: "logged.consommation.jade"
-      controller: "LoggedConsommationController"
+      controller: "LoggedConsommationCtrl"
       resolve:
         consommations: ($stateParams, $http, $q) ->
           $q (resolve, reject) ->
@@ -53,7 +53,7 @@ angular.module("ardoise", [
     .state "logged.auth",
       url: "/auth"
       templateUrl: "logged.auth.jade"
-      controller: "LoggedAuthController"
+      controller: "LoggedAuthCtrl"
       resolve:
         rf: (UserService) ->
           UserService.hasRole('rf')
@@ -67,11 +67,11 @@ angular.module("ardoise", [
     .state "logged.rf.user",
       url: "/user"
       templateUrl: "logged.rf.user.jade"
-      controller: "LoggedRfUserController"
+      controller: "LoggedRfUserCtrl"
     .state "logged.rf.detail",
       url: "/user/:login"
       templateUrl: "logged.rf.user.detail.jade"
-      controller: "LoggedRfUserDetailController"
+      controller: "LoggedRfUserDetailCtrl"
       resolve:
         user: ($stateParams, $http, $q) ->
           $q (resolve, reject) ->
@@ -83,7 +83,7 @@ angular.module("ardoise", [
     .state "logged.rf.consommation",
       url: "/consommation"
       templateUrl: "logged.rf.consommation.jade"
-      controller: "loggedRfConsommationController"
+      controller: "loggedRfConsommationCtrl"
       resolve:
         consommations: ($http, $q) ->
           $q (resolve, reject) ->
@@ -102,4 +102,3 @@ angular.module("ardoise", [
         $state.go 'logged.auth'
       else
         console.error "stateChangeError", error
-        

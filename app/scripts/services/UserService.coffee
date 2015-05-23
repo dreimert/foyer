@@ -1,19 +1,4 @@
-"use strict"
-
-angular.module("ardoise.services", [])
-.value "version", "0.1"
-.factory "TitleService", () ->
-    new class TitleService
-      constructor: () ->
-        @title = "Accueil"
-      setTitle: (title, backButton = false) ->
-        @title = title
-        @backButton = backButton
-      showBackButton: () ->
-        @backButton
-      getTitle: () ->
-        @title
-
+angular.module "ardoise.services"
 .factory "UserService", ($http, $q) ->
   new class UserService
     constructor: ->
@@ -61,7 +46,7 @@ angular.module("ardoise.services", [])
           else
             reject "not role #{role}"
         , reject
-        
+
     signOut: ->
       # hard refresh of the page on logout to run constructor of all services
       $http.get '/logout'

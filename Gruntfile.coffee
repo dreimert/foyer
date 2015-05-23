@@ -5,7 +5,7 @@ module.exports = (grunt) ->
   grunt.initConfig
     assets:
       jade: ['app/index.static.jade']
-      coffee: ['app/app.coffee', 'app/scripts/*.coffee']
+      coffee: ['app/app.coffee', 'app/scripts/*/index.coffee', 'app/scripts/*/*.coffee']
       js: [
         'bower_components/moment/moment.js'
         'bower_components/moment/locale/fr.js'
