@@ -27,16 +27,14 @@ app.post '/login', (req, res) ->
   , (err) ->
     res.status(500).send(err)
 
-app.use access.logged
-
-app.get '/logged', (req, res) ->
+app.get '/logged', access.logged, (req, res) ->
   res.send req.session.user
 
-app.get '/logout', (req, res) ->
+app.get '/logout', access.logged, (req, res) ->
   req.session.destroy()
   res.sendStatus(200)
 
-app.post '/loginRf', (req, res) ->
+app.post '/loginRf', access.logged, (req, res) ->
   User
   .findOne(_id: req.session.user.id)
   .exec()

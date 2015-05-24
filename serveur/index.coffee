@@ -24,8 +24,6 @@ app.use bodyParser.json()
 
 app.use require './login'
 
-# after here, the user must be login
-
 app.use '/api', require './api'
 
 app.listen 3232, () ->

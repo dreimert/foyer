@@ -8,6 +8,22 @@ User         = mongoose.model "User"
 Consommation = mongoose.model "Consommation"
 Consommable  = mongoose.model "Consommable"
 
+anonyme = null
+User
+.findOne login: "anonyme"
+.exec (user) ->
+  if user is null
+    User.create
+      login: "anonyme"
+      pass_hash : "pass_hash"
+      nom: "anonyme"
+      prenom: "anonyme"
+      mail: "anonyme@anonyme.com"
+    .then (user) ->
+      anonyme = user
+  else
+    anonyme = user
+
 errorHandler = (res) ->
   (err) ->
     res.status(500).send err
@@ -19,6 +35,55 @@ sendRep = (res) ->
 app.route '/me'
 .get access.logged, (req, res) ->
   res.send req.session.user
+
+app.route '/anonyme/consommation'
+.post (req, res) ->
+  console.log 'POST /anonyme/consommation'
+  unless req.body.consommations?
+    res.sendStatus(400)
+  else
+    Promise.all req.body.consommations.map (consommation) ->
+      Consommable
+      .findOne nom: consommation.nom
+      .exec()
+      .then (consommable) ->
+        consommable: consommable
+        consommation: consommation
+    .then (results) ->
+      console.log "results", results
+      Promise.map results, (result) ->
+        console.log "result :", result
+        console.log "montant :", result.consommable.prix * result.consommation.quantity
+        Consommation
+        .create
+          consommable: result.consommable.nom
+          quantity: result.consommation.quantity
+          montant: result.consommable.prix * result.consommation.quantity
+          lieu: "foyer"
+          user: anonyme.id
+    .then (consommations) ->
+      console.log consommations
+      montant = consommations.reduce (sum, consommation) ->
+        sum += consommation.montant
+      , 0
+      console.log "montant", montant
+      console.log "anonyme.id", anonyme.id
+      User
+      .findByIdAndUpdate anonyme.id, $inc: montant: montant
+      .exec()
+      .then (user) ->
+        console.log "user", user
+        consommations
+      .then (consommations) ->
+        console.log consommations
+        Promise
+        .map consommations, (consommation) ->
+          Consommable
+          .update {nom: consommation.consommable}, $inc: frigo: -consommation.quantity
+          .exec()
+      .then () ->
+        "ok"
+    .then sendRep(res), errorHandler(res)
 
 app.route '/me/consommation'
 .get access.logged, (req, res) ->
@@ -122,7 +187,7 @@ app.route '/consommation'
   .then sendRep(res), errorHandler(res)
 
 app.route '/consommable'
-.get access.logged, (req, res) ->
+.get (req, res) ->
   search = {}
   if req.query.search
     search.nom = new RegExp req.query.search, "i"

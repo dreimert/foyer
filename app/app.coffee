@@ -19,6 +19,26 @@ angular.module("ardoise", [
       url: "/login/:lieu"
       templateUrl: "login.jade"
       controller: "LoginCtrl"
+    .state "anonyme",
+      abstract: true
+      url: "/anonyme"
+      templateUrl: "anonyme.jade"
+    .state "anonyme.accueil",
+      url: "/accueil"
+      templateUrl: "logged.accueil.jade"
+      controller: "AnonymeAccueilCtrl"
+      resolve:
+        consommables: ($stateParams, $http, $q) ->
+          $q (resolve, reject) ->
+            $http.get "/api/consommable"
+            .success (data) ->
+              resolve data
+            .error (data) ->
+              reject data
+    .state "anonyme.paiement",
+      url: "/paiement/:montant"
+      templateUrl: "anonyme.paiement.jade"
+      controller: "AnonymePaiementCtrl"
     .state "logged",
       abstract: true
       templateUrl: "logged.jade"
