@@ -38,6 +38,10 @@ angular.module("ardoise", [
               resolve data
             .error (data) ->
               reject data
+    .state "logged.deconnexion",
+      url: "/deconnexion"
+      templateUrl: "logged.deconnexion.jade"
+      controller: "LoggedDeconnexionCtrl"
     .state "logged.consommation",
       url: "/consommation"
       templateUrl: "logged.consommation.jade"
