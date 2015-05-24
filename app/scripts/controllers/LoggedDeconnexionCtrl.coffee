@@ -1,5 +1,5 @@
 angular.module "ardoise.controllers"
-.controller "LoggedDeconnexionCtrl", ($scope, $timeout, UserService) ->
+.controller "LoggedDeconnexionCtrl", ($scope, $timeout, $state, UserService) ->
   $scope.solde = UserService.user.montant.toFixed(2)
   $scope.secondes = 3
 
@@ -16,3 +16,10 @@ angular.module "ardoise.controllers"
     , 1000
 
   rebour()
+
+  $scope.accueil = ->
+    $timeout.cancel timeout
+    $state.go "logged.accueil"
+
+  $scope.quit = ->
+    UserService.signOut()

@@ -3,5 +3,5 @@ div(layout="column")
     h2 Votre paiement a été accepté. Votre nouveau solde est de {{solde}}€.
     h3 Vous allez être déconnecté dans {{secondes}} secondes.
 
-  md-button.md-raised.md-primary(flex) Je veux rester !
-  md-button.md-raised(flex) Quitter
+  md-button.md-raised.md-primary(flex, ng-click="accueil()") Je veux rester !
+  md-button.md-raised(flex, ng-click="quit()") Quitter
