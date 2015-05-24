@@ -1,13 +1,7 @@
 angular.module "ardoise.controllers"
-.controller "LoggedCtrl", ($scope, $state, $window, UserService, TitleService) ->
+.controller "LoggedCtrl", ($scope, $state, $window, UserService) ->
     $scope.userService = UserService
     $scope.user = UserService.user
-
-    $scope.getTitle = () ->
-      TitleService.getTitle()
-
-    $scope.backButton = () ->
-      TitleService.showBackButton()
 
     $scope.back = () ->
       $state.go "logged.accueil"

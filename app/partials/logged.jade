@@ -3,9 +3,9 @@ section(layout="column", layout-fill, flex)
     div.md-toolbar-tools
       md-button.md-icon-button(ui-sref="logged.accueil", aria-label="home")
         md-icon(md-svg-src="css/icons/ic_home_24px.svg")
-      md-button.md-icon-button(ng-click="back()", aria-label="back menu", ng-if="backButton()")
+      //md-button.md-icon-button(ng-click="back()", aria-label="back menu", ng-if="backButton()")
         md-icon(md-svg-src="css/icons/ic_arrow_back_24px.svg")
-      h2 {{getTitle()}}
+      h2 {{user.prenom}} : {{user.montant | number: 2}}
       span(flex)
       div(ng-if="userService.user.roles.indexOf('rf') !== -1", layout="row")
         md-button.md-icon-button(ui-sref="logged.rf.user", aria-label="search - rf")

@@ -1,4 +1,3 @@
 angular.module "ardoise.controllers"
-.controller "LoggedRfUserDetailCtrl", ($scope, user, TitleService) ->
-  TitleService.setTitle("#{user.prenom} #{user.nom}", true)
+.controller "LoggedRfUserDetailCtrl", ($scope, user) ->
   $scope.personne = user

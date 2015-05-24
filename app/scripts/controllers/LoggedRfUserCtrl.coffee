@@ -1,6 +1,5 @@
 angular.module "ardoise.controllers"
-.controller "LoggedRfUserCtrl", ($scope, $http, TitleService) ->
-  TitleService.setTitle("Accueil")
+.controller "LoggedRfUserCtrl", ($scope, $http) ->
   $scope.$watch 'search', (value) ->
     if not value? or value.length <= 2
       $scope.results = []
