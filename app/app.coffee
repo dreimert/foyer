@@ -88,6 +88,9 @@ angular.module("ardoise", [
       resolve:
         auth: (UserService) ->
           UserService.authRf()
+    .state "logged.rf.accueil",
+      url: "/accueil"
+      templateUrl: "logged.rf.accueil.jade"
     .state "logged.rf.user",
       url: "/user"
       templateUrl: "logged.rf.user.jade"

@@ -7,11 +7,7 @@ section(layout="column", layout-fill, flex)
         md-icon(md-svg-src="css/icons/ic_arrow_back_24px.svg")
       h2 {{user.prenom}} : {{user.montant | number: 2}}
       span(flex)
-      div(ng-if="userService.user.roles.indexOf('rf') !== -1", layout="row")
-        md-button.md-icon-button(ui-sref="logged.rf.user", aria-label="search - rf")
-          md-icon(md-svg-src="css/icons/ic_search_24px.svg")
-        md-button.md-icon-button(ui-sref="logged.rf.consommation", aria-label="mes consommations - rf")
-          md-icon(md-svg-src="css/icons/ic_list_24px.svg")
+      md-button.md-icon-button(aria-label="rf", ui-sref="logged.rf.accueil") RF
       md-button.md-icon-button(aria-label="mes consommations", ui-sref="logged.consommation")
         md-icon(md-svg-src="css/icons/ic_history_24px.svg")
       md-button.md-icon-button(aria-label="loggout", ng-click="signOut()")
