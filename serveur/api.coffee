@@ -8,6 +8,8 @@ User         = mongoose.model "User"
 Consommation = mongoose.model "Consommation"
 Consommable  = mongoose.model "Consommable"
 
+lieux = ["foyer", "kfet"]
+
 anonyme = null
 User
 .findOne login: "anonyme"
@@ -41,6 +43,8 @@ app.route '/anonyme/consommation'
   console.log 'POST /anonyme/consommation'
   unless req.body.consommations?
     res.sendStatus(400)
+  else if lieux.indexOf(req.body.lieu) < 0
+    res.sendStatus(400)
   else
     Promise.all req.body.consommations.map (consommation) ->
       Consommable
@@ -59,7 +63,7 @@ app.route '/anonyme/consommation'
           consommable: result.consommable.nom
           quantity: result.consommation.quantity
           montant: result.consommable.prix * result.consommation.quantity
-          lieu: "foyer"
+          lieu: req.body.lieu
           user: anonyme.id
     .then (consommations) ->
       console.log consommations
@@ -98,6 +102,8 @@ app.route '/me/consommation'
   console.log 'POST /me/consommation'
   unless req.body.consommations?
     res.sendStatus(400)
+  else if lieux.indexOf(req.body.lieu) < 0
+    res.sendStatus(400)
   else
     Promise.all req.body.consommations.map (consommation) ->
       Consommable
@@ -116,7 +122,7 @@ app.route '/me/consommation'
           consommable: result.consommable.nom
           quantity: result.consommation.quantity
           montant: result.consommable.prix * result.consommation.quantity
-          lieu: "foyer"
+          lieu: req.body.lieu
           user: req.session.user.id
     .then (consommations) ->
       console.log consommations

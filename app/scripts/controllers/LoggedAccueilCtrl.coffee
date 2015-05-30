@@ -1,5 +1,5 @@
 angular.module "ardoise.controllers"
-.controller "LoggedAccueilCtrl", ($scope, $http, $state, $mdToast, UserService, consommables) ->
+.controller "LoggedAccueilCtrl", ($scope, $http, $state, $mdToast, UserService, LieuService, consommables) ->
   $scope.consommations = []
   $scope.consommables = consommables
   $scope.expand = true
@@ -9,7 +9,7 @@ angular.module "ardoise.controllers"
     $scope.expand = false
     $scope.disabled = true
 
-    $http.post 'api/me/consommation', consommations: $scope.consommations
+    $http.post 'api/me/consommation', consommations: $scope.consommations, lieu: LieuService.getLieu().value
     .success (data) ->
       UserService.user.montant = data.montant
       $state.go "logged.deconnexion"

@@ -1,6 +1,11 @@
 md-content.prime(layout="column", layout-fill, layout-align="center center")
   div
     md-card.nopadding(layout-padding)
+      md-input-container
+        md-select.nopadding(placeholder="Lieu", ng-model="lieu", required)
+          md-option(ng-repeat="lieu in lieux", value="{{lieu.value}}") {{lieu.name}}
+          
+    md-card.nopadding(layout-padding)
       form(name="loginForm", ng-submit="onFormSubmit()", novalidate="")
         md-input-container
           label Login
@@ -8,11 +13,8 @@ md-content.prime(layout="column", layout-fill, layout-align="center center")
         md-input-container
           label Mot de passe
           input(ng-model="password", type="password", maxlength="255", name="password", required)
-        md-input-container
-          md-select(placeholder="Lieu", ng-model="lieu", required)
-            md-option(ng-repeat="lieu in lieux", value="{{lieu.value}}") {{lieu.name}}
         div(layout="row")
-          md-button.md-raised.md-primary(type="submit", ng-disabled="loginForm.$invalid", flex) Connexion
+          md-button.nomarginright.nomarginleft.md-raised.md-primary(type="submit", ng-disabled="loginForm.$invalid", flex) Connexion
 
     div(layout="row")
       md-button.md-raised.md-primary(flex, ui-sref="anonyme.accueil") Anonyme

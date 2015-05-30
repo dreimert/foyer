@@ -1,20 +1,14 @@
 angular.module "ardoise.controllers"
-.controller "LoginCtrl", ($scope, $state, $mdToast, UserService) ->
-  $scope.lieux = [
-    name: "Foyer"
-    value: "foyer"
-  ,
-    name: "Kfet"
-    value: "kfet"
-  ]
-  $scope.name = UserService.name or ""
-  $scope.lieu = "foyer"
-  for lieu in $scope.lieux when lieu.value is $state.params.lieu.toLowerCase()
-    $scope.lieu = lieu.value
+.controller "LoginCtrl", ($scope, $state, $mdToast, UserService, LieuService) ->
+  $scope.lieux = LieuService.getLieux()
+  $scope.lieu = LieuService.setLieu($state.params.lieu).value
 
-  console.log $state
+  $scope.$watch "lieu", (value) ->
+    console.log "value"
+    LieuService.setLieu value
+
   $scope.onFormSubmit = ->
-    UserService.signIn($scope.login, $scope.password, $scope.lieu)
+    UserService.signIn($scope.login, $scope.password)
     .then () ->
       $state.go "logged.accueil"
     ,

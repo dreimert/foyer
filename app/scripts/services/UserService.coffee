@@ -1,5 +1,5 @@
 angular.module "ardoise.services"
-.factory "UserService", ($http, $q) ->
+.factory "UserService", ($http, $q, LieuService) ->
   new class UserService
     constructor: ->
       @init()
@@ -13,8 +13,7 @@ angular.module "ardoise.services"
         @name = data.data.prenom
         @user
 
-    signIn: (login, password, lieu) ->
-      @lieu = lieu
+    signIn: (login, password) ->
       @promise = $q (resolve, reject) =>
         $http.post '/login', {login: login, password: password}
         .then (data) =>
@@ -56,4 +55,4 @@ angular.module "ardoise.services"
       $http.get '/logout'
       .success () =>
         #@init()
-        window.location.replace("/#/login/#{@lieu}")
+        window.location.replace("/#/login/#{LieuService.getLieu().value}")
