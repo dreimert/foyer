@@ -13,7 +13,8 @@ lieux = ["foyer", "kfet"]
 anonyme = null
 User
 .findOne login: "anonyme"
-.exec (user) ->
+.exec()
+.then (user) ->
   if user is null
     User.create
       login: "anonyme"
@@ -34,60 +35,72 @@ sendRep = (res) ->
   (data) ->
     res.send data
 
-app.route '/me'
-.get access.logged, (req, res) ->
-  res.send req.session.user
+checkLieu = (req, res, next) ->
+  if lieux.indexOf(req.body.lieu) < 0
+    res.status(400).send('no lieu param')
+  else
+    req.lieu = req.body.lieu
+    next()
 
-app.route '/anonyme/consommation'
-.post (req, res) ->
-  console.log 'POST /anonyme/consommation'
+checkAndParseConsommations = (req, res, next) ->
   unless req.body.consommations?
-    res.sendStatus(400)
-  else if lieux.indexOf(req.body.lieu) < 0
-    res.sendStatus(400)
+    res.status(400).send('no consommations param')
+  else unless Array.isArray(req.body.consommations)
+    res.status(400).send('consommations param not an array')
+  else if req.body.consommations.length is 0
+    res.status(400).send('consommations param is empty')
   else
     Promise.all req.body.consommations.map (consommation) ->
       Consommable
       .findOne nom: consommation.nom
       .exec()
       .then (consommable) ->
-        consommable: consommable
-        consommation: consommation
-    .then (results) ->
-      console.log "results", results
-      Promise.map results, (result) ->
-        console.log "result :", result
-        console.log "montant :", result.consommable.prix * result.consommation.quantity
-        Consommation
-        .create
-          consommable: result.consommable.nom
-          quantity: result.consommation.quantity
-          montant: result.consommable.prix * result.consommation.quantity
-          lieu: req.body.lieu
-          user: anonyme.id
+        if consommable is null
+          return Promise.reject("consommable not found")
+        consommable: consommable.nom
+        quantity: consommation.quantity
+        montant: consommable.prix * consommation.quantity
     .then (consommations) ->
-      console.log consommations
-      montant = consommations.reduce (sum, consommation) ->
-        sum += consommation.montant
-      , 0
-      console.log "montant", montant
-      console.log "anonyme.id", anonyme.id
-      User
-      .findByIdAndUpdate anonyme.id, $inc: montant: montant
+      req.consommations = consommations
+      next()
+    , (err) ->
+      res.status(404).send(err)
+
+app.route '/me'
+.get access.logged, (req, res) ->
+  res.send req.session.user
+
+app.route '/anonyme/consommation'
+.post checkLieu, checkAndParseConsommations, (req, res) ->
+  console.log 'POST /anonyme/consommation'
+
+  Promise.map req.consommations, (consommation) ->
+    Consommation
+    .create
+      consommable: consommation.consommable
+      quantity: consommation.quantity
+      montant: consommation.montant
+      lieu: req.lieu
+      user: anonyme.id
+  .then (consommations) ->
+    montant = consommations.reduce (sum, consommation) ->
+      sum += consommation.montant
+    , 0
+
+    User
+    .findByIdAndUpdate anonyme.id, $inc: montant: montant
+    .exec()
+    .then (user) ->
+      consommations
+  .then (consommations) ->
+    Promise
+    .map consommations, (consommation) ->
+      Consommable
+      .update {nom: consommation.consommable}, $inc: frigo: -consommation.quantity
       .exec()
-      .then (user) ->
-        console.log "user", user
-        consommations
-      .then (consommations) ->
-        console.log consommations
-        Promise
-        .map consommations, (consommation) ->
-          Consommable
-          .update {nom: consommation.consommable}, $inc: frigo: -consommation.quantity
-          .exec()
-      .then () ->
-        "ok"
-    .then sendRep(res), errorHandler(res)
+  .then () ->
+    "ok"
+  .then sendRep(res), errorHandler(res)
 
 app.route '/me/consommation'
 .get access.logged, (req, res) ->
@@ -98,57 +111,36 @@ app.route '/me/consommation'
   .sort("-date")
   .exec()
   .then sendRep(res), errorHandler(res)
-.post access.logged, (req, res) ->
-  console.log 'POST /me/consommation'
-  unless req.body.consommations?
-    res.sendStatus(400)
-  else if lieux.indexOf(req.body.lieu) < 0
-    res.sendStatus(400)
-  else
-    Promise.all req.body.consommations.map (consommation) ->
+.post access.logged, checkLieu, checkAndParseConsommations, (req, res) ->
+  Promise.map req.consommations, (consommation) ->
+    Consommation
+    .create
+      consommable: consommation.consommable
+      quantity: consommation.quantity
+      montant: consommation.montant
+      lieu: req.lieu
+      user: req.session.user.id
+  .then (consommations) ->
+    console.log consommations
+    montant = consommations.reduce (sum, consommation) ->
+      sum += consommation.montant
+    , 0
+
+    User
+    .findByIdAndUpdate req.session.user.id, $inc: montant: montant
+    .exec()
+    .then (user) ->
+      req.session.user.montant = user.montant
+      consommations
+  .then (consommations) ->
+    Promise
+    .map consommations, (consommation) ->
       Consommable
-      .findOne nom: consommation.nom
+      .update {nom: consommation.consommable}, $inc: frigo: -consommation.quantity
       .exec()
-      .then (consommable) ->
-        consommable: consommable
-        consommation: consommation
-    .then (results) ->
-      console.log "results", results
-      Promise.map results, (result) ->
-        console.log "result :", result
-        console.log "montant :", result.consommable.prix * result.consommation.quantity
-        Consommation
-        .create
-          consommable: result.consommable.nom
-          quantity: result.consommation.quantity
-          montant: result.consommable.prix * result.consommation.quantity
-          lieu: req.body.lieu
-          user: req.session.user.id
-    .then (consommations) ->
-      console.log consommations
-      montant = consommations.reduce (sum, consommation) ->
-        sum += consommation.montant
-      , 0
-      console.log "montant", montant
-      console.log "req.session.user.id", req.session.user.id
-      User
-      .findByIdAndUpdate req.session.user.id, $inc: montant: montant
-      .exec()
-      .then (user) ->
-        console.log "user", user
-        req.session.user.montant = user.montant
-        consommations
-      .then (consommations) ->
-        console.log consommations
-        Promise
-        .map consommations, (consommation) ->
-          Consommable
-          .update {nom: consommation.consommable}, $inc: frigo: -consommation.quantity
-          .exec()
-      .then () ->
-        console.log "send Montant"
-        montant: req.session.user.montant
-    .then sendRep(res), errorHandler(res)
+  .then () ->
+    montant: req.session.user.montant
+  .then sendRep(res), errorHandler(res)
 
 app.route '/user'
 .get access.rf, (req, res) ->
