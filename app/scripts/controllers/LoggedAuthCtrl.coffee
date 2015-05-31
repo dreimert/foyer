@@ -3,7 +3,7 @@ angular.module "ardoise.controllers"
   $scope.onFormSubmit = ->
     UserService.loginRf($scope.password)
     .then () ->
-      $state.go "logged.rf.user"
+      $state.go "logged.rf.accueil"
     ,
       () ->
         $mdToast.show($mdToast.simple().content('mot de passe incorrect !'))

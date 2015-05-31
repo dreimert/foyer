@@ -1,5 +1,17 @@
-div(layout-align="center center")
-  md-button.md-icon-button(ui-sref="logged.rf.user", aria-label="search - rf")
-    md-icon(md-svg-src="css/icons/ic_search_24px.svg")
-  md-button.md-icon-button(ui-sref="logged.rf.consommation", aria-label="mes consommations - rf")
-    md-icon(md-svg-src="css/icons/ic_list_24px.svg")
+div.prime.accueilRf(flex, layout-align="center center")
+  md-grid-list(
+    md-cols-sm="1" md-cols-md="2" md-cols-gt-md="5"
+    md-row-height-gt-md="1:1" md-row-height="4:3"
+    md-gutter="8px" md-gutter-gt-sm="4px"
+  )
+    md-grid-tile(
+      ng-repeat="menu in menus"
+      md-rowspan="{{menu.span.row}}"
+      md-colspan="{{menu.span.col}}"
+      md-colspan-sm="1"
+      ng-class="menu.background"
+      ui-sref="{{menu.state}}"
+    )
+      md-icon(md-svg-icon="{{menu.icon}}")
+      md-grid-tile-footer
+        h3 {{menu.title}}
