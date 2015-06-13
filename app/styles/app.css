@@ -23,8 +23,12 @@ md-list-item.no-padding {
   padding: 2px 2px 2px;
 }
 
-.nopadding md-select-label {
+.nopadding md-select {
   padding: 2px 2px 2px;
+}
+
+a[flex] {
+  display: block;
 }
 
 .nomarginright {
