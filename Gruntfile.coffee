@@ -134,7 +134,7 @@ module.exports = (grunt) ->
         flatten: true
       icons:
         expand: true
-        src: 'bower_components/material-design-icons/**/production/*_24px.svg'
+        src: 'bower_components/material-design-icons/*/production/*_24px.svg'
         dest: 'build/css/icons/'
         flatten: true
 
