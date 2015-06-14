@@ -5,7 +5,7 @@ md-input-container
 md-list
   md-item(ng-repeat="result in results")
     md-item-content
-      a.nolink.md-tile-content(layout="row", layout-fill, ui-sref="logged.rf.detail({login:result.login})")
+      a.nolink.md-tile-content(layout="row", layout-fill, ui-sref="logged.rf.userDetail({login:result.login})")
         div(layout="column", layout-fill)
           h3 {{result.nom}} {{result.prenom}}
           p {{result.others}}

@@ -96,7 +96,7 @@ angular.module("ardoise", [
     url: "/user"
     templateUrl: "logged.rf.user.jade"
     controller: "LoggedRfUserCtrl"
-  .state "logged.rf.detail",
+  .state "logged.rf.userDetail",
     url: "/user/:login"
     templateUrl: "logged.rf.user.detail.jade"
     controller: "LoggedRfUserDetailCtrl"
