@@ -20,7 +20,7 @@ angular.module "ardoise.services"
           @user = data.data
           @name = data.data.prenom
           resolve @user
-        , (data) =>
+        , (data) ->
           reject data
 
     authRf: () ->
@@ -35,7 +35,7 @@ angular.module "ardoise.services"
         .then (data) =>
           @authedRf = true
           resolve true
-        , (data) =>
+        , (data) ->
           reject data
 
     getUser: () ->
@@ -53,6 +53,6 @@ angular.module "ardoise.services"
     signOut: ->
       # hard refresh of the page on logout to run constructor of all services
       $http.get '/logout'
-      .success () =>
+      .success () ->
         #@init()
         window.location.replace("/#/login/#{LieuService.getLieu().value}")

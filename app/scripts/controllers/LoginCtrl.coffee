@@ -13,4 +13,6 @@ angular.module "ardoise.controllers"
       $state.go "logged.accueil"
     ,
       () ->
-        $mdToast.show($mdToast.simple().content('Login ou mot de passe incorrect !'))
+        $mdToast.show(
+          $mdToast.simple().content('Login ou mot de passe incorrect !')
+        )

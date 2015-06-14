@@ -96,7 +96,9 @@ app.route '/anonyme/consommation'
     Promise
     .map consommations, (consommation) ->
       Consommable
-      .update {nom: consommation.consommable}, $inc: frigo: -consommation.quantity
+      .update {nom: consommation.consommable},
+        $inc:
+          frigo: -consommation.quantity
       .exec()
   .then () ->
     "ok"
@@ -136,7 +138,9 @@ app.route '/me/consommation'
     Promise
     .map consommations, (consommation) ->
       Consommable
-      .update {nom: consommation.consommable}, $inc: frigo: -consommation.quantity
+      .update {nom: consommation.consommable},
+        $inc:
+          frigo: -consommation.quantity
       .exec()
   .then () ->
     montant: req.session.user.montant
