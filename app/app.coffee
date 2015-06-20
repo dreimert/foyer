@@ -108,6 +108,10 @@ angular.module("ardoise", [
             resolve data
           .error (data) ->
             reject data
+  .state "logged.rf.createUser",
+    url: "/create/user"
+    templateUrl: "logged.rf.createUser.jade"
+    controller: "LoggedRfCreateUserCtrl"
   .state "logged.rf.consommation",
     url: "/consommation"
     templateUrl: "logged.rf.consommation.jade"
