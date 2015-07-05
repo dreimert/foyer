@@ -6,7 +6,7 @@
 * Installer bower, grunt et coffee-script
 
     npm install -g bower grunt-cli coffee-script
- 
+
 * Installer les dépendences
 
     npm install
@@ -16,6 +16,14 @@
 
     cp conf.default.coffee conf.coffee
     nano conf.coffee
+
+* Copier la base sql
+
+* lancer mongoDB
+
+* Lance la migration de la base
+
+    coffee migration
 
 * Lancer l'application
 
