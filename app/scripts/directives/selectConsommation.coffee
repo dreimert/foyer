@@ -27,13 +27,16 @@ angular.module "ardoise.directives"
       return
 
     $scope.selected = (conso) ->
-      console.log "selected", conso
+      last = $scope.consommations[$scope.consommations.length - 1]
+      if(typeof last is "string")
+        console.log "pop"
+        $scope.consommations.pop()
       if conso
         if (index = $scope.consommations.indexOf(conso)) isnt -1
           $scope.consommations[index].quantity++
         else
           conso.quantity = 1
-          $scope.consommations.push conso
+          #$scope.consommations.push conso
         computeSum()
         $scope.conso.selected = ""
         $scope.conso.search = ""

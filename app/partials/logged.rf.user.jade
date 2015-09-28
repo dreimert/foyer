@@ -3,11 +3,8 @@ md-input-container
   input(ng-model="search", ng-model-options="{ debounce: 500 }")
 
 md-list
-  md-item(ng-repeat="result in results")
-    md-item-content
-      a.nolink.md-tile-content(layout="row", layout-fill, ui-sref="logged.rf.userDetail({login:result.login})")
-        div(layout="column", layout-fill)
-          h3 {{result.nom}} {{result.prenom}}
-          p {{result.others}}
-        
-        .icon-navigation-black.icon-navigation-black-ic_chevron_right_black_24dp
+  md-list-item.md-3-line(ng-repeat="result in results")
+    a.nolink.md-list-item-text(ui-sref="logged.rf.userDetail({login:result.login})")
+      h3 {{result.nom}} {{result.prenom}}
+      h4 {{result.montant}}
+      p {{result.others}}
