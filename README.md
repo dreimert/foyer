@@ -1,5 +1,7 @@
 # Annuaire des anciens éléves de l'ENS de Lyon
 
+Work in progress, it's not a functional version.
+
 ## Get It Working
 
 * Installer node.js
@@ -22,7 +24,8 @@
 * Lancer le serveur
 
     grunt
-
+    
+* Ouvrir un navigateur et aller sur : <http://localhost:3333/>
 
 ### Pour le serveur mongo
 
