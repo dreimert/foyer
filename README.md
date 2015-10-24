@@ -17,7 +17,14 @@
     cp conf.default.coffee conf.coffee
     nano conf.coffee
 
-* Copier la base sql
+* Copier la base postgres
+
+* Lancer le serveur
+
+    grunt
+
+
+### Pour le serveur mongo
 
 * lancer mongoDB
 
@@ -27,6 +34,6 @@
 
 * Lancer l'application
 
-    grunt
+    grunt mongoServe
 
 * Ouvrir un navigateur et aller sur : <http://localhost:3333/>

@@ -4,4 +4,9 @@ module.exports =
       title: "Ardoise alternative"
       descriptiont: "Site alternatif pour les ardoises"
       author: "Damien Reimert"
-  db: "postgres://localhost/dreimert"
+  db:
+    pg: "postgres://localhost/dbname"
+    mongo: "mongodb://127.0.0.1/ardoise"
+  cookie:
+    maxAge: 300000
+    secretKey: "keyboardCat"
