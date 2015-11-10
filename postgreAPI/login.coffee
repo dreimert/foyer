@@ -58,7 +58,7 @@ app.post '/login', (req, res) ->
         login: user.login
         nom: user.nom
         prenom: user.prenom
-        roles: if role_id is 5 then ['rf'] else []
+        roles: if user.role_id is 5 then ['rf'] else []
         montant: user.montant
       res.send req.session.user
     @connection.done()

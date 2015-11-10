@@ -13,7 +13,7 @@ app.use bodyParser.json()
 
 app.use require './login'
 
-#app.use '/api', require './api'
+app.use '/api', require './api'
 
 app.listen 3232, () ->
   console.log "Serveur lancé sur le port 3232"
