@@ -1,18 +1,7 @@
 express = require('express')
 app     = express()
-conf    = require('../conf')
 access  = require "../serveur/accessControl"
-Pgb     = require("pg-bluebird")
-pgb     = new Pgb()
-
-connection = () ->
-  pgb.connect(conf.db.pg)
-
-connection().then (connection) ->
-  console.log "ok"
-  connection.done()
-.catch (err) ->
-  console.error err
+db      = require "./db"
 
 ###
 # Entrée :
@@ -37,7 +26,7 @@ app.post '/login', (req, res) ->
 
   console.log login, pwd
 
-  connection().bind({}).then (connection) ->
+  db().bind({}).then (connection) ->
     @connection = connection
     #  mdp_super, , mdp AS pass_hash
     connection.client.query """

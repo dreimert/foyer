@@ -2,29 +2,16 @@ express = require('express')
 app     = express()
 conf    = require('../conf')
 access  = require "../serveur/accessControl"
-Pgb     = require("pg-bluebird")
-pgb     = new Pgb()
+db      = require "./db"
+utils   = require "./utils"
 
 Promise  = require "bluebird"
 
 lieux = ["foyer", "kfet"]
 
-connection = () ->
-  pgb.connect(conf.db.pg)
-
-connection().then (connection) ->
-  console.log "ok"
-  connection.done()
-.catch (err) ->
-  console.error err
-
-errorHandler = (res) ->
-  (err) ->
-    res.status(500).send err
-
-sendRep = (res) ->
-  (data) ->
-    res.send data
+###
+# Middleware
+###
 
 checkLieu = (req, res, next) ->
   if lieux.indexOf(req.body.lieu) < 0
@@ -96,7 +83,7 @@ app.route '/anonyme/consommation'
       .exec()
   .then () ->
     "ok"
-  .then sendRep(res), errorHandler(res)
+  .then utils.sendHandler(res), utils.errorHandler(res)
 
 app.route '/me/consommation'
 .get access.logged, (req, res) ->
@@ -106,7 +93,7 @@ app.route '/me/consommation'
   .limit(req.query.limit or 50)
   .sort("-date")
   .exec()
-  .then sendRep(res), errorHandler(res)
+  .then utils.sendHandler(res), utils.errorHandler(res)
 .post access.logged, checkLieu, checkAndParseConsommations, (req, res) ->
   Promise.map req.consommations, (consommation) ->
     Consommation
@@ -138,7 +125,7 @@ app.route '/me/consommation'
       .exec()
   .then () ->
     montant: req.session.user.montant
-  .then sendRep(res), errorHandler(res)
+  .then utils.sendHandler(res), utils.errorHandler(res)
 
 app.route '/user'
 .get access.rf, (req, res) ->
@@ -156,7 +143,7 @@ app.route '/user'
     .limit(req.query.limit or 50)
     .sort "nom prenom"
     .exec()
-    .then sendRep(res), errorHandler(res)
+    .then utils.sendHandler(res), utils.errorHandler(res)
   else
     User
     .find()
@@ -164,14 +151,14 @@ app.route '/user'
     .limit(req.query.limit or 50)
     .sort "nom prenom"
     .exec()
-    .then sendRep(res), errorHandler(res)
+    .then utils.sendHandler(res), utils.errorHandler(res)
 
 app.route '/user/:login'
 .get access.rf, (req, res) ->
   User
   .findOne(login: req.params.login)
   .exec()
-  .then sendRep(res), errorHandler(res)
+  .then utils.sendHandler(res), utils.errorHandler(res)
 
 app.route '/consommation'
 .get access.rf, (req, res) ->
@@ -180,7 +167,7 @@ app.route '/consommation'
   .skip(req.query.skip or 0)
   .limit(req.query.limit or 50)
   .exec()
-  .then sendRep(res), errorHandler(res)
+  .then utils.sendHandler(res), utils.errorHandler(res)
 ###
 
 app.route '/consommable'
@@ -191,7 +178,7 @@ app.route '/consommable'
     search = """WHERE nom LIKE $1::text """
     param = ["%#{req.query.search}%"]
 
-  connection().bind({}).then (connection) ->
+  db().bind({}).then (connection) ->
     @connection = connection
     #  mdp_super, , mdp AS pass_hash
     connection.client.query """
@@ -205,7 +192,6 @@ app.route '/consommable'
       ORDER BY prix
     """, param
   .then (consommables) ->
-    console.log "consommables.rows", consommables.rows
     res.send(consommables.rows)
     @connection.done()
   , (err) ->
