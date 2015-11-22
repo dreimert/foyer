@@ -1,4 +1,4 @@
-# Annuaire des anciens éléves de l'ENS de Lyon
+# Système de payment de bar associatif auto-gèrer
 
 Work in progress, it's not a functional version.
 
