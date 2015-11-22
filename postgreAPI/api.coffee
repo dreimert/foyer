@@ -175,20 +175,19 @@ app.route '/consommable'
   search = ""
   param = []
   if req.query.search
-    search = """WHERE nom LIKE $1::text """
+    search = """AND nom LIKE $1::text """
     param = ["%#{req.query.search}%"]
 
   db().bind({}).then (connection) ->
     @connection = connection
     #  mdp_super, , mdp AS pass_hash
     connection.client.query """
-      SELECT DISTINCT nom, qte_frigo AS frigo, commentaire,
-        (SELECT prix_adh FROM "public"."groupeV"
-        WHERE "public"."groupeV"."groupe_id" = "public"."groupe"."id"
-        ORDER BY "public"."groupeV".date DESC LIMIT 1) AS prix
+      SELECT DISTINCT nom, MAX(prix_adh) AS prix
       FROM "public"."groupe"
-      INNER JOIN stockgroupe on stockgroupe.groupe_id = "public"."groupe".id
+      INNER JOIN "public"."groupeV" on "public"."groupeV".groupe_id = "public"."groupe".id
+      WHERE actif = true
       #{search}
+      GROUP BY "public"."groupe".id
       ORDER BY prix
     """, param
   .then (consommables) ->
