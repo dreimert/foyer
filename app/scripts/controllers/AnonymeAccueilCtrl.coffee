@@ -18,7 +18,7 @@ angular.module "ardoise.controllers"
       .error (data) ->
         $mdToast.show(
           $mdToast.simple()
-          .content('Une erreur est survenu lors de la temtative de payement...')
+          .content('Une erreur est survenu lors de la temtative de payement')
           .hideDelay(10000)
         )
         $scope.expand = true
