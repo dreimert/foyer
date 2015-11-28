@@ -63,15 +63,16 @@ app.route '/consommation'
       INNER JOIN "public"."groupe"
         ON "public"."groupeV"."groupe_id" = "public"."groupe"."id"
       WHERE ardoise_id = #{req.session.user.id}
+      ORDER BY date DESC
       LIMIT $1::int
       OFFSET $2::int
     """, [(req.query.limit or 50), (req.query.skip or 0)]
-    .then (consommables) ->
-      res.send(consommables.rows)
-      @connection.done()
-    , (err) ->
-      console.error "consommation::err:", err
-      res.status(500).send(err)
+  .then (consommables) ->
+    res.send(consommables.rows)
+    @connection.done()
+  , (err) ->
+    console.error "consommation::err:", err
+    res.status(500).send(err)
 .post access.logged, middles.requireLieu, checkAndParseConsommations, (req, res) ->
   db().bind({}).then (connection) ->
     @connection = connection
