@@ -1,6 +1,6 @@
 div(layout="column", flex)
   div(layout-padding)
-    md-chips(ng-model="consommations", md-autocomplete-snap, md-require-match)
+    md-chips(ng-model="consommations", md-autocomplete-snap="true", md-require-match="true")
       md-autocomplete(
         flex,
         md-autofocus,
@@ -13,6 +13,7 @@ div(layout="column", flex)
         md-no-cache="true",
         ng-keypress="keyPress($event)",
         ng-disabled="disabled"
+        md-autoselect="true"
       )
         span {{consommable.nom}} : {{consommable.prix}}€
       md-chip-template

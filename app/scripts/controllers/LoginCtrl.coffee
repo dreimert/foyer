@@ -4,7 +4,6 @@ angular.module "ardoise.controllers"
   $scope.lieu = LieuService.setLieu($state.params.lieu).value
 
   $scope.$watch "lieu", (value) ->
-    console.log "value"
     LieuService.setLieu value
 
   $scope.onFormSubmit = ->
