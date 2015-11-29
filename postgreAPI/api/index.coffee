@@ -7,40 +7,6 @@ utils   = require "../utils"
 Promise  = require "bluebird"
 
 ###
-app.route '/anonyme/consommation'
-.post checkLieu, checkAndParseConsommations, (req, res) ->
-  console.log 'POST /anonyme/consommation'
-
-  Promise.map req.consommations, (consommation) ->
-    Consommation
-    .create
-      consommable: consommation.consommable
-      quantity: consommation.quantity
-      montant: consommation.montant
-      lieu: req.lieu
-      user: anonyme.id
-  .then (consommations) ->
-    montant = consommations.reduce (sum, consommation) ->
-      sum += consommation.montant
-    , 0
-
-    User
-    .findByIdAndUpdate anonyme.id, $inc: montant: montant
-    .exec()
-    .then (user) ->
-      consommations
-  .then (consommations) ->
-    Promise
-    .map consommations, (consommation) ->
-      Consommable
-      .update {nom: consommation.consommable},
-        $inc:
-          frigo: -consommation.quantity
-      .exec()
-  .then () ->
-    "ok"
-  .then utils.sendHandler(res), utils.errorHandler(res)
-
 app.route '/user'
 .get access.rf, (req, res) ->
   if req.query.search?
@@ -84,6 +50,7 @@ app.route '/consommation'
   .then utils.sendHandler(res), utils.errorHandler(res)
 ###
 
+app.use '/anonyme', require './anonyme'
 app.use '/me', require './me'
 app.use '/consommable', require './consommable'
 

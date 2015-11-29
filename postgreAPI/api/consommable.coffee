@@ -14,8 +14,7 @@ app.route '/'
     search = """AND nom LIKE $1::text """
     param = ["%#{req.query.search}%"]
 
-  db().bind({}).then (connection) ->
-    @connection = connection
+  db().then (connection) ->
     #  mdp_super, , mdp AS pass_hash
     connection.client.query """
       SELECT "public"."groupeV".id AS id, nom, prix_adh AS prix
@@ -28,9 +27,10 @@ app.route '/'
     """, param
   .then (consommables) ->
     res.send(consommables.rows)
-    @connection.done()
-  , (err) ->
+  .catch (err) ->
     console.error "err::consommables:", err
     res.status(500).send(err)
+  .finally ->
+    @connection.done()
 
 module.exports = app

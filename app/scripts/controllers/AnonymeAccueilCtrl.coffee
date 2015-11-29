@@ -14,7 +14,7 @@ angular.module "ardoise.controllers"
         consommations: $scope.consommations
         lieu: LieuService.getLieu().value
       .success (data) ->
-        $state.go "anonyme.paiement", montant: sum
+        $state.go "anonyme.paiement", montant: data.montant
       .error (data) ->
         $mdToast.show(
           $mdToast.simple()

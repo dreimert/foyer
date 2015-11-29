@@ -2,6 +2,7 @@ express = require('express')
 app     = express()
 access  = require "../serveur/accessControl"
 db      = require "./db"
+utils   = require './utils'
 
 ###
 # Entrée :
@@ -26,8 +27,7 @@ app.post '/login', (req, res) ->
 
   console.log login, pwd
 
-  db().bind({}).then (connection) ->
-    @connection = connection
+  db().then (connection) ->
     #  mdp_super, , mdp AS pass_hash
     connection.client.query """
       SELECT DISTINCT ardoise.id, login, utilisateur.nom AS nom, prenom, role_id, montant
@@ -50,13 +50,13 @@ app.post '/login', (req, res) ->
         roles: if user.role_id is 5 then ['rf'] else []
         montant: user.montant
       res.send req.session.user
-    @connection.done()
-  , (err) ->
+  .catch (err) ->
     console.error "err::", err
     res.status(500).send(err)
+  .finally ->
+    @connection.done()
 
-app.get '/logged', access.logged, (req, res) ->
-  res.send req.session.user
+app.get '/logged', access.logged, utils.sendUserHandler
 
 app.get '/logout', access.logged, (req, res) ->
   req.session.destroy()

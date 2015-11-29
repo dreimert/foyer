@@ -1,6 +1,6 @@
 angular.module "ardoise.controllers"
 .controller "AnonymePaiementCtrl", ($scope, $timeout, $state) ->
-  $scope.secondes = 3
+  $scope.secondes = 10
   $scope.montant = $state.params.montant
 
   timeout = null
