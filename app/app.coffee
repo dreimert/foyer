@@ -28,9 +28,9 @@ angular.module("ardoise", [
     templateUrl: "logged.accueil.jade"
     controller: "AnonymeAccueilCtrl"
     resolve:
-      consommables: ($stateParams, $http, $q) ->
+      consommables: ($stateParams, $http, $q, LieuService) ->
         $q (resolve, reject) ->
-          $http.get "/api/consommable"
+          $http.get "/api/consommable/#{LieuService.getLieu().value}"
           .success (data) ->
             resolve data
           .error (data) ->
@@ -51,9 +51,9 @@ angular.module("ardoise", [
     templateUrl: "logged.accueil.jade"
     controller: "LoggedAccueilCtrl"
     resolve:
-      consommables: ($stateParams, $http, $q) ->
+      consommables: ($stateParams, $http, $q, LieuService) ->
         $q (resolve, reject) ->
-          $http.get "/api/consommable"
+          $http.get "/api/consommable/#{LieuService.getLieu().value}"
           .success (data) ->
             resolve data
           .error (data) ->

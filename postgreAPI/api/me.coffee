@@ -19,7 +19,6 @@ app.route '/consommation'
         nom AS consommable,
         uniteachetee AS quantity,
         prix_adh * uniteachetee AS montant,
-        'foyer' AS lieu,
         ardoise_id AS ardoise,
         "public"."consommation".date AS date
       FROM "public"."consommation"

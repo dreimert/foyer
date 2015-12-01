@@ -3,11 +3,12 @@ app     = express()
 access  = require "../../serveur/accessControl"
 db      = require "../db"
 utils   = require "../utils"
+middles = require "../middles"
 
 Promise  = require "bluebird"
 
-app.route '/'
-.get (req, res) ->
+app.route '/:lieu'
+.get middles.getLieu, (req, res) ->
   search = ""
   param = []
   if req.query.search
@@ -22,6 +23,7 @@ app.route '/'
       INNER JOIN "public"."groupeV"
         ON "public"."groupeV".groupe_id = "public"."groupe".id
       WHERE actif = true
+      AND lieu_id = #{req.lieuId}
       #{search}
       ORDER BY prix
     """, param

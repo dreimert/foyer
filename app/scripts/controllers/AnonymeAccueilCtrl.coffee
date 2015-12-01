@@ -1,6 +1,6 @@
 angular.module "ardoise.controllers"
 .controller "AnonymeAccueilCtrl",
-  ($scope, $http, $state, $mdToast, LieuService, consommables) ->
+  ($scope, $http, $state, $mdToast, consommables) ->
     $scope.consommations = []
     $scope.consommables = consommables
     $scope.expand = true
@@ -12,7 +12,6 @@ angular.module "ardoise.controllers"
 
       $http.post 'api/anonyme/consommation',
         consommations: $scope.consommations
-        lieu: LieuService.getLieu().value
       .success (data) ->
         $state.go "anonyme.paiement", montant: data.montant
       .error (data) ->

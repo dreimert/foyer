@@ -2,7 +2,9 @@ db      = require "./db"
 utils   = require "./utils"
 Promise = require "bluebird"
 
-lieux = ["foyer", "kfet"]
+lieux =
+  foyer: 4
+  kfet: 5
 
 anonyme = null
 
@@ -42,6 +44,13 @@ module.exports =
       res.status(400).send('no lieu param')
     else
       req.lieu = req.body.lieu
+      next()
+
+  getLieu: (req, res, next) ->
+    unless lieux[req.params.lieu]?
+      res.status(400).send('no lieu param')
+    else
+      req.lieuId = lieux[req.params.lieu]
       next()
 
   checkAndParseConsommations: (req, res, next) ->
