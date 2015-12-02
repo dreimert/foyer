@@ -62,20 +62,25 @@ app.get '/logout', access.logged, (req, res) ->
   req.session.destroy()
   res.sendStatus(200)
 
-###
+
 app.post '/loginRf', access.logged, (req, res) ->
-  User
-  .findOne(_id: req.session.user.id)
-  .exec()
+  db().then (connection) ->
+    #  mdp_super, , mdp AS pass_hash
+    connection.client.query """
+      SELECT DISTINCT *
+      FROM utilisateur
+      WHERE login = $1::text AND mdp_super = MD5($2::text)
+    """, [req.session.user.login, req.body.password]
   .then (user) ->
-    if user is null
+    if user.rowCount isnt 1
       res.status(404).send()
-    else if user.authenticateWithRole("rf", req.body.password)
+    else
       req.session.loginRf = true
       res.send true
-    else
-      res.status(404).send()
-  .then null, (err) ->
+  .catch (err) ->
+    console.error "err::", err
     res.status(500).send(err)
-###
+  .finally ->
+    @connection.done()
+
 module.exports = app
