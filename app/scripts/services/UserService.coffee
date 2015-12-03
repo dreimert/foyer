@@ -7,7 +7,6 @@ angular.module "ardoise.services"
     init: ->
       @name = false
       @user = null
-      @authedRf = false
       @promise = $http.get('/logged').then (data) =>
         @user = data.data
         @name = data.data.prenom
@@ -24,17 +23,19 @@ angular.module "ardoise.services"
           reject data
 
     authRf: () ->
-      if @authedRf
-        Promise.resolve(true)
-      else
-        Promise.reject("not auth like rf")
+      @promise
+      .then (user) ->
+        if user.loginRf
+          Promise.resolve(true)
+        else
+          Promise.reject("not auth like rf")
 
     loginRf: (password) ->
       @promise = $q (resolve, reject) =>
         $http.post '/loginRf', {login: @user.login, password: password}
         .then (data) =>
-          @authedRf = true
-          resolve true
+          @user.loginRf = true
+          resolve @user
         , (data) ->
           reject data
 

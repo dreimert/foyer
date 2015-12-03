@@ -42,7 +42,7 @@ app.post '/loginRf', access.logged, (req, res) ->
     if user is null
       res.status(404).send()
     else if user.authenticateWithRole("rf", req.body.password)
-      req.session.loginRf = true
+      req.session.user.loginRf = true
       res.send true
     else
       res.status(404).send()

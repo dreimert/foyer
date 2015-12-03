@@ -62,7 +62,6 @@ app.get '/logout', access.logged, (req, res) ->
   req.session.destroy()
   res.sendStatus(200)
 
-
 app.post '/loginRf', access.logged, (req, res) ->
   db().then (connection) ->
     #  mdp_super, , mdp AS pass_hash
@@ -75,7 +74,7 @@ app.post '/loginRf', access.logged, (req, res) ->
     if user.rowCount isnt 1
       res.status(404).send()
     else
-      req.session.loginRf = true
+      req.session.user.loginRf = true
       res.send true
   .catch (err) ->
     console.error "err::", err
