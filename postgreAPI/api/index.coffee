@@ -40,18 +40,11 @@ app.route '/user/:login'
   .exec()
   .then utils.sendHandler(res), utils.errorHandler(res)
 
-app.route '/consommation'
-.get access.rf, (req, res) ->
-  Consommation
-  .find()
-  .skip(req.query.skip or 0)
-  .limit(req.query.limit or 50)
-  .exec()
-  .then utils.sendHandler(res), utils.errorHandler(res)
 ###
 
 app.use '/anonyme', require './anonyme'
 app.use '/me', require './me'
 app.use '/consommable', require './consommable'
+app.use '/consommation', require './consommation'
 
 module.exports = app
