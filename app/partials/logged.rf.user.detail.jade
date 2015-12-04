@@ -1,13 +1,10 @@
-h2 {{personne.nom}} {{personne.prenom}}
 md-list
-  md-item
-    md-item-content
-      .md-tile-left
-        .icon-communication-black.icon-communication-black-ic_email_black_24dp
-      .md-tile-content
-        h3 {{personne.mail}}
-    md-item-content
-      .md-tile-left
-        .icon-editor-black.icon-editor-black-ic_attach_money_black_24dp
-      .md-tile-content
-        h3 {{personne.montant}}
+  md-list-item
+    md-icon(md-svg-icon="css/icons/ic_perm_identity_24px.svg")
+    p {{personne.nom}} {{personne.prenom}}
+  md-list-item
+    md-icon(md-svg-icon="css/icons/ic_email_24px.svg")
+    p {{personne.mail}}
+  md-list-item
+    md-icon(md-svg-icon="css/icons/ic_attach_money_24px.svg")
+    p {{personne.montant}}
