@@ -77,12 +77,12 @@ module.exports = (grunt) ->
 
     nodemon:
       web:
-        script: 'postgreAPI/index.coffee'
+        script: 'server/index.coffee'
         options:
           args: []
           ext: 'coffee'
           delayTime: 1
-          watch: ['postgreAPI/*.coffee']
+          watch: ['server/*.coffee', 'server/**/*.coffee']
 
     concurrent:
       dev:
