@@ -39,8 +39,16 @@ a[flex] {
   margin-left: 0px;
 }
 
-md-content.prime, div.prime, ui-view.prime {
+md-content.kfet, div.kfet, ui-view.kfet {
   background: rgb(231,144,15);
+  background-image: linear-gradient(90deg, hsla(255,100%,100%,.07) 50%, transparent 50%),
+    linear-gradient(90deg, hsla(255,100%,100%,.17) 50%, transparent 50%),
+    linear-gradient(90deg, transparent 50%, rgba(255,255,255,.21) 50%);
+  background-size: 17px, 37px, 53px;
+}
+
+md-content.foyer, div.foyer, ui-view.foyer {
+  background: rgb(71,189,28);
   background-image: linear-gradient(90deg, hsla(255,100%,100%,.07) 50%, transparent 50%),
     linear-gradient(90deg, hsla(255,100%,100%,.17) 50%, transparent 50%),
     linear-gradient(90deg, transparent 50%, rgba(255,255,255,.21) 50%);
