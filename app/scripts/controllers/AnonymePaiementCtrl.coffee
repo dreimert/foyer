@@ -16,3 +16,7 @@ angular.module "ardoise.controllers"
     , 1000
 
   rebour()
+
+  $scope.quitter = () ->
+    $timeout.cancel(timeout)
+    $state.go "login"
