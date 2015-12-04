@@ -1,9 +1,7 @@
 div.prime(layout="column", flex, layout-align="center center")
-  div
-    md-card.nopadding(layout-padding)
-      form(name="loginForm", ng-submit="onFormSubmit()", novalidate="")
-        md-input-container
-          label Mot de passe
-          input(ng-model="password", type="password", required, maxlength="255", name="password")
-        div(layout="row")
-          md-button.nomarginright.nomarginleft.md-raised.md-primary(type="submit", ng-disabled="loginForm.$invalid", flex) Connexion
+  md-card.nopadding(layout-padding)
+    form(name="loginForm", ng-submit="onFormSubmit()", novalidate="" layout="column")
+      md-input-container
+        label Mot de passe
+        input(ng-model="password", type="password", required, maxlength="255", name="password")
+      md-button.nomarginright.nomarginleft.md-raised.md-primary(type="submit", ng-disabled="loginForm.$invalid") Connexion
