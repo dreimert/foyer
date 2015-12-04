@@ -1,6 +1,6 @@
 express = require('express')
 app     = express()
-access  = require "../serveur/accessControl"
+access  = require "./accessControl"
 db      = require "./db"
 utils   = require './utils'
 
