@@ -83,27 +83,11 @@ module.exports = (grunt) ->
           ext: 'coffee'
           delayTime: 1
           watch: ['postgreAPI/*.coffee']
-      webMongo:
-        script: 'serveur/index.coffee'
-        options:
-          args: []
-          ext: 'coffee'
-          delayTime: 1
-          watch: ['serveur/*.coffee']
 
     concurrent:
       dev:
         tasks: [
           'nodemon:web',
-          'watch'
-        ]
-        options:
-          logConcurrentOutput: true
-          limit: 6
-
-      devMongo:
-        tasks: [
-          'nodemon:webMongo',
           'watch'
         ]
         options:
@@ -166,5 +150,4 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-angular-templates')
 
   grunt.registerTask('default', ['copy', 'concurrent:dev'])
-  grunt.registerTask('mongoServe', ['copy', 'concurrent:devMongo'])
-  grunt.registerTask('production', ['copy', 'jade', 'coffee', 'uglify', 'cssmin', 'nodemon'])
+  grunt.registerTask('production', ['copy', 'jade', 'ngtemplates', 'coffee', 'ngAnnotate', 'uglify', 'cssmin'])
