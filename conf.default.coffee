@@ -6,7 +6,6 @@ module.exports =
       author: "Damien Reimert"
   db:
     pg: "postgres://localhost/dbname"
-    mongo: "mongodb://127.0.0.1/ardoise"
   cookie:
     maxAge: 300000
     secretKey: "keyboardCat"
