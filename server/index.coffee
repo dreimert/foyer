@@ -11,7 +11,7 @@ app.use session
     maxAge: conf.cookie.maxAge
 app.use bodyParser.json()
 
-app.use require './login'
+app.use require './api/login'
 
 app.use '/api', require './api'
 

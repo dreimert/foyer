@@ -1,8 +1,8 @@
 express = require('express')
 app     = express()
-access  = require "./accessControl"
-db      = require "./db"
-utils   = require './utils'
+access  = require "../accessControl"
+db      = require "../db"
+utils   = require '../utils'
 
 ###
 # Entrée :
