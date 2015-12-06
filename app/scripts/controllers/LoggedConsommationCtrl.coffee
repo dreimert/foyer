@@ -2,10 +2,13 @@ angular.module "ardoise.controllers"
 .controller "LoggedConsommationCtrl",
   ($scope, $q, $http, UserService, $mdToast, consommations, total) ->
     $scope.consommations = consommations
-    console.log "total", JSON.stringify total
     $scope.total = total
 
     $scope.selected = []
+
+    $scope.label =
+      text: "Lignes par page"
+      of: "sur"
 
     $scope.query =
       filter: '',
@@ -14,7 +17,6 @@ angular.module "ardoise.controllers"
       page: 1
 
     success = (consommations) ->
-      console.log "success:consommations", consommations
       $scope.consommations = consommations
 
     getConsommations = ->
@@ -30,16 +32,13 @@ angular.module "ardoise.controllers"
 
     $scope.search = (predicate) ->
       $scope.filter = predicate
-      #$scope.deferred = $nutrition.desserts.get($scope.query, success).$promise;
       console.log "$scope.search", predicate
       getConsommations()
 
     $scope.onOrderChange = (order) ->
-      #return $nutrition.desserts.get($scope.query, success).$promise
       console.log "onOrderChange", order
 
 
     $scope.onPaginationChange = (page, limit) ->
-      #return $nutrition.desserts.get($scope.query, success).$promise
       console.log "onPaginationChange", page, limit
       getConsommations()

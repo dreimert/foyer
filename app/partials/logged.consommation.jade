@@ -8,10 +8,9 @@ md-data-table-container
         th(numeric name="Total" unit="€")
     tbody
       tr(md-auto-select ng-repeat="consommation in consommations track by $index")
-        td
-          span(am-time-ago="consommation.date")
+        td {{consommation.date | amDateFormat:'DD/MM/YYYY HH:mm:ss'}}
         td {{consommation.consommable}}
         td {{consommation.quantity}}
-        td {{consommation.montant}}
+        td(show-unit) {{consommation.montant}}
 
-md-data-table-pagination(md-limit="query.limit" md-page="query.page" md-total="{{total}}" md-trigger="onPaginationChange")
+md-data-table-pagination(md-label="label" md-row-select="['10', '25', '50']" md-limit="query.limit" md-page="query.page" md-total="{{total}}" md-trigger="onPaginationChange")
