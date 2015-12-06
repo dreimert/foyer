@@ -14,6 +14,7 @@
     "angular-ui-router": "~0.2.11",
     "eventEmitter": "~4.2.9",
     "material-design-icons": "~2.0.0",
-    "angular-material": "~1.0.0-rc5"
+    "angular-material": "~1.0.0-rc5",
+    "angular-material-data-table": "~0.8.14"
   }
 }

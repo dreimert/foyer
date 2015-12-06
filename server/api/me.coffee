@@ -30,7 +30,7 @@ app.route '/consommation'
       ORDER BY date DESC
       LIMIT $1::int
       OFFSET $2::int
-    """, [(req.query.limit or 50), (req.query.skip or 0)]
+    """, [(req.query.limit or 10), (req.query.skip or 0)]
   .then (consommables) ->
     res.send(consommables.rows)
   .catch utils.errorHandler("GET consommations", res)
@@ -42,5 +42,19 @@ app.route '/consommation'
   middles.registerConsommations,
   utils.sendUserHandler
 )
+
+app.route '/consommation/count'
+.get access.logged, (req, res) ->
+  db().then (connection) ->
+    connection.client.query """
+      SELECT count(*)
+      FROM "public"."consommation"
+      WHERE ardoise_id = #{req.session.user.id}
+    """
+  .then (count) ->
+    res.send(count.rows[0].count)
+  .catch utils.errorHandler("GET consommation/count", res)
+  .finally ->
+    @connection.done()
 
 module.exports = app

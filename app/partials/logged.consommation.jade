@@ -1,5 +1,17 @@
-md-list
-  md-list-item.no-padding(ng-repeat="consommation in consommations track by $index")
-    md-button.md-fab(md-no-ink) {{consommation.consommable[0]}}
-    h3(flex) {{consommation.consommable}} : {{consommation.montant / consommation.quantity | number:2}} * {{consommation.quantity}} = {{consommation.montant | number:2}} €
-    span(am-time-ago="consommation.date")
+md-data-table-container
+  table(md-data-table md-progress="deferred")
+    thead(md-order="query.order" md-trigger="onOrderChange")
+      tr
+        th(name="Date")
+        th(name="Consommation")
+        th(numeric name="Nombre")
+        th(numeric name="Total" unit="€")
+    tbody
+      tr(md-auto-select ng-repeat="consommation in consommations track by $index")
+        td
+          span(am-time-ago="consommation.date")
+        td {{consommation.consommable}}
+        td {{consommation.quantity}}
+        td {{consommation.montant}}
+
+md-data-table-pagination(md-limit="query.limit" md-page="query.page" md-total="{{total}}" md-trigger="onPaginationChange")

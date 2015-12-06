@@ -16,4 +16,4 @@ app.use require './api/login'
 app.use '/api', require './api'
 
 app.listen 3232, () ->
-  console.log "Serveur lancé sur le port 3232"
+  console.info "Serveur lancé sur le port 3232"

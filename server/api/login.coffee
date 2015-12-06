@@ -25,8 +25,6 @@ app.post '/login', (req, res) ->
   login = req.body.login
   pwd = req.body.password
 
-  console.log login, pwd
-
   db().then (connection) ->
     #  mdp_super, , mdp AS pass_hash
     connection.client.query """

@@ -3,6 +3,7 @@
 angular.module("ardoise", [
   "ui.router"
   'ngAnimate'
+  'md.data.table'
   'ngMaterial'
   "ardoise.filters"
   "ardoise.services"
@@ -67,9 +68,16 @@ angular.module("ardoise", [
     templateUrl: "logged.consommation.jade"
     controller: "LoggedConsommationCtrl"
     resolve:
-      consommations: ($stateParams, $http, $q) ->
+      consommations: ($http, $q) ->
         $q (resolve, reject) ->
           $http.get "/api/me/consommation"
+          .success (data) ->
+            resolve data
+          .error (data) ->
+            reject data
+      total: ($http, $q) ->
+        $q (resolve, reject) ->
+          $http.get "/api/me/consommation/count"
           .success (data) ->
             resolve data
           .error (data) ->

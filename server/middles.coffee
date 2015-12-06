@@ -32,9 +32,9 @@ db().then ->
   if user.rows[0]?
     anonyme = user.rows[0]
   else
-    console.log "ERROR:anonyle"
+    Promise.reject "anonyme not existe and not create"
 .catch (err) ->
-  console.error "createAnonyme", err
+  console.error "ERROR::createAnonyme:", err
 .finally ->
   @connection.done()
 

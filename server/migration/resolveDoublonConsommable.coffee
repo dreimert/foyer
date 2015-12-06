@@ -13,7 +13,7 @@ db().then (connection) ->
   last = consommables.rows[0]
   for consommable in consommables.rows[1..]
     if consommable.groupe_id is last.groupe_id and consommable.lieu_id is last.lieu_id
-      console.log "unactive ", last
+      console.info "unactive ", last
       @connection.client.query """
         UPDATE "groupeV" SET actif = false WHERE id = $1::int;
       """, [last.id]

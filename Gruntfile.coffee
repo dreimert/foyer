@@ -14,6 +14,7 @@ module.exports = (grunt) ->
         'bower_components/angular-animate/angular-animate.min.js'
         'bower_components/angular-aria/angular-aria.min.js'
         'bower_components/angular-moment/angular-moment.min.js'
+        'bower_components/angular-material-data-table/dist/md-data-table.min.js'
         'bower_components/angular-ui-router/release/angular-ui-router.min.js'
         'bower_components/eventEmitter/EventEmitter.min.js'
         'bower_components/hammerjs/hammer.min.js'
@@ -21,6 +22,7 @@ module.exports = (grunt) ->
       css: [
         "bower_components/angular-material/angular-material.min.css"
         "bower_components/angular-material/themes/*.css"
+        "bower_components/angular-material-data-table/dist/md-data-table.min.css"
         "app/styles/*.css"
       ]
 
