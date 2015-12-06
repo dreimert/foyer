@@ -132,6 +132,13 @@ angular.module("ardoise", [
             resolve data
           .error (data) ->
             reject data
+      total: ($http, $q) ->
+        $q (resolve, reject) ->
+          $http.get "/api/consommation/count"
+          .success (data) ->
+            resolve data
+          .error (data) ->
+            reject data
 .run ($state, UserService, $rootScope) ->
   $rootScope.$on '$stateChangeError',
     (event, toState, toParams, fromState, fromParams, error) ->

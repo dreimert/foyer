@@ -27,10 +27,23 @@ app.route '/'
       ORDER BY date DESC
       LIMIT $1::int
       OFFSET $2::int
-    """, [(req.query.limit or 50), (req.query.skip or 0)]
+    """, [(req.query.limit or 10), (req.query.skip or 0)]
   .then (consommations) ->
     res.send(consommations.rows)
   .catch utils.errorHandler("GET consommations", res)
+  .finally ->
+    @connection.done()
+
+app.route '/count'
+.get access.rf, (req, res) ->
+  db().then (connection) ->
+    connection.client.query """
+      SELECT count(*)
+      FROM "public"."consommation"
+    """
+  .then (count) ->
+    res.send(count.rows[0].count)
+  .catch utils.errorHandler("GET consommations/count", res)
   .finally ->
     @connection.done()
 

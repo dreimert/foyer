@@ -1,11 +1,17 @@
-table
-  tr
-    th Date
-    th Nombre
-    th Consos
-    th Utilisateur
-  tr(ng-repeat="conso in consommations")
-    td {{conso.date | amDateFormat:'h:mm:ss DD/MM/YY'}}
-    td {{conso.quantity}}
-    td {{conso.consommable}}
-    td {{conso.user || "Anonyme"}}
+md-data-table-container
+  table(md-data-table md-progress="deferred")
+    thead(md-order="query.order" md-trigger="onOrderChange")
+      tr
+        th(name="Date")
+        th(numeric name="Utilisateur")
+        th(name="Consommation")
+        th(numeric name="Nombre")
+    tbody
+      tr(md-auto-select ng-repeat="consommation in consommations track by $index")
+        td {{consommation.date | amDateFormat:'DD/MM/YYYY HH:mm:ss'}}
+        td {{consommation.user || "Anonyme"}}
+        td {{consommation.consommable}}
+        td {{consommation.quantity}}
+        
+
+md-data-table-pagination(md-label="label" md-row-select="['10', '25', '50']" md-limit="query.limit" md-page="query.page" md-total="{{total}}" md-trigger="onPaginationChange")
