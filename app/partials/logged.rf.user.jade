@@ -6,10 +6,10 @@ md-data-table-container
   table(md-data-table md-progress="deferred")
     thead(md-order="query.order" md-trigger="onOrderChange")
       tr
-        th(name="Login")
-        th(name="Nom")
-        th(name="Prenom")
-        th(numeric name="Montant")
+        th(name="Login" order-by="login")
+        th(name="Nom" order-by="nom")
+        th(name="Prenom" order-by="prenom")
+        th(numeric name="Montant" order-by="montant")
     tbody
       tr(md-auto-select ng-repeat="user in users track by user.login" ui-sref="logged.rf.userDetail({login:user.login})")
         td {{user.login}}

@@ -13,7 +13,7 @@ angular.module "ardoise.controllers"
 
   $scope.query =
     filter: '',
-    order: '-login',
+    order: 'login',
     limit: 10,
     page: 1
 
@@ -28,6 +28,7 @@ angular.module "ardoise.controllers"
     params =
       limit: limit
       skip: skip
+      order: $scope.query.order
 
     unless not $scope.search? or $scope.search.length <= 2
       params.search = $scope.search
@@ -45,11 +46,9 @@ angular.module "ardoise.controllers"
 
   $scope.onOrderChange = (order) ->
     console.log "onOrderChange", order
+    getUsers()
 
 
   $scope.onPaginationChange = (page, limit) ->
     console.log "onPaginationChange", page, limit
     getUsers()
-
-  $scope.click = ->
-    console.log "click !!"

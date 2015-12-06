@@ -17,12 +17,12 @@ form(name="createUserForm", ng-submit="onFormSubmit()", novalidate="" layout="co
   md-input-container
     label Promo
     input(ng-model="user.promo", type="number", name="promo", required)
-  md-select(ng-model="user.departement" flex required)
-    md-select-label(flex) Département
-    md-option(ng-repeat="dep in departements" flex) {{dep}}
+  md-input-container
+    label Département
+    md-select(ng-model="user.departement" required aria-label="departement")
+      md-option(ng-repeat="dep in departements") {{dep}}
   md-input-container
     label Créditer de
     input(ng-model="user.credit", type="number", name="credit" min="1", required)
   div(flex)
-  div(layout="row")
-    md-button.nomarginright.nomarginleft.md-raised.md-primary(type="submit", ng-disabled="createUserForm.$invalid", flex) Créer
+  md-button.nomarginright.nomarginleft.md-raised.md-primary(type="submit", ng-disabled="createUserForm.$invalid") Créer

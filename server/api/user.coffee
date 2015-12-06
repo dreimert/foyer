@@ -11,6 +11,7 @@ app.route '/'
 .get access.rf, (req, res) ->
   search = -> ""
   param = []
+  order = "login"
   if req.query.search
     search = (index) ->
       """
@@ -21,6 +22,24 @@ app.route '/'
       """
     param.push "%#{req.query.search.toLowerCase()}%"
 
+  if req.query.order
+    desc = false
+    if req.query.order[0] is "-"
+      desc = true
+      field = req.query.order[1..]
+    else
+      field = req.query.order
+
+    if field is "nom" or field is "prenom" or field is "login"
+      order = "lower(#{field})"
+    else
+      order = field
+
+    if desc
+      order = "#{order} DESC"
+
+  console.log "order", order
+
   db().then (connection) ->
     #  mdp_super, , mdp AS pass_hash
     Promise.all [
@@ -29,7 +48,7 @@ app.route '/'
         FROM utilisateur
         INNER JOIN "public"."ardoise" on "utilisateur".ardoise_id = ardoise.id
         #{search(3)}
-        ORDER BY login
+        ORDER BY #{order}
         LIMIT $1::int
         OFFSET $2::int
       """, [(req.query.limit or 50),(req.query.skip or 0)].concat param
@@ -53,10 +72,9 @@ app.route '/:login'
   db().then (connection) ->
     #  mdp_super, , mdp AS pass_hash
     connection.client.query """
-      SELECT DISTINCT ardoise.id, login, utilisateur.nom AS nom, prenom, role_id, montant, mail
+      SELECT ardoise.id, login, utilisateur.nom AS nom, prenom, montant, mail
       FROM "public"."ardoise"
       INNER JOIN utilisateur on "utilisateur".ardoise_id = ardoise.id
-      LEFT JOIN utilisateur_role on utilisateur_role.utilisateur_id = utilisateur.id
       WHERE login = $1::text
     """, [req.params.login]
   .then (users) ->
