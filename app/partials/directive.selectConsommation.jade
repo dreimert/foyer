@@ -19,16 +19,29 @@ div(layout="column", flex)
         span
           strong {{$chip.nom}}
           em  ({{$chip.prix}}€ x {{$chip.quantity}})
-  md-list
-    md-list-item.no-padding(ng-repeat="consommation in consommations track by $index")
-      md-button.md-fab(md-no-ink) {{consommation.nom[0]}}
-      h3(flex) {{consommation.nom}} : {{consommation.prix}} * 
-        input(type="number", ng-model="consommation.quantity", min="0", ng-disabled="disabled")
-        |  = {{consommation.prix*consommation.quantity | number:2}} €
-      md-button.md-accent.md-fab(ng-click="add($index)")
-        md-icon(aria-label="add one", md-svg-src="css/icons/ic_add_24px.svg")
-      md-button.md-accent.md-fab(ng-click="supp($index)")
-        md-icon(aria-label="delete", md-svg-src="css/icons/ic_delete_24px.svg")
+          
+  md-data-table-container
+    table(md-data-table)
+      thead
+        tr
+          th(name="Consommation")
+          th(name="Prix")
+          th(numeric name="Nombre")
+          th(numeric name="Total" unit="€")
+          th(numeric name="Ajouter")
+          th(numeric name="Delete")
+      tbody
+        tr(md-auto-select ng-repeat="consommation in consommations")
+          td {{consommation.nom}}
+          td {{consommation.prix}}
+          td {{consommation.quantity}}
+          td {{consommation.prix * consommation.quantity | number:2}}
+          td
+            md-button.md-icon-button(ng-click="add($index)")
+              md-icon(aria-label="add one", md-svg-src="css/icons/ic_add_24px.svg")
+          td
+            md-button.md-icon-button(ng-click="supp($index)")
+              md-icon(aria-label="delete", md-svg-src="css/icons/ic_delete_24px.svg")
 
   span(flex, ng-if="expand")
 
