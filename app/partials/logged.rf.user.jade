@@ -2,9 +2,19 @@ md-input-container
   label "Ma recherche"
   input(ng-model="search", ng-model-options="{ debounce: 500 }")
 
-md-list
-  md-list-item.md-3-line(ng-repeat="result in results")
-    a.nolink.md-list-item-text(ui-sref="logged.rf.userDetail({login:result.login})")
-      h3 {{result.nom}} {{result.prenom}}
-      h4 {{result.montant}}
-      p {{result.others}}
+md-data-table-container
+  table(md-data-table md-progress="deferred")
+    thead(md-order="query.order" md-trigger="onOrderChange")
+      tr
+        th(name="Login")
+        th(name="Nom")
+        th(name="Prenom")
+        th(numeric name="Montant")
+    tbody
+      tr(md-auto-select ng-repeat="user in users track by user.login" ui-sref="logged.rf.userDetail({login:user.login})")
+        td {{user.login}}
+        td {{user.nom}}
+        td {{user.prenom}}
+        td {{user.montant}}
+
+md-data-table-pagination(md-label="label" md-row-select="['10', '25', '50']" md-limit="query.limit" md-page="query.page" md-total="{{total}}" md-trigger="onPaginationChange")

@@ -9,33 +9,41 @@ Promise  = require "bluebird"
 
 app.route '/'
 .get access.rf, (req, res) ->
-  search = ""
-  param = [(req.query.limit or 50),(req.query.skip or 0)]
+  search = -> ""
+  param = []
   if req.query.search
-    search = """
-      WHERE lower(login) LIKE $3::text
-      OR lower(nom) LIKE $3::text
-      OR lower(prenom) LIKE $3::text
-      OR lower(mail) LIKE $3::text
-    """
+    search = (index) ->
+      """
+      WHERE lower(login) LIKE $#{index}::text
+      OR lower(nom) LIKE $#{index}::text
+      OR lower(prenom) LIKE $#{index}::text
+      OR lower(mail) LIKE $#{index}::text
+      """
     param.push "%#{req.query.search.toLowerCase()}%"
 
   db().then (connection) ->
     #  mdp_super, , mdp AS pass_hash
-    connection.client.query """
-      SELECT DISTINCT ardoise.id, login, utilisateur.nom AS nom, prenom, role_id, montant
-      FROM "public"."ardoise"
-      INNER JOIN utilisateur on "utilisateur".ardoise_id = ardoise.id
-      LEFT JOIN utilisateur_role on utilisateur_role.utilisateur_id = utilisateur.id
-      #{search}
-      ORDER BY nom, prenom
-      LIMIT $1::int
-      OFFSET $2::int
-    """, param
-  .then (users) ->
-    res.send(users.rows)
+    Promise.all [
+      connection.client.query """
+        SELECT ardoise.id, login, utilisateur.nom AS nom, prenom, montant
+        FROM utilisateur
+        INNER JOIN "public"."ardoise" on "utilisateur".ardoise_id = ardoise.id
+        #{search(3)}
+        ORDER BY login
+        LIMIT $1::int
+        OFFSET $2::int
+      """, [(req.query.limit or 50),(req.query.skip or 0)].concat param
+    ,
+      connection.client.query """
+        SELECT count(*)
+        FROM utilisateur
+        #{search(1)}
+      """, param
+    ]
+  .then ([users, count]) ->
+    res.send(count: count.rows[0].count, users : users.rows)
   .catch (err) ->
-    console.error "err::consommables:", err
+    console.error "err::users:", err, err.stack
     res.status(500).send(err)
   .finally ->
     @connection.done()
