@@ -4,7 +4,6 @@ angular.module "ardoise.directives"
   scope:
     consommables: '='
     consommations: "="
-    expand: '='
     disabled: '='
     payer: '='
   templateUrl: 'directive.selectConsommation.jade'

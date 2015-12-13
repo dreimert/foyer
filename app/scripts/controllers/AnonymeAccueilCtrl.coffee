@@ -3,11 +3,9 @@ angular.module "ardoise.controllers"
   ($scope, $http, $state, $mdToast, consommables) ->
     $scope.consommations = []
     $scope.consommables = consommables
-    $scope.expand = true
     $scope.disabled = false
 
     $scope.payer = (sum) ->
-      $scope.expand = false
       $scope.disabled = true
 
       $http.post 'api/anonyme/consommation',
@@ -20,5 +18,4 @@ angular.module "ardoise.controllers"
           .content('Une erreur est survenu lors de la temtative de payement')
           .hideDelay(10000)
         )
-        $scope.expand = true
         $scope.disabled = false

@@ -43,6 +43,4 @@ div(layout="column", flex)
             md-button.md-icon-button(ng-click="supp($index)")
               md-icon(aria-label="delete", md-svg-src="css/icons/ic_delete_24px.svg")
 
-  span(flex, ng-if="expand")
-
   md-button.md-primary.md-raised(ng-disabled="sum === 0 || disabled", ng-click="submit()") Payer {{sum | number:2}} €
