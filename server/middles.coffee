@@ -22,6 +22,12 @@ db().then ->
       INSERT INTO ardoise ("id", "montant")
       VALUES (0, 0)
     """
+    .then =>
+      @connection.client.query """
+        INSERT INTO utilisateur ("id", "login", "ardoise_id", "nom", "prenom", "mail", "departement_id")
+        VALUES (0, 'anonyme', 0, 'nonyme', 'a', 'foyer@ens-lyon.fr.invalid', 1)
+      """
+
 .then ->
   @connection.client.query """
     SELECT *
