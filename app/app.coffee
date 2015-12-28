@@ -139,6 +139,18 @@ angular.module("ardoise", [
             resolve data
           .error (data) ->
             reject data
+  .state "logged.rf.bar",
+    url: "/bar"
+    templateUrl: "logged.rf.bar.jade"
+    controller: "LoggedRfBarCtrl"
+    resolve:
+      consommables: ($stateParams, $http, $q, LieuService) ->
+        $q (resolve, reject) ->
+          $http.get "/api/consommable/#{LieuService.getLieu().value}"
+          .success (data) ->
+            resolve data
+          .error (data) ->
+            reject data
 .run ($state, UserService, $rootScope) ->
   $rootScope.$on '$stateChangeError',
     (event, toState, toParams, fromState, fromParams, error) ->

@@ -6,6 +6,7 @@ angular.module "ardoise.directives"
     consommations: "="
     disabled: '='
     payer: '='
+    focus: '='
   templateUrl: 'directive.selectConsommation.jade'
   controller: ($scope) ->
     $scope.sum = 0

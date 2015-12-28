@@ -17,7 +17,7 @@ angular.module "ardoise.controllers"
     title: "Produits"
     state: "logged.rf.produits"
   ,
-    icon: "css/icons/ic_toys_24px.svg"
+    icon: "css/icons/ic_kitchen_24px.svg"
     title: "Frigo"
     state: "logged.rf.frigo"
   ,
@@ -40,6 +40,10 @@ angular.module "ardoise.controllers"
     icon: "css/icons/ic_history_24px.svg"
     title: "Historique"
     state: "logged.rf.historique"
+  ,
+    icon: "css/icons/ic_local_cafe_24px.svg"
+    title: "Bar"
+    state: "logged.rf.bar"
   ]
 
   build = (menus) ->

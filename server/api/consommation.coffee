@@ -33,6 +33,14 @@ app.route '/'
   .catch utils.errorHandler("GET consommations", res)
   .finally ->
     @connection.done()
+.post(
+  access.rf, #TODO check User
+  middles.checkUser,
+  middles.checkAndParseConsommations,
+  middles.registerConsommations,
+  (req, res) ->
+    res.send req.user
+)
 
 app.route '/count'
 .get access.rf, (req, res) ->

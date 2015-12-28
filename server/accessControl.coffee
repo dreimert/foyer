@@ -2,6 +2,7 @@ module.exports =
   logged: (req, res, next) ->
     if req.session.logged is true
       next()
+      req.user = req.session.user
     else
       res.sendStatus 401
 
