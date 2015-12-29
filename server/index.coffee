@@ -9,6 +9,7 @@ app.use session
   secret: conf.cookie.secretKey
   cookie:
     maxAge: conf.cookie.maxAge
+  rolling: true
 app.use bodyParser.json()
 
 app.use require './api/login'
