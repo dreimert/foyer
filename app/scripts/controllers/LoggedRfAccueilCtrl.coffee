@@ -1,6 +1,16 @@
 angular.module "ardoise.controllers"
 .controller "LoggedRfAccueilCtrl", ($scope) ->
   menus = [
+    icon: "css/icons/ic_list_24px.svg"
+    title: "Consommations"
+    state: "logged.rf.consommation"
+  ,
+    icon: "css/icons/ic_local_cafe_24px.svg"
+    title: "Bar"
+    state: "logged.rf.bar"
+  ]
+
+  ###
     icon: "css/icons/ic_person_add_24px.svg"
     title: "Créer un utilisateurs"
     state: "logged.rf.createUser"
@@ -21,10 +31,6 @@ angular.module "ardoise.controllers"
     title: "Frigo"
     state: "logged.rf.frigo"
   ,
-    icon: "css/icons/ic_list_24px.svg"
-    title: "Consommations"
-    state: "logged.rf.consommation"
-  ,
     icon: "css/icons/ic_local_grocery_store_24px.svg"
     title: "Commandes"
     state: "logged.rf.commandes"
@@ -41,10 +47,7 @@ angular.module "ardoise.controllers"
     title: "Historique"
     state: "logged.rf.historique"
   ,
-    icon: "css/icons/ic_local_cafe_24px.svg"
-    title: "Bar"
-    state: "logged.rf.bar"
-  ]
+  ###
 
   build = (menus) ->
     for menu, index in menus
