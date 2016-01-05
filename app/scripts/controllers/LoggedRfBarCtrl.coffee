@@ -56,7 +56,7 @@ angular.module "ardoise.controllers"
     unless not $scope.search? or $scope.search.length <= 2
       params.search = $scope.search
 
-    $http.get '/api/user', params: params
+    $http.get 'api/user', params: params
     .success (users) ->
       $scope.users = users.users.map (user) ->
         user.display = "#{user.prenom} #{user.nom} (#{user.login}) : #{user.montant} €"

@@ -7,14 +7,14 @@ angular.module "ardoise.services"
     init: ->
       @name = false
       @user = null
-      @promise = $http.get('/logged').then (data) =>
+      @promise = $http.get('logged').then (data) =>
         @user = data.data
         @name = data.data.prenom
         @user
 
     signIn: (login, password) ->
       @promise = $q (resolve, reject) =>
-        $http.post '/login', {login: login, password: password}
+        $http.post 'login', {login: login, password: password}
         .then (data) =>
           @user = data.data
           @name = data.data.prenom
@@ -32,7 +32,7 @@ angular.module "ardoise.services"
 
     loginRf: (password) ->
       @promise = $q (resolve, reject) =>
-        $http.post '/loginRf', {login: @user.login, password: password}
+        $http.post 'loginRf', {login: @user.login, password: password}
         .then (data) =>
           @user.loginRf = true
           resolve @user
@@ -53,7 +53,7 @@ angular.module "ardoise.services"
 
     signOut: ->
       # hard refresh of the page on logout to run constructor of all services
-      $http.get '/logout'
+      $http.get 'logout'
       .success () ->
         #@init()
         window.location.replace("/#/login/#{LieuService.getLieu().value}")

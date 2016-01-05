@@ -33,7 +33,7 @@ angular.module "ardoise.controllers"
     unless not $scope.search? or $scope.search.length <= 2
       params.search = $scope.search
 
-    $http.get '/api/user', params: params
+    $http.get 'api/user', params: params
     .success success
 
   $scope.$watch 'search', (value) ->

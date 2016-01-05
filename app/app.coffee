@@ -10,8 +10,9 @@ angular.module("ardoise", [
   "ardoise.directives"
   "ardoise.controllers"
   "ardoise.templates"
-]).config ($stateProvider, $urlRouterProvider) ->
+]).config ($stateProvider, $urlRouterProvider, $locationProvider) ->
 
+  $locationProvider.html5Mode requireBase:true
     # For any unmatched url, redirect to /state1
   $urlRouterProvider.otherwise "/accueil"
 
@@ -31,7 +32,7 @@ angular.module("ardoise", [
     resolve:
       consommables: ($stateParams, $http, $q, LieuService) ->
         $q (resolve, reject) ->
-          $http.get "/api/consommable/#{LieuService.getLieu().value}"
+          $http.get "api/consommable/#{LieuService.getLieu().value}"
           .success (data) ->
             resolve data
           .error (data) ->
@@ -54,7 +55,7 @@ angular.module("ardoise", [
     resolve:
       consommables: ($stateParams, $http, $q, LieuService) ->
         $q (resolve, reject) ->
-          $http.get "/api/consommable/#{LieuService.getLieu().value}"
+          $http.get "api/consommable/#{LieuService.getLieu().value}"
           .success (data) ->
             resolve data
           .error (data) ->
@@ -70,14 +71,14 @@ angular.module("ardoise", [
     resolve:
       consommations: ($http, $q) ->
         $q (resolve, reject) ->
-          $http.get "/api/me/consommation"
+          $http.get "api/me/consommation"
           .success (data) ->
             resolve data
           .error (data) ->
             reject data
       total: ($http, $q) ->
         $q (resolve, reject) ->
-          $http.get "/api/me/consommation/count"
+          $http.get "api/me/consommation/count"
           .success (data) ->
             resolve data
           .error (data) ->
@@ -111,7 +112,7 @@ angular.module("ardoise", [
     resolve:
       user: ($stateParams, $http, $q) ->
         $q (resolve, reject) ->
-          $http.get "/api/user/#{$stateParams.login}"
+          $http.get "api/user/#{$stateParams.login}"
           .success (data) ->
             resolve data
           .error (data) ->
@@ -127,14 +128,14 @@ angular.module("ardoise", [
     resolve:
       consommations: ($http, $q) ->
         $q (resolve, reject) ->
-          $http.get "/api/consommation"
+          $http.get "api/consommation"
           .success (data) ->
             resolve data
           .error (data) ->
             reject data
       total: ($http, $q) ->
         $q (resolve, reject) ->
-          $http.get "/api/consommation/count"
+          $http.get "api/consommation/count"
           .success (data) ->
             resolve data
           .error (data) ->
@@ -146,7 +147,7 @@ angular.module("ardoise", [
     resolve:
       consommables: ($stateParams, $http, $q, LieuService) ->
         $q (resolve, reject) ->
-          $http.get "/api/consommable/#{LieuService.getLieu().value}"
+          $http.get "api/consommable/#{LieuService.getLieu().value}"
           .success (data) ->
             resolve data
           .error (data) ->
