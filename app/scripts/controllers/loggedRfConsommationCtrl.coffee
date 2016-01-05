@@ -24,10 +24,9 @@ angular.module "ardoise.controllers"
   success = (consommations) ->
     $scope.consommations = consommations
 
-  getConsommations = ->
+  getConsommations = (page, limit) ->
     $q (resolve, reject) ->
-      limit = $scope.query.limit
-      skip = limit * ($scope.query.page - 1)
+      skip = limit * page - limit
       $http.get "/api/consommation?limit=#{limit}&skip=#{skip}"
       .success (data) ->
         success data
@@ -38,7 +37,7 @@ angular.module "ardoise.controllers"
   $scope.search = (predicate) ->
     $scope.filter = predicate
     console.log "$scope.search", predicate
-    getConsommations()
+    getConsommations($scope.query.page, $scope.query.limit)
 
   $scope.onOrderChange = (order) ->
     console.log "onOrderChange", order
@@ -46,4 +45,4 @@ angular.module "ardoise.controllers"
 
   $scope.onPaginationChange = (page, limit) ->
     console.log "onPaginationChange", page, limit
-    getConsommations()
+    getConsommations(page, limit)
