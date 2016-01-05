@@ -20,26 +20,26 @@ div(layout="column", flex)
           strong {{$chip.nom}}
           em  ({{$chip.prix}}€ x {{$chip.quantity}})
           
-  md-data-table-container
-    table(md-data-table)
-      thead
-        tr
-          th(name="Consommation")
-          th(name="Prix")
-          th(numeric name="Nombre")
-          th(numeric name="Total" unit="€")
-          th(numeric name="Ajouter")
-          th(numeric name="Delete")
-      tbody
-        tr(md-auto-select ng-repeat="consommation in consommations")
-          td {{consommation.nom}}
-          td {{consommation.prix}}
-          td {{consommation.quantity}}
-          td {{consommation.prix * consommation.quantity | number:2}}
-          td
+  md-table-container
+    table(md-table)
+      thead(md-head)
+        tr(md-row)
+          th(md-column) Consommation
+          th(md-column) Prix
+          th(md-column md-numeric) Nombre
+          th(md-column md-numeric) Total
+          th(md-column md-numeric) Ajouter
+          th(md-column md-numeric) Delete
+      tbody(md-body)
+        tr(md-row md-auto-select ng-repeat="consommation in consommations")
+          td(md-cell) {{consommation.nom}}
+          td(md-cell) {{consommation.prix}}€
+          td(md-cell) {{consommation.quantity}}
+          td(md-cell) {{consommation.prix * consommation.quantity | number:2}}€
+          td(md-cell)
             md-button.md-icon-button(ng-click="add($index)")
               md-icon(aria-label="add one", md-svg-src="css/icons/ic_add_24px.svg")
-          td
+          td(md-cell)
             md-button.md-icon-button(ng-click="supp($index)")
               md-icon(aria-label="delete", md-svg-src="css/icons/ic_delete_24px.svg")
 

@@ -1,16 +1,16 @@
-md-data-table-container
-  table(md-data-table md-progress="deferred")
-    thead(md-order="query.order" md-trigger="onOrderChange")
-      tr
-        th(name="Date")
-        th(name="Consommation")
-        th(numeric name="Nombre")
-        th(numeric name="Total" unit="€")
-    tbody
-      tr(md-auto-select ng-repeat="consommation in consommations track by $index")
-        td {{consommation.date | amDateFormat:'DD/MM/YYYY HH:mm:ss'}}
-        td {{consommation.consommable}}
-        td {{consommation.quantity}}
-        td(show-unit) {{consommation.montant}}
+md-table-container
+  table(md-table md-progress="deferred")
+    thead(md-head md-order="query.order" md-trigger="onOrderChange")
+      tr(md-row)
+        th(md-column) Date
+        th(md-column) Consommation
+        th(md-column md-numeric) Nombre
+        th(md-column md-numeric) Total
+    tbody(md-body)
+      tr(md-row md-auto-select ng-repeat="consommation in consommations track by $index")
+        td(md-cell) {{consommation.date | amDateFormat:'DD/MM/YYYY HH:mm:ss'}}
+        td(md-cell) {{consommation.consommable}}
+        td(md-cell) {{consommation.quantity}}
+        td(md-cell) {{consommation.montant}}€
 
-md-data-table-pagination(md-label="label" md-row-select="['10', '25', '50']" md-limit="query.limit" md-page="query.page" md-total="{{total}}" md-trigger="onPaginationChange")
+md-table-pagination(md-label="label" md-options="['10', '25', '50']" md-limit="query.limit" md-page="query.page" md-total="{{total}}" md-on-paginate="onPaginationChange")
