@@ -22,7 +22,7 @@ angular.module "ardoise.controllers"
     getConsommations = (page, limit) ->
       $q (resolve, reject) ->
         skip = limit * page - limit
-        $http.get "/api/me/consommation?limit=#{limit}&skip=#{skip}"
+        $http.get "api/me/consommation?limit=#{limit}&skip=#{skip}"
         .success (data) ->
           success data
           resolve data

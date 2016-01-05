@@ -8,17 +8,17 @@ html.no-js(lang='fr', ng-app='ardoise')
     meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
     meta(name='description', content=site.description)
     meta(name='author', content=site.author)
-    link(rel='icon', type='image/ico', sizes='16x16', href='/favicon.ico')
-    link(rel='shortcut icon', type='image/png', href='/favicon.png')
+    link(rel='icon', type='image/ico', sizes='16x16', href='favicon.ico')
+    link(rel='shortcut icon', type='image/png', href='favicon.png')
     
     title= site.title
-    link(rel='stylesheet', href='/css/app.css')
+    link(rel='stylesheet', href='css/app.css')
     //if lte IE 7
       script(src='http://cdnjs.cloudflare.com/ajax/libs/json2/20110223/json2.js')
     //if lte IE 8
       script(src='//html5shiv.googlecode.com/svn/trunk/html5.js')
   body(ng-cloak)
     ui-view(layout-fill)
-    script(type='text/javascript', src='/js/vendor.js')
-    script(type='text/javascript', src='/js/templates.js')
-    script(type='text/javascript', src='/js/app.annotated.js')
+    script(type='text/javascript', src='js/vendor.js')
+    script(type='text/javascript', src='js/templates.js')
+    script(type='text/javascript', src='js/app.annotated.js')
