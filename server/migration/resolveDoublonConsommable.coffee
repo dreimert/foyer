@@ -7,7 +7,7 @@ db().then (connection) ->
     FROM "groupeV"
     INNER JOIN groupe ON (groupe_id = groupe.id)
     WHERE actif
-    ORDER BY groupe_id, date
+    ORDER BY groupe_id, lieu_id, date
   """
 .then (consommables) ->
   last = consommables.rows[0]
