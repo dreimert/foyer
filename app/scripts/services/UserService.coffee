@@ -5,17 +5,37 @@ angular.module "ardoise.services"
       @init()
 
     init: ->
-      @name = false
-      @user = null
+      @reset
       @promise = $http.get('logged').then (data) =>
+        @setInterval()
         @user = data.data
         @name = data.data.prenom
         @user
+
+    reset: ->
+      @name = false
+      @user = null
+      @promise = $q.reject("not login")
+      console.log "@interval", @interval
+      if @interval
+        clearInterval @interval
+      @interval = null
+
+    setInterval: ->
+      @interval = setInterval =>
+        $http.get('logged')
+        .then null, (err) =>
+          @goLogin()
+      , 10000
+
+    goLogin: ->
+      window.location.replace("/#/login/#{LieuService.getLieu().value}")
 
     signIn: (login, password) ->
       @promise = $q (resolve, reject) =>
         $http.post 'login', {login: login, password: password}
         .then (data) =>
+          @setInterval()
           @user = data.data
           @name = data.data.prenom
           resolve @user
@@ -52,8 +72,7 @@ angular.module "ardoise.services"
         , reject
 
     signOut: ->
-      # hard refresh of the page on logout to run constructor of all services
+      @reset()
       $http.get 'logout'
-      .success () ->
-        #@init()
-        window.location.replace("/#/login/#{LieuService.getLieu().value}")
+      .finally () =>
+        @goLogin()
