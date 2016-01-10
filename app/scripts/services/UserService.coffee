@@ -29,7 +29,7 @@ angular.module "ardoise.services"
       , 10000
 
     goLogin: ->
-      window.location.replace("/#/login/#{LieuService.getLieu().value}")
+      window.location.replace("#/login/#{LieuService.getLieu().value}")
 
     signIn: (login, password) ->
       @promise = $q (resolve, reject) =>
