@@ -8,6 +8,10 @@ angular.module "ardoise.controllers"
     icon: "css/icons/ic_local_cafe_24px.svg"
     title: "Bar"
     state: "logged.rf.bar"
+  ,
+    icon: "css/icons/ic_kitchen_24px.svg"
+    title: "Frigo"
+    state: "logged.rf.frigo"
   ]
 
   ###
@@ -26,10 +30,6 @@ angular.module "ardoise.controllers"
     icon: "css/icons/ic_local_drink_24px.svg"
     title: "Produits"
     state: "logged.rf.produits"
-  ,
-    icon: "css/icons/ic_kitchen_24px.svg"
-    title: "Frigo"
-    state: "logged.rf.frigo"
   ,
     icon: "css/icons/ic_local_grocery_store_24px.svg"
     title: "Commandes"
