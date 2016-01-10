@@ -1,5 +1,6 @@
 express = require('express')
 app     = express()
+appNew  = express()
 conf    = require('../conf')
 bodyParser = require('body-parser')
 session    = require('express-session')
@@ -16,5 +17,7 @@ app.use require './api/login'
 
 app.use '/api', require './api'
 
-app.listen 3232, () ->
+appNew.use '/new', app
+
+appNew.listen 3232, () ->
   console.info "Serveur lancé sur le port 3232"
