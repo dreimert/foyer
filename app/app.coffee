@@ -140,6 +140,25 @@ angular.module("ardoise", [
             resolve data
           .error (data) ->
             reject data
+  .state "logged.rf.frigo",
+    url: "/frigo"
+    templateUrl: "logged.rf.frigo.jade"
+    controller: "loggedRfFrigoCtrl"
+    resolve:
+      consommations: ($http, $q) ->
+        $q (resolve, reject) ->
+          $http.get "api/frigo"
+          .success (data) ->
+            resolve data
+          .error (data) ->
+            reject data
+      total: ($http, $q) ->
+        $q (resolve, reject) ->
+          $http.get "api/frigo/count"
+          .success (data) ->
+            resolve data
+          .error (data) ->
+            reject data
   .state "logged.rf.bar",
     url: "/bar"
     templateUrl: "logged.rf.bar.jade"

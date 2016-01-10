@@ -1,0 +1,23 @@
+md-toolbar.md-table-toolbar.md-default
+  .md-toolbar-tools(layout="row" layout-align="center center")
+    md-input-container(flex style="margin-top: 52px;")
+      label Recherche
+      md-icon(md-svg-src="css/icons/ic_search_24px.svg")
+      input(ng-model="query.filter" type="text" ng-change="search()" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }")
+
+md-table-container
+  table(md-table md-progress="deferred")
+    thead(md-head md-order="query.order" md-trigger="onOrderChange")
+      tr(md-row)
+        th(md-column) Nom		
+        th(md-column md-numeric) qte_frigo	
+        th(md-column) Nom court
+        th(md-column) Commentaire
+    tbody(md-body)
+      tr(md-row md-auto-select ng-repeat="consommation in consommations track by $index")
+        td(md-cell) {{consommation.nom}}
+        td(md-cell) {{consommation.qte_frigo}}
+        td(md-cell) {{consommation.nomreduit}}
+        td(md-cell) {{consommation.commentaire}}
+
+md-table-pagination(md-label="label" md-options="['10', '25', '50']" md-limit="query.limit" md-page="query.page" md-total="{{total}}" md-on-paginate="onPaginationChange")
