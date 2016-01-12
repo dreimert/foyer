@@ -1,10 +1,11 @@
 md-autocomplete(
   md-selected-item="selected.user"
   md-search-text="search"
-  md-items="user in users"
+  md-items="user in getUsers(search)"
   md-item-text="user.display"
   md-floating-label="Utilisateurs"
   md-autofocus="true"
+  ng-model-options="{updateOn:'default blur', debounce:{'default': 250, 'blur': 0 }}"
 )
   md-item-template
     span(md-highlight-text="search") {{user.display}}
