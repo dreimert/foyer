@@ -44,7 +44,7 @@ angular.module "ardoise.controllers"
       )
       $scope.disabled = false
 
-  getUsers = ->
+  $scope.getUsers = (search = "") ->
     limit = 10
     skip = 0
 
@@ -53,14 +53,11 @@ angular.module "ardoise.controllers"
       skip: 0
       order: 'login'
 
-    unless not $scope.search? or $scope.search.length <= 2
-      params.search = $scope.search
+    if search.length >= 2
+      params.search = search
 
     $http.get 'api/user', params: params
-    .success (users) ->
-      $scope.users = users.users.map (user) ->
+    .then (res) ->
+      res.data.users.map (user) ->
         user.display = "#{user.prenom} #{user.nom} (#{user.login}) : #{user.montant} €"
         user
-
-  $scope.$watch 'search', (value) ->
-    getUsers()
