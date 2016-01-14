@@ -14,7 +14,7 @@ angular.module("ardoise", [
 
   $locationProvider.html5Mode requireBase:true
     # For any unmatched url, redirect to /state1
-  $urlRouterProvider.otherwise "/accueil"
+  $urlRouterProvider.otherwise "/foyer/accueil"
 
   # Now set up the states
   $stateProvider.state "login",
@@ -23,16 +23,19 @@ angular.module("ardoise", [
     controller: "LoginCtrl"
   .state "anonyme",
     abstract: true
-    url: "/anonyme"
+    url: "/anonyme/:lieu"
     templateUrl: "anonyme.jade"
+    resolve:
+      lieu: ($stateParams, LieuService) ->
+        LieuService.resolve($stateParams.lieu)
   .state "anonyme.accueil",
     url: "/accueil"
     templateUrl: "logged.accueil.jade"
     controller: "AnonymeAccueilCtrl"
     resolve:
-      consommables: ($stateParams, $http, $q, LieuService) ->
+      consommables: ($stateParams, $http, $q, lieu) ->
         $q (resolve, reject) ->
-          $http.get "api/consommable/#{LieuService.getLieu().value}"
+          $http.get "api/consommable/#{lieu.value}"
           .success (data) ->
             resolve data
           .error (data) ->
@@ -43,19 +46,22 @@ angular.module("ardoise", [
     controller: "AnonymePaiementCtrl"
   .state "logged",
     abstract: true
+    url: "/:lieu"
     templateUrl: "logged.jade"
     controller: "LoggedCtrl"
     resolve:
       user: (UserService) ->
         UserService.getUser()
+      lieu: ($stateParams, LieuService) ->
+        LieuService.resolve($stateParams.lieu)
   .state "logged.accueil",
     url: "/accueil"
     templateUrl: "logged.accueil.jade"
     controller: "LoggedAccueilCtrl"
     resolve:
-      consommables: ($stateParams, $http, $q, LieuService) ->
+      consommables: ($http, $q, lieu) ->
         $q (resolve, reject) ->
-          $http.get "api/consommable/#{LieuService.getLieu().value}"
+          $http.get "api/consommable/#{lieu.value}"
           .success (data) ->
             resolve data
           .error (data) ->
@@ -126,16 +132,16 @@ angular.module("ardoise", [
     templateUrl: "logged.rf.consommation.jade"
     controller: "loggedRfConsommationCtrl"
     resolve:
-      consommations: ($http, $q) ->
+      consommations: ($http, $q, lieu) ->
         $q (resolve, reject) ->
-          $http.get "api/consommation"
+          $http.get "api/consommation/#{lieu.value}"
           .success (data) ->
             resolve data
           .error (data) ->
             reject data
-      total: ($http, $q) ->
+      total: ($http, $q, lieu) ->
         $q (resolve, reject) ->
-          $http.get "api/consommation/count"
+          $http.get "api/consommation/count/#{lieu.value}"
           .success (data) ->
             resolve data
           .error (data) ->
@@ -145,16 +151,16 @@ angular.module("ardoise", [
     templateUrl: "logged.rf.frigo.jade"
     controller: "loggedRfFrigoCtrl"
     resolve:
-      consommations: ($http, $q) ->
+      consommations: ($http, $q, lieu) ->
         $q (resolve, reject) ->
-          $http.get "api/frigo"
+          $http.get "api/frigo/#{lieu.value}"
           .success (data) ->
             resolve data
           .error (data) ->
             reject data
-      total: ($http, $q) ->
+      total: ($http, $q, lieu) ->
         $q (resolve, reject) ->
-          $http.get "api/frigo/count"
+          $http.get "api/frigo/count/#{lieu.value}"
           .success (data) ->
             resolve data
           .error (data) ->
@@ -164,9 +170,9 @@ angular.module("ardoise", [
     templateUrl: "logged.rf.bar.jade"
     controller: "LoggedRfBarCtrl"
     resolve:
-      consommables: ($stateParams, $http, $q, LieuService) ->
+      consommables: ($stateParams, $http, $q, lieu) ->
         $q (resolve, reject) ->
-          $http.get "api/consommable/#{LieuService.getLieu().value}"
+          $http.get "api/consommable/#{lieu.value}"
           .success (data) ->
             resolve data
           .error (data) ->

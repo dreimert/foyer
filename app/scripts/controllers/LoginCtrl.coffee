@@ -9,7 +9,7 @@ angular.module "ardoise.controllers"
   $scope.onFormSubmit = ->
     UserService.signIn($scope.login, $scope.password)
     .then () ->
-      $state.go "logged.accueil"
+      $state.go "logged.accueil", lieu: $scope.lieu
     ,
       () ->
         $mdToast.show(
