@@ -21,11 +21,12 @@ app.route '/'
       INNER JOIN groupe on groupe.id = stockgroupe.groupe_id
       WHERE lieu_id = 4
       #{search}
-      ORDER BY nom
+      ORDER BY #{utils.order(["nom", "qte_frigo", "nomreduit"], ["nom", "nomreduit"], req.query.order, "nom")}
       LIMIT $1::int
       OFFSET $2::int
     """, [(req.query.limit or 10), (req.query.skip or 0)].concat(params)
   .then (consommations) ->
+    console.log consommations.rows
     res.send(consommations.rows)
   .catch utils.errorHandler("GET frigo", res)
   .finally ->

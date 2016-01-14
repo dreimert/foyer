@@ -11,7 +11,6 @@ app.route '/'
 .get access.rf, (req, res) ->
   search = -> ""
   param = []
-  order = "login"
   if req.query.search
     search = (index) ->
       """
@@ -22,21 +21,12 @@ app.route '/'
       """
     param.push "%#{req.query.search.toLowerCase()}%"
 
-  if req.query.order
-    desc = false
-    if req.query.order[0] is "-"
-      desc = true
-      field = req.query.order[1..]
-    else
-      field = req.query.order
-
-    if field is "nom" or field is "prenom" or field is "login"
-      order = "lower(#{field})"
-    else
-      order = field
-
-    if desc
-      order = "#{order} DESC"
+  order = utils.order(
+    ["nom", "prenom", "login", "montant"],
+    ["nom", "prenom", "login"],
+    req.query.order,
+    "login"
+  )
 
   console.log "order", order
 

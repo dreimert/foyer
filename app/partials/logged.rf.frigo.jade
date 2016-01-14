@@ -7,11 +7,11 @@ md-toolbar.md-table-toolbar.md-default
 
 md-table-container
   table(md-table md-progress="deferred")
-    thead(md-head md-order="query.order" md-trigger="onOrderChange")
+    thead(md-head md-order="query.order" md-on-reorder="onOrderChange")
       tr(md-row)
-        th(md-column) Nom		
-        th(md-column md-numeric) qte_frigo	
-        th(md-column) Nom court
+        th(md-column md-order-by="nom") Nom		
+        th(md-column md-numeric md-order-by="qte_frigo") qte_frigo	
+        th(md-column md-order-by="nomreduit") Nom court
         th(md-column) Commentaire
     tbody(md-body)
       tr(md-row md-auto-select ng-repeat="consommation in consommations track by $index")
