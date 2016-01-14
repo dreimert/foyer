@@ -4,7 +4,8 @@ angular.module "ardoise.controllers"
   $q,
   $http,
   consommations,
-  total
+  total,
+  lieu
 ) ->
   $scope.consommations = consommations
   $scope.total = total
@@ -31,7 +32,7 @@ angular.module "ardoise.controllers"
       if $scope.query.filter
         search = "&search=#{$scope.query.filter}"
 
-      $http.get "api/frigo?limit=#{limit}&skip=#{skip}&order=#{order}#{search}"
+      $http.get "api/frigo/#{lieu.value}?limit=#{limit}&skip=#{skip}&order=#{order}#{search}"
       .success (data) ->
         success data
         resolve data
