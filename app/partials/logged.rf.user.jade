@@ -1,20 +1,23 @@
-md-input-container
-  label "Ma recherche"
-  input(ng-model="search", ng-model-options="{ debounce: 500 }")
+md-toolbar.md-table-toolbar.md-default
+  .md-toolbar-tools(layout="row" layout-align="center center")
+    md-input-container(flex style="margin-top: 52px;")
+      label Recherche
+      md-icon(md-svg-src="css/icons/ic_search_24px.svg")
+      input(ng-model="query.filter" type="text" ng-change="search()" ng-model-options="{ updateOn: 'default blur', debounce: { 'default': 500, 'blur': 0 } }")
 
-md-data-table-container
-  table(md-data-table md-progress="deferred")
-    thead(md-order="query.order" md-trigger="onOrderChange")
-      tr
-        th(name="Login" order-by="login")
-        th(name="Nom" order-by="nom")
-        th(name="Prenom" order-by="prenom")
-        th(numeric name="Montant" order-by="montant")
-    tbody
-      tr(md-auto-select ng-repeat="user in users track by user.login" ui-sref="logged.rf.userDetail({login:user.login})")
-        td {{user.login}}
-        td {{user.nom}}
-        td {{user.prenom}}
-        td {{user.montant}}
+md-table-container
+  table(md-table md-progress="deferred")
+    thead(md-head md-order="query.order" md-on-reorder="onOrderChange")
+      tr(md-row)
+        th(md-column md-order-by="login") Login		
+        th(md-column md-order-by="nom") Nom
+        th(md-column md-order-by="prenom") Prenom
+        th(md-column md-numeric md-order-by="montant") Montant
+    tbody(md-body)
+      tr(md-row md-auto-select ng-repeat="user in users track by user.login")
+        td(md-cell) {{user.login}}
+        td(md-cell) {{user.nom}}
+        td(md-cell) {{user.prenom}}
+        td(md-cell) {{user.montant}}
 
-md-data-table-pagination(md-label="label" md-row-select="['10', '25', '50']" md-limit="query.limit" md-page="query.page" md-total="{{total}}" md-trigger="onPaginationChange")
+md-table-pagination(md-label="label" md-options="['10', '25', '50']" md-limit="query.limit" md-page="query.page" md-total="{{total}}" md-on-paginate="onPaginationChange")
