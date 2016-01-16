@@ -10,7 +10,22 @@ angular.module("ardoise", [
   "ardoise.directives"
   "ardoise.controllers"
   "ardoise.templates"
-]).config ($stateProvider, $urlRouterProvider, $locationProvider) ->
+]).config (
+  $stateProvider,
+  $urlRouterProvider,
+  $locationProvider,
+  $mdThemingProvider
+) ->
+
+  $mdThemingProvider.theme('kfet')
+  .primaryPalette('orange')
+  .accentPalette('light-green')
+
+  $mdThemingProvider.theme('foyer')
+  .primaryPalette('light-green')
+  .accentPalette('deep-orange')
+
+  $mdThemingProvider.alwaysWatchTheme(true)
 
   $locationProvider.html5Mode requireBase:true
     # For any unmatched url, redirect to /state1
@@ -25,6 +40,7 @@ angular.module("ardoise", [
     abstract: true
     url: "/anonyme/:lieu"
     templateUrl: "anonyme.jade"
+    controller: "AnonymeCtrl"
     resolve:
       lieu: ($stateParams, LieuService) ->
         LieuService.resolve($stateParams.lieu)

@@ -1,4 +1,4 @@
-md-content(layout="column", layout-fill, layout-align="center center" ng-class="lieu")
+md-content(layout="column", layout-fill, layout-align="center center" ng-class="lieu" md-theme="{{ lieu }}")
   div
     md-card.nopadding(layout-padding)
       md-input-container
@@ -16,4 +16,4 @@ md-content(layout="column", layout-fill, layout-align="center center" ng-class="
         md-button.nomarginright.nomarginleft.md-raised.md-primary(type="submit", ng-disabled="loginForm.$invalid") Connexion
 
     div(layout="row" layout-align="center center")
-      a.md-button.md-raised.md-primary(flex, ui-sref="anonyme.accueil") Anonyme
+      md-button.md-button.md-raised.md-primary(flex, ui-sref="anonyme.accueil({lieu: lieu})") Anonyme
