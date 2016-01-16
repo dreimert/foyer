@@ -1,6 +1,6 @@
 angular.module "ardoise.controllers"
 .controller "AnonymeAccueilCtrl",
-  ($scope, $http, $state, $mdToast, consommables) ->
+  ($scope, $http, $state, $mdToast, consommables, lieu) ->
     $scope.consommations = []
     $scope.consommables = consommables
     $scope.disabled = false
@@ -8,7 +8,7 @@ angular.module "ardoise.controllers"
     $scope.payer = (sum) ->
       $scope.disabled = true
 
-      $http.post 'api/anonyme/consommation',
+      $http.post "api/anonyme/consommation/#{lieu.value}",
         consommations: $scope.consommations
       .success (data) ->
         $state.go "anonyme.paiement", montant: data.montant
