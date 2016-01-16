@@ -5,6 +5,7 @@ angular.module "ardoise.controllers"
   $http
   $mdToast
   consommables
+  lieu
 ) ->
   $scope.consommables = consommables
   $scope.consommations = []
@@ -23,7 +24,7 @@ angular.module "ardoise.controllers"
       console.log "no selected user"
       return
 
-    $http.post 'api/consommation',
+    $http.post "api/consommation/#{lieu.value}",
       consommations: $scope.consommations
       user: $scope.selected.user
     .success (data) ->
