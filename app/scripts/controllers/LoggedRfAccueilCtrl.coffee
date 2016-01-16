@@ -3,15 +3,15 @@ angular.module "ardoise.controllers"
   menus = [
     icon: "css/icons/ic_list_24px.svg"
     title: "Consommations"
-    state: "^.rf.consommation"
+    state: "^.consommation"
   ,
     icon: "css/icons/ic_local_cafe_24px.svg"
     title: "Bar"
-    state: "^.rf.bar"
+    state: "^.bar"
   ,
     icon: "css/icons/ic_kitchen_24px.svg"
     title: "Frigo"
-    state: "^.rf.frigo"
+    state: "^.frigo"
   ,
     icon: "css/icons/ic_person_24px.svg"
     title: "Utilisateurs"
