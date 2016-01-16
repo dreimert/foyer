@@ -12,16 +12,16 @@ angular.module "ardoise.controllers"
     icon: "css/icons/ic_kitchen_24px.svg"
     title: "Frigo"
     state: "^.rf.frigo"
+  ,
+    icon: "css/icons/ic_person_24px.svg"
+    title: "Utilisateurs"
+    state: "^.user"
   ]
 
   ###
     icon: "css/icons/ic_person_add_24px.svg"
     title: "Créer un utilisateurs"
     state: "^.createUser"
-  ,
-    icon: "css/icons/ic_person_24px.svg"
-    title: "Utilisateurs"
-    state: "^.user"
   ,
     icon: "css/icons/ic_import_export_24px.svg"
     title: "Trasnfert"
