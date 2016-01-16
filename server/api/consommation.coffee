@@ -7,8 +7,8 @@ middles = require "../middles"
 
 Promise  = require "bluebird"
 
-app.route '/'
-.get access.rf, (req, res) ->
+app.route '/:lieu'
+.get access.rf, middles.getLieu, (req, res) ->
   db().then (connection) ->
     connection.client.query """
       SELECT
@@ -24,6 +24,7 @@ app.route '/'
         ON "public"."groupeV"."groupe_id" = "public"."groupe"."id"
       LEFT JOIN "public"."utilisateur"
         ON "public"."utilisateur"."ardoise_id" = "public"."consommation"."ardoise_id"
+      WHERE lieu_id = #{req.lieuId}
       ORDER BY date DESC
       LIMIT $1::int
       OFFSET $2::int
@@ -42,12 +43,15 @@ app.route '/'
     res.send req.user
 )
 
-app.route '/count'
-.get access.rf, (req, res) ->
+app.route '/count/:lieu'
+.get access.rf, middles.getLieu, (req, res) ->
   db().then (connection) ->
     connection.client.query """
       SELECT count(*)
       FROM "public"."consommation"
+      INNER JOIN "public"."groupeV"
+        ON "public"."consommation"."groupeV_id" = "public"."groupeV"."id"
+      WHERE lieu_id = #{req.lieuId}
     """
   .then (count) ->
     res.send(count.rows[0].count)

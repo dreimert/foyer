@@ -5,7 +5,7 @@ angular.module "ardoise.controllers"
   $scope.lieu = LieuService.getLieu().value
 
   $scope.back = () ->
-    $state.go "logged.accueil"
+    $state.go "^.accueil"
 
   $scope.signOut = ->
     $scope.userService.signOut()

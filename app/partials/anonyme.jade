@@ -1,8 +1,7 @@
-section(layout="column", layout-fill, flex)
+section(layout="column", layout-fill, flex,  md-theme="{{ lieu }}")
   md-toolbar
     .md-toolbar-tools
-      md-button.md-icon-button(ui-sref="logged.accueil", aria-label="home")
-        md-icon(md-svg-src="css/icons/ic_home_24px.svg")
+      span(flex)
       h2 Anonyme
       span(flex)
       md-button.md-icon-button(aria-label="loggout", ui-sref="login")

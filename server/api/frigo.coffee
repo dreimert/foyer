@@ -7,8 +7,8 @@ middles = require "../middles"
 
 Promise  = require "bluebird"
 
-app.route '/'
-.get access.rf, (req, res) ->
+app.route '/:lieu'
+.get access.rf, middles.getLieu, (req, res) ->
   params = []
   search = ""
   if req.query.search
@@ -19,24 +19,26 @@ app.route '/'
       SELECT *
       FROM stockgroupe
       INNER JOIN groupe on groupe.id = stockgroupe.groupe_id
-      WHERE lieu_id = 4
+      WHERE lieu_id = #{req.lieuId}
       #{search}
-      ORDER BY nom
+      ORDER BY #{utils.order(["nom", "qte_frigo", "nomreduit"], ["nom", "nomreduit"], req.query.order, "nom")}
       LIMIT $1::int
       OFFSET $2::int
     """, [(req.query.limit or 10), (req.query.skip or 0)].concat(params)
   .then (consommations) ->
+    console.log consommations.rows
     res.send(consommations.rows)
   .catch utils.errorHandler("GET frigo", res)
   .finally ->
     @connection.done()
 
-app.route '/count'
-.get access.rf, (req, res) ->
+app.route '/count/:lieu'
+.get access.rf, middles.getLieu, (req, res) ->
   db().then (connection) ->
     connection.client.query """
       SELECT count(*)
       FROM "public"."stockgroupe"
+      WHERE lieu_id = #{req.lieuId}
     """
   .then (count) ->
     res.send(count.rows[0].count)

@@ -4,7 +4,8 @@ angular.module "ardoise.controllers"
   $q,
   $http,
   consommations,
-  total
+  total,
+  lieu
 ) ->
   $scope.consommations = consommations
   $scope.total = total
@@ -27,7 +28,7 @@ angular.module "ardoise.controllers"
   getConsommations = (page, limit) ->
     $q (resolve, reject) ->
       skip = limit * page - limit
-      $http.get "api/consommation?limit=#{limit}&skip=#{skip}"
+      $http.get "api/consommation/#{lieu.value}?limit=#{limit}&skip=#{skip}"
       .success (data) ->
         success data
         resolve data

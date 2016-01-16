@@ -11,8 +11,15 @@ angular.module "ardoise.services"
       ]
       @lieu = @lieux[0]
 
+    resolve: (lieu) ->
+      $q (resolve, reject) =>
+        if lieu in ["foyer", "kfet"]
+          resolve @setLieu lieu
+        else
+          reject("lieu not found")
+
     setLieu: (newLieu) ->
-      for lieu in @lieux when lieu.value is newLieu.toLowerCase()
+      for lieu in @lieux when lieu.value is newLieu
         @lieu = lieu
       @lieu
 

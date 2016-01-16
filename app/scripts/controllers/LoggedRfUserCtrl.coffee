@@ -21,34 +21,36 @@ angular.module "ardoise.controllers"
     $scope.total = users.count
     $scope.users = users.users
 
-  getUsers = ->
-    limit = $scope.query.limit
-    skip = limit * ($scope.query.page - 1)
+  getUsers = (page, limit, order) ->
+    $q (resolve, reject) ->
+      limit = limit
+      skip = limit * (page - 1)
 
-    params =
-      limit: limit
-      skip: skip
-      order: $scope.query.order
+      params =
+        limit: limit
+        skip: skip
+        order: order
 
-    unless not $scope.search? or $scope.search.length <= 2
-      params.search = $scope.search
+      unless not $scope.query.filter? or $scope.query.filter.length < 2
+        params.search = $scope.query.filter
 
-    $http.get 'api/user', params: params
-    .success success
+      $http.get 'api/user', params: params
+      .success (data) ->
+        success data
+        resolve data
+      .error (data) ->
+        reject data
 
-  $scope.$watch 'search', (value) ->
-    getUsers()
+  getUsers($scope.query.page, $scope.query.limit, $scope.query.order)
 
-  $scope.searchFunc = (predicate) ->
-    $scope.filter = predicate
-    console.log "$scope.search", predicate
-    getUsers()
+  $scope.search = () ->
+    console.log "search", $scope.query.filter
+    getUsers($scope.query.page, $scope.query.limit, $scope.query.order)
 
   $scope.onOrderChange = (order) ->
     console.log "onOrderChange", order
-    getUsers()
-
+    getUsers($scope.query.page, $scope.query.limit, order)
 
   $scope.onPaginationChange = (page, limit) ->
     console.log "onPaginationChange", page, limit
-    getUsers()
+    getUsers(page, limit, $scope.query.order)

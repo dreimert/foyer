@@ -3,49 +3,49 @@ angular.module "ardoise.controllers"
   menus = [
     icon: "css/icons/ic_list_24px.svg"
     title: "Consommations"
-    state: "logged.rf.consommation"
+    state: "^.rf.consommation"
   ,
     icon: "css/icons/ic_local_cafe_24px.svg"
     title: "Bar"
-    state: "logged.rf.bar"
+    state: "^.rf.bar"
   ,
     icon: "css/icons/ic_kitchen_24px.svg"
     title: "Frigo"
-    state: "logged.rf.frigo"
+    state: "^.rf.frigo"
   ]
 
   ###
     icon: "css/icons/ic_person_add_24px.svg"
     title: "Créer un utilisateurs"
-    state: "logged.rf.createUser"
+    state: "^.createUser"
   ,
     icon: "css/icons/ic_person_24px.svg"
     title: "Utilisateurs"
-    state: "logged.rf.user"
+    state: "^.user"
   ,
     icon: "css/icons/ic_import_export_24px.svg"
     title: "Trasnfert"
-    state: "logged.rf.trasnfert"
+    state: "^.trasnfert"
   ,
     icon: "css/icons/ic_local_drink_24px.svg"
     title: "Produits"
-    state: "logged.rf.produits"
+    state: "^.produits"
   ,
     icon: "css/icons/ic_local_grocery_store_24px.svg"
     title: "Commandes"
-    state: "logged.rf.commandes"
+    state: "^.commandes"
   ,
     icon: "css/icons/ic_local_bar_24px.svg"
     title: "Soirées"
-    state: "logged.rf.soirees"
+    state: "^.soirees"
   ,
     icon: "css/icons/ic_supervisor_account_24px.svg"
     title: "Rôles"
-    state: "logged.rf.roles"
+    state: "^.roles"
   ,
     icon: "css/icons/ic_history_24px.svg"
     title: "Historique"
-    state: "logged.rf.historique"
+    state: "^.historique"
   ,
   ###
 
