@@ -62,14 +62,11 @@ angular.module "ardoise.services"
     getUser: () ->
       @promise
 
-    hasRole: (role) ->
-      new Promise (resolve, reject) =>
-        @promise.then (user) ->
-          if user.roles.indexOf(role) isnt -1
-            resolve true
-          else
-            reject "not role #{role}"
-        , reject
+    hasRole: (roleName) ->
+      @promise.then (user) ->
+        for role in user.roles when role.nom is roleName
+          return true
+        return $q.reject "not role #{roleName}"
 
     signOut: ->
       @reset()
