@@ -28,5 +28,35 @@
     "grunt-contrib-uglify": "^0.6.0",
     "grunt-contrib-watch": "^0.6.1",
     "grunt-nodemon": "^0.4.0"
+  },
+  "coffeelintConfig": {
+    "max_line_length" : {
+        "level" : "error",
+        "value" : 100
+    },
+    "arrow_spacing": {
+        "level" : "warn",
+        "value" : true
+    },
+    "braces_spacing": {
+        "level" : "warn",
+        "value" : 0
+    },
+    "line_endings": {
+        "level" : "warn",
+        "value" : "unix"
+    },
+    "missing_fat_arrows": {
+        "level" : "warn",
+        "value" : true
+    },
+    "no_empty_functions": {
+        "level" : "warn",
+        "value" : true
+    },
+    "no_this": {
+        "level" : "warn",
+        "value" : true
+    }
   }
 }
