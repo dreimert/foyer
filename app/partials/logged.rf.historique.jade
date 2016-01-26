@@ -4,9 +4,11 @@ md-table-container
       tr(md-row)
         th(md-column) Date
         th(md-column) Description
+        th(md-column) Login
     tbody(md-body)
       tr(md-row md-auto-select ng-repeat="log in logs track by $index")
         td(md-cell) {{log.date | amDateFormat:'DD/MM/YYYY HH:mm:ss'}}
         td(md-cell) {{log.description}}
+        td(md-cell) {{log.login}}
 
 md-table-pagination(md-label="label" md-options="['10', '25', '50']" md-limit="query.limit" md-page="query.page" md-total="{{total}}" md-on-paginate="onPaginationChange")
