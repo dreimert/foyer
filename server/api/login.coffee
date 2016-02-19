@@ -66,6 +66,7 @@ app.post '/login', (req, res) ->
           montant: user.montant
           roles : roles.rows
           permissions: permissions.rows
+          userId: user.utilisateur_id
         console.log req.session.user
         res.send req.session.user
   .catch (err) ->
