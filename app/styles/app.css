@@ -40,19 +40,33 @@ a[flex] {
 }
 
 md-content.kfet, div.kfet, ui-view.kfet {
-  background: rgb(231,144,15);
-  background-image: linear-gradient(90deg, hsla(255,100%,100%,.07) 50%, transparent 50%),
-    linear-gradient(90deg, hsla(255,100%,100%,.17) 50%, transparent 50%),
-    linear-gradient(90deg, transparent 50%, rgba(255,255,255,.21) 50%);
-  background-size: 17px, 37px, 53px;
+  background: repeating-linear-gradient(
+    -42deg,
+    hsla(0,0%,100%,0),
+    hsla(0,0%,100%,0) 26px,
+    hsla(183,66%,53%,.4) 26px,
+    hsla(183,66%,53%,.4) 76px
+  ), repeating-linear-gradient(
+    -45deg, hsla(0,0%,100%,0),
+    hsla(0,0%,100%,0) 10px,
+    hsla(36, 100%, 50%,.8) 10px,
+    hsla(36, 100%, 50%,.8) 40px
+  );
 }
 
 md-content.foyer, div.foyer, ui-view.foyer {
-  background: rgb(71,189,28);
-  background-image: linear-gradient(90deg, hsla(255,100%,100%,.07) 50%, transparent 50%),
-    linear-gradient(90deg, hsla(255,100%,100%,.17) 50%, transparent 50%),
-    linear-gradient(90deg, transparent 50%, rgba(255,255,255,.21) 50%);
-  background-size: 17px, 37px, 53px;
+  background: repeating-linear-gradient(
+    -42deg,
+    hsla(0,0%,100%,0),
+    hsla(0,0%,100%,0) 26px,
+    hsla(195,66%,53%,.4) 26px,
+    hsla(195,66%,53%,.4) 76px
+  ), repeating-linear-gradient(
+    -45deg, hsla(0,0%,100%,0),
+    hsla(0,0%,100%,0) 10px,
+    hsla(87,100%,58%,.8) 10px,
+    hsla(87,100%,58%,.8) 40px
+  );
 }
 
 .accueilRf md-icon {
