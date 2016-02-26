@@ -193,6 +193,25 @@ angular.module("ardoise", [
             resolve data
           .error (data) ->
             reject data
+  .state "logged.rf.historique",
+    url: "/historique"
+    templateUrl: "logged.rf.historique.jade"
+    controller: "LoggedRfHistoriqueCtrl"
+    resolve:
+      historique: ($stateParams, $http, $q) ->
+        $q (resolve, reject) ->
+          $http.get "api/historique"
+          .success (data) ->
+            resolve data
+          .error (data) ->
+            reject data
+      total: ($http, $q, lieu) ->
+        $q (resolve, reject) ->
+          $http.get "api/historique/count"
+          .success (data) ->
+            resolve data
+          .error (data) ->
+            reject data
 .run ($state, UserService, $rootScope) ->
   $rootScope.$on '$stateChangeError',
     (event, toState, toParams, fromState, fromParams, error) ->

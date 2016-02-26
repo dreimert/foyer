@@ -4,6 +4,8 @@ access  = require "../accessControl"
 db      = require "../db"
 utils   = require '../utils'
 
+Promise  = require "bluebird"
+
 ###
 # Entrée :
 #  - req.body.login
@@ -26,12 +28,10 @@ app.post '/login', (req, res) ->
   pwd = req.body.password
 
   db().then (connection) ->
-    #  mdp_super, , mdp AS pass_hash
     connection.client.query """
-      SELECT DISTINCT ardoise.id, login, utilisateur.nom AS nom, prenom, role_id, montant
+      SELECT ardoise.id, login, utilisateur.nom AS nom, prenom, montant, utilisateur.id AS utilisateur_id
       FROM "public"."ardoise"
       LEFT JOIN utilisateur on "utilisateur".ardoise_id = ardoise.id
-      LEFT JOIN utilisateur_role on utilisateur_role.utilisateur_id = utilisateur.id
       WHERE login = $1::text AND mdp = MD5($2::text)
     """, [login, pwd]
   .then (user) ->
@@ -39,15 +39,36 @@ app.post '/login', (req, res) ->
       res.status(404).send()
     else
       user = user.rows[0]
-      req.session.logged = true
-      req.session.user =
-        id: user.id
-        login: user.login
-        nom: user.nom
-        prenom: user.prenom
-        roles: if user.role_id is 5 then ['rf'] else []
-        montant: user.montant
-      res.send req.session.user
+      Promise.all [
+        @connection.client.query """
+          SELECT role_id AS id, nom
+          FROM "public"."utilisateur_role"
+          INNER JOIN role on role_id = role.id
+          WHERE utilisateur_id = $1::int
+        """, [user.utilisateur_id]
+      ,
+        @connection.client.query """
+          SELECT permission.id AS id, permission.nom AS nom
+          FROM "public"."utilisateur_role"
+          INNER JOIN role on role_id = role.id
+          INNER JOIN permission_role on permission_role.role_id = role.id
+          INNER JOIN permission on permission_role.permission_id = permission.id
+          WHERE utilisateur_id = $1::int
+        """, [user.utilisateur_id]
+      ]
+      .then ([roles, permissions]) ->
+        req.session.logged = true
+        req.session.user =
+          id: user.id
+          login: user.login
+          nom: user.nom
+          prenom: user.prenom
+          montant: user.montant
+          roles : roles.rows
+          permissions: permissions.rows
+          userId: user.utilisateur_id
+        console.log req.session.user
+        res.send req.session.user
   .catch (err) ->
     console.error "err::", err
     res.status(500).send(err)

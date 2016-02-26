@@ -97,8 +97,23 @@ module.exports =
         @connection.client.query """
           INSERT INTO consommation ("groupeV_id", uniteachetee, ardoise_id)
           VALUES ($1::int, $2::int, $3::int)
+          RETURNING id, uniteachetee
         """, [consommation.groupev_id, consommation.quantity, req.user.id]
-    .then () ->
+    .then (insertions) ->
+      if req.session.user.id isnt req.user.id
+        Promise.map insertions, (insertion) =>
+          console.log "insertion", insertion.rows[0].id
+          @connection.client.query """
+            INSERT INTO log ("utilisateur_id", nomtable, idtable, description)
+            VALUES ($1::int, $2::text, $3::int, $4::text)
+            RETURNING id
+          """, [
+            req.session.user.userId,
+            "consommation",
+            insertion.rows[0].id,
+            "L'ardoise #{req.user.login} a été débité de #{insertion.rows[0].uniteachetee} consommations"
+          ]
+    .then ->
       req.montant = req.consommations.reduce (sum, consommation) ->
         sum += consommation.quantity * consommation.prix_adh
       , 0

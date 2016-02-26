@@ -13,8 +13,10 @@ app.route '/'
 
 app.route '/consommation'
 .get access.logged, (req, res) ->
-  db().then (connection) ->
-    connection.client.query """
+  utils.requestAndSend(
+    req,
+    res,
+    """
       SELECT
         nom AS consommable,
         uniteachetee AS quantity,
@@ -30,12 +32,10 @@ app.route '/consommation'
       ORDER BY date DESC
       LIMIT $1::int
       OFFSET $2::int
-    """, [(req.query.limit or 10), (req.query.skip or 0)]
-  .then (consommables) ->
-    res.send(consommables.rows)
-  .catch utils.errorHandler("GET consommations", res)
-  .finally ->
-    @connection.done()
+    """,
+    [(req.query.limit or 10), (req.query.skip or 0)],
+    "GET consommations"
+  )
 .post(
   access.logged,
   middles.checkAndParseConsommations,
@@ -45,16 +45,18 @@ app.route '/consommation'
 
 app.route '/consommation/count'
 .get access.logged, (req, res) ->
-  db().then (connection) ->
-    connection.client.query """
+  utils.requestAndSend(
+    req,
+    res,
+    """
       SELECT count(*)
       FROM "public"."consommation"
       WHERE ardoise_id = #{req.session.user.id}
-    """
-  .then (count) ->
-    res.send(count.rows[0].count)
-  .catch utils.errorHandler("GET consommation/count", res)
-  .finally ->
-    @connection.done()
+    """,
+    [],
+    "GET consommation/count",
+    (rows) ->
+      rows[0].count
+  )
 
 module.exports = app
