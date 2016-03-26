@@ -6,7 +6,7 @@ middles = require "../middles"
 
 Promise  = require "bluebird"
 
-app.route '/consommation'
+app.route '/consommation/:lieu'
 .post(
   middles.setAnonyme,
   middles.checkAndParseConsommations,
