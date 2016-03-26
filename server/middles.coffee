@@ -143,6 +143,7 @@ module.exports =
   setAnonyme: (req, res, next) ->
     req.session.logged = false
     req.session.user = anonyme
+    req.user = anonyme
     next()
 
   checkUser: (req, res, next) ->
