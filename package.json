@@ -9,54 +9,54 @@
     "url": ""
   },
   "dependencies": {
-    "bluebird": "^2.9.9",
-    "body-parser": "^1.9.3",
-    "express": "^4.8.3",
-    "express-session": "^1.9.2",
-    "grunt-angular-templates": "^0.5.7",
-    "grunt-ng-annotate": "^0.9.2",
-    "pg": "^4.3.0",
+    "bluebird": "^3.4.6",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-session": "^1.14.1",
+    "pg": "^6.1.0",
     "pg-bluebird": "^1.0.8"
   },
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-concurrent": "^1.0.0",
-    "grunt-contrib-coffee": "^0.12.0",
-    "grunt-contrib-copy": "^0.7.0",
-    "grunt-contrib-cssmin": "^0.10.0",
-    "grunt-contrib-jade": "^0.13.0",
-    "grunt-contrib-uglify": "^0.6.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-nodemon": "^0.4.0"
+    "grunt": "^1.0.1",
+    "grunt-concurrent": "^2.3.1",
+    "grunt-contrib-coffee": "^1.0.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^1.0.2",
+    "grunt-contrib-jade": "^1.0.0",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-angular-templates": "^1.1.0",
+    "grunt-ng-annotate": "^2.0.2",
+    "grunt-nodemon": "^0.4.2"
   },
   "coffeelintConfig": {
-    "max_line_length" : {
-        "level" : "error",
-        "value" : 100
+    "max_line_length": {
+      "level": "error",
+      "value": 100
     },
     "arrow_spacing": {
-        "level" : "warn",
-        "value" : true
+      "level": "warn",
+      "value": true
     },
     "braces_spacing": {
-        "level" : "warn",
-        "value" : 0
+      "level": "warn",
+      "value": 0
     },
     "line_endings": {
-        "level" : "warn",
-        "value" : "unix"
+      "level": "warn",
+      "value": "unix"
     },
     "missing_fat_arrows": {
-        "level" : "warn",
-        "value" : true
+      "level": "warn",
+      "value": true
     },
     "no_empty_functions": {
-        "level" : "warn",
-        "value" : true
+      "level": "warn",
+      "value": true
     },
     "no_this": {
-        "level" : "warn",
-        "value" : true
+      "level": "warn",
+      "value": true
     }
   }
 }
