@@ -46,6 +46,10 @@ angular.module "ardoise.controllers"
     icon: "css/icons/ic_local_cafe_24px.svg"
     title: "Bar"
     state: "^.bar"
+  ,
+    icon: "css/icons/ic_timeline_24px.svg"
+    title: "Logs"
+    state: "^.log"
   ]
 
   build = (menus) ->
@@ -53,7 +57,7 @@ angular.module "ardoise.controllers"
       menu.span =
         row : 1
         col : 1
-      menu.background = switch index+1
+      menu.background = switch (index%11+1)
         when 1 then  "red"
         when 2 then  "green"
         when 3 then  "darkBlue"

@@ -217,6 +217,26 @@ angular.module("ardoise", [
             resolve data
           .error (data) ->
             reject data
+
+  .state "logged.rf.log",
+    url: "/log"
+    templateUrl: "logged.rf.log.jade"
+    controller: "loggedRfLogCtrl"
+    resolve:
+      logs: ($http, $q) ->
+        $q (resolve, reject) ->
+          $http.get "api/log"
+          .success (data) ->
+            resolve data
+          .error (data) ->
+            reject data
+      total: ($http, $q) ->
+        $q (resolve, reject) ->
+          $http.get "api/log/count"
+          .success (data) ->
+            resolve data
+          .error (data) ->
+            reject data
 .run ($state, UserService, $rootScope) ->
   $rootScope.$on '$stateChangeError',
     (event, toState, toParams, fromState, fromParams, error) ->

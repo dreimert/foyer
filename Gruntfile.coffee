@@ -23,7 +23,7 @@ module.exports = (grunt) ->
 
       jade:
         files: ['app/**/*.jade']
-        tasks: ['jade', 'ngtemplates', 'concat:templates']
+        tasks: ['jade', 'ngtemplates', 'concat:templates', 'browserify:app', 'ngAnnotate']
         options:
           livereload: true
           atBegin: true

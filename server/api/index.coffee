@@ -13,5 +13,6 @@ app.use '/consommation', require './consommation'
 app.use '/user', require './user'
 app.use '/frigo', require './frigo'
 app.use '/historique', require './historique'
+app.use '/log', require './log'
 
 module.exports = app
