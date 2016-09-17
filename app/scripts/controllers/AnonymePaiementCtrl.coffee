@@ -1,3 +1,5 @@
+angular = require 'angular'
+
 angular.module "ardoise.controllers"
 .controller "AnonymePaiementCtrl", ($scope, $timeout, $state) ->
   $scope.secondes = 10

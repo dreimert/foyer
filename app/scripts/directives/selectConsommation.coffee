@@ -1,3 +1,5 @@
+angular = require 'angular'
+
 angular.module "ardoise.directives"
 .directive "selectConsommation", () ->
   restrict: 'E'

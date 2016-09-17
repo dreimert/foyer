@@ -1,3 +1,5 @@
+angular = require 'angular'
+
 angular.module "ardoise.controllers"
 .controller "LoggedDeconnexionCtrl", ($scope, $timeout, $state, UserService) ->
   $scope.solde = UserService.user.montant.toFixed(2)

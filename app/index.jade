@@ -9,7 +9,7 @@ html.no-js(lang='fr', ng-app='ardoise')
     meta(name='author', content=site.author)
     link(rel='icon', type='image/ico', sizes='16x16', href='favicon.ico')
     link(rel='shortcut icon', type='image/png', href='favicon.png')
-    
+
     title= site.title
     link(rel='stylesheet', href='css/app.css')
     <!--[if lte IE 7]>
@@ -21,6 +21,6 @@ html.no-js(lang='fr', ng-app='ardoise')
     script(src="//localhost:35729/livereload.js")
   body(ng-cloak)
     ui-view(layout-fill)
-    script(type='text/javascript', src='js/vendor.js')
-    script(type='text/javascript', src='js/templates.js')
+    //- script(type='text/javascript', src='js/vendor.js')
+    //- script(type='text/javascript', src='js/templates.js')
     script(type='text/javascript', src='js/app.annotated.js')

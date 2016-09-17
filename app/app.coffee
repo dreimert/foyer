@@ -1,15 +1,20 @@
-"use strict"
+angular = require 'angular'
+
+require 'angular-ui-router'
 
 angular.module("ardoise", [
   "ui.router"
-  'ngAnimate'
-  'md.data.table'
-  'ngMaterial'
-  "ardoise.filters"
-  "ardoise.services"
-  "ardoise.directives"
-  "ardoise.controllers"
-  "ardoise.templates"
+  require 'angular-animate'
+  require 'angular-material-data-table'
+  require 'angular-material'
+  require 'angular-aria' # check if use
+  require 'angular-messages' # check if use
+  require 'angular-sanitize' # check if use
+  require 'angular-moment'
+  require './scripts/services'
+  require './scripts/directives'
+  require './scripts/controllers'
+  require '../build/js/templates_browserify.js'
 ]).config (
   $stateProvider,
   $urlRouterProvider,

@@ -1,3 +1,5 @@
+angular = require 'angular'
+
 angular.module "ardoise.controllers"
 .controller "LoginCtrl", ($scope, $state, $mdToast, UserService, LieuService) ->
   $scope.lieux = LieuService.getLieux()

@@ -1,3 +1,5 @@
+angular = require 'angular'
+
 angular.module "ardoise.controllers"
 .controller "LoggedAuthCtrl", ($scope, $state, UserService, $mdToast) ->
   $scope.onFormSubmit = ->

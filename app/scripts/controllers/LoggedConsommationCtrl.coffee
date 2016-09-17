@@ -1,3 +1,5 @@
+angular = require 'angular'
+
 angular.module "ardoise.controllers"
 .controller "LoggedConsommationCtrl",
   ($scope, $q, $http, UserService, $mdToast, consommations, total) ->

@@ -1,3 +1,5 @@
+angular = require 'angular'
+
 angular.module "ardoise.services"
 .factory "LieuService", ($http, $q) ->
   new class LieuService

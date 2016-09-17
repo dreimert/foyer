@@ -4,28 +4,44 @@
   "description": "Système d'ardoises alternatif pour le foyer",
   "version": "0.0.1",
   "homepage": "",
+  "scripts": {
+    "start":"grunt",
+    "production": "grunt production; coffee server"
+  },
   "repository": {
     "type": "git",
     "url": ""
   },
   "dependencies": {
+    "angular": "^1.5.8",
+    "angular-animate": "^1.5.8",
+    "angular-aria": "^1.5.8",
+    "angular-material": "^1.1.1",
+    "angular-material-data-table": "^0.10.9",
+    "angular-messages": "^1.5.8",
+    "angular-moment": "^1.0.0-beta.6",
+    "angular-sanitize": "^1.5.8",
+    "angular-ui-router": "^1.0.0-beta.2",
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "express-session": "^1.14.1",
+    "grunt-browserify": "^5.0.0",
+    "material-design-icons": "^3.0.1",
     "pg": "^6.1.0",
     "pg-bluebird": "^1.0.8"
   },
   "devDependencies": {
+    "coffeeify": "^2.0.1",
     "grunt": "^1.0.1",
+    "grunt-angular-templates": "^1.1.0",
     "grunt-concurrent": "^2.3.1",
     "grunt-contrib-coffee": "^1.0.0",
+    "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-cssmin": "^1.0.2",
     "grunt-contrib-jade": "^1.0.0",
-    "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-angular-templates": "^1.1.0",
     "grunt-ng-annotate": "^2.0.2",
     "grunt-nodemon": "^0.4.2"
   },

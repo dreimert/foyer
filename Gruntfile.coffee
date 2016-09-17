@@ -6,34 +6,14 @@ module.exports = (grunt) ->
     assets:
       jade: ['app/index.static.jade']
       coffee: ['app/app.coffee', 'app/scripts/*/index.coffee', 'app/scripts/*/*.coffee']
-      js: [
-        'bower_components/moment/moment.js'
-        'bower_components/moment/locale/fr.js'
-        'bower_components/angular/angular.min.js'
-        'bower_components/angular-material/angular-material.min.js'
-        'bower_components/angular-animate/angular-animate.min.js'
-        'bower_components/angular-aria/angular-aria.min.js'
-        'bower_components/angular-moment/angular-moment.min.js'
-        'bower_components/angular-material-data-table/dist/md-data-table.min.js'
-        'bower_components/angular-ui-router/release/angular-ui-router.min.js'
-        'bower_components/eventEmitter/EventEmitter.min.js'
-        'bower_components/hammerjs/hammer.min.js'
-      ]
       css: [
-        "bower_components/angular-material/angular-material.min.css"
-        "bower_components/angular-material/themes/*.css"
-        "bower_components/angular-material-data-table/dist/md-data-table.min.css"
+        "node_modules/angular-material/angular-material.min.css"
+        "node_modules/angular-material/themes/*.css"
+        "node_modules/angular-material-data-table/dist/md-data-table.min.css"
         "app/styles/*.css"
       ]
 
     watch:
-      js:
-        files: '<%= assets.js %>'
-        tasks: ['uglify']
-        options:
-          atBegin: true
-          livereload: true
-
       css:
         files: '<%= assets.css %>'
         tasks: ['cssmin']
@@ -41,36 +21,33 @@ module.exports = (grunt) ->
           atBegin: true
           livereload: true
 
-      coffee:
-        files: '<%= assets.coffee %>'
-        tasks: ['coffee:frontend', 'ngAnnotate']
-        options:
-          livereload: true
-          atBegin: true
-
       jade:
         files: ['app/**/*.jade']
-        tasks: ['jade', 'ngtemplates']
+        tasks: ['jade', 'ngtemplates', 'concat:templates']
         options:
           livereload: true
           atBegin: true
 
-    coffee:
-      frontend:
-        files:
-          'build/js/app.js': '<%= assets.coffee %>'
+      browserify:
+        files: ['app/**/*.coffee']
+        tasks: ['browserify:app', 'ngAnnotate']
+        options:
+          livereload: true
+          atBegin: true
+
+    browserify:
+      app:
+        src: ["./app/app.coffee"]
+        dest: 'build/js/app.js'
+        options:
+          transform: ['coffeeify']
+          browserifyOptions:
+            extensions: ['.coffee']
 
     ngAnnotate:
       app:
         files:
           "build/js/app.annotated.js": "build/js/app.js"
-
-    uglify:
-      vendor:
-        options:
-          beautify: true
-        files:
-          'build/js/vendor.js': '<%= assets.js %>'
 
     cssmin:
       production:
@@ -123,26 +100,28 @@ module.exports = (grunt) ->
         options:
           standalone: true
 
+    concat:
+      templates:
+        options:
+          banner: "angular = require('angular');"
+          footer: "module.exports = 'ardoise.templates';"
+        files:
+          'build/js/templates_browserify.js': ['build/js/templates.js']
+
     copy:
       assets:
         expand: true
         cwd: 'app/assets'
         src: '*'
         dest: 'build/'
-      images:
-        expand: true
-        src: 'bower_components/*/dist/images/*.png'
-        dest: 'build/css/images/'
-        flatten: true
       icons:
         expand: true
-        src: 'bower_components/material-design-icons/*/svg/production/*_24px.svg'
+        src: 'node_modules/material-design-icons/*/svg/production/*_24px.svg'
         dest: 'build/css/icons/'
         flatten: true
 
   grunt.loadNpmTasks('grunt-contrib-coffee')
   grunt.loadNpmTasks('grunt-contrib-watch')
-  grunt.loadNpmTasks('grunt-contrib-uglify')
   grunt.loadNpmTasks('grunt-contrib-cssmin')
   grunt.loadNpmTasks('grunt-nodemon')
   grunt.loadNpmTasks('grunt-concurrent')
@@ -150,6 +129,8 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-contrib-copy')
   grunt.loadNpmTasks('grunt-ng-annotate')
   grunt.loadNpmTasks('grunt-angular-templates')
+  grunt.loadNpmTasks('grunt-browserify')
+  grunt.loadNpmTasks('grunt-contrib-concat')
 
   grunt.registerTask('default', ['copy', 'concurrent:dev'])
-  grunt.registerTask('production', ['copy', 'jade', 'ngtemplates', 'coffee', 'ngAnnotate', 'uglify', 'cssmin'])
+  grunt.registerTask('production', ['copy', 'jade', 'ngtemplates', 'concat:templates', 'browserify:app', 'ngAnnotate', 'cssmin'])
