@@ -1,9 +1,9 @@
 angular = require 'angular'
 
 angular.module "ardoise.controllers"
-.controller "LoggedConsommationCtrl",
-  ($scope, $q, $http, UserService, $mdToast, consommations, total) ->
-    $scope.consommations = consommations
+.controller "loggedRfLogCtrl",
+  ($scope, $q, $http, UserService, $mdToast, logs, total) ->
+    $scope.logs = logs
     $scope.total = total
 
     $scope.selected = []
@@ -18,13 +18,13 @@ angular.module "ardoise.controllers"
       limit: 10,
       page: 1
 
-    success = (consommations) ->
-      $scope.consommations = consommations
+    success = (logs) ->
+      $scope.logs = logs
 
-    getConsommations = (page, limit) ->
+    getLogs = (page, limit) ->
       $q (resolve, reject) ->
         skip = limit * page - limit
-        $http.get "api/me/consommation?limit=#{limit}&skip=#{skip}"
+        $http.get "api/log?limit=#{limit}&skip=#{skip}"
         .success (data) ->
           success data
           resolve data
@@ -34,7 +34,7 @@ angular.module "ardoise.controllers"
     $scope.search = (predicate) ->
       $scope.filter = predicate
       console.log "$scope.search", predicate
-      getConsommations($scope.query.page, $scope.query.limit)
+      getLogs($scope.query.page, $scope.query.limit)
 
     $scope.onOrderChange = (order) ->
       console.log "onOrderChange", order
@@ -42,4 +42,4 @@ angular.module "ardoise.controllers"
 
     $scope.onPaginationChange = (page, limit) ->
       console.log "onPaginationChange", page, limit
-      getConsommations(page, limit)
+      getLogs(page, limit)

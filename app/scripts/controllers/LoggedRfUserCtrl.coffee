@@ -1,3 +1,5 @@
+angular = require 'angular'
+
 angular.module "ardoise.controllers"
 .controller "LoggedRfUserCtrl", (
   $scope,

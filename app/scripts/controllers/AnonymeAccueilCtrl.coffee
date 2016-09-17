@@ -1,3 +1,5 @@
+angular = require 'angular'
+
 angular.module "ardoise.controllers"
 .controller "AnonymeAccueilCtrl",
   ($scope, $http, $state, $mdToast, consommables, lieu) ->

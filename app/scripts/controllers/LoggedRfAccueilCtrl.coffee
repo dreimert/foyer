@@ -1,3 +1,5 @@
+angular = require 'angular'
+
 angular.module "ardoise.controllers"
 .controller "LoggedRfAccueilCtrl", ($scope) ->
   menus = [
@@ -16,6 +18,10 @@ angular.module "ardoise.controllers"
     icon: "css/icons/ic_person_24px.svg"
     title: "Utilisateurs"
     state: "^.user"
+  ,
+    icon: "css/icons/ic_timeline_24px.svg"
+    title: "Logs"
+    state: "^.log"
   ]
 
   ###
@@ -54,7 +60,7 @@ angular.module "ardoise.controllers"
       menu.span =
         row : 1
         col : 1
-      menu.background = switch index+1
+      menu.background = switch (index%11+1)
         when 1 then  "red"
         when 2 then  "green"
         when 3 then  "darkBlue"
