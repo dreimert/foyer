@@ -15,7 +15,7 @@ angular.module "ardoise.controllers"
     $scope.query =
       filter: '',
       order: '-date',
-      limit: 10,
+      limit: 50,
       page: 1
 
     success = (logs) ->
