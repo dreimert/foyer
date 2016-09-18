@@ -4,7 +4,7 @@ module.exports = (grunt) ->
 
   grunt.initConfig
     assets:
-      jade: ['app/index.static.jade']
+      pug: ['app/index.static.jade']
       coffee: ['app/app.coffee', 'app/scripts/*/index.coffee', 'app/scripts/*/*.coffee']
       css: [
         "node_modules/angular-material/angular-material.min.css"
@@ -21,9 +21,9 @@ module.exports = (grunt) ->
           atBegin: true
           livereload: true
 
-      jade:
+      pug:
         files: ['app/**/*.jade']
-        tasks: ['jade', 'ngtemplates', 'concat:templates', 'browserify:app', 'ngAnnotate']
+        tasks: ['pug', 'ngtemplates', 'concat:templates', 'browserify:app', 'ngAnnotate']
         options:
           livereload: true
           atBegin: true
@@ -73,7 +73,7 @@ module.exports = (grunt) ->
           logConcurrentOutput: true
           limit: 6
 
-    jade:
+    pug:
       local:
         options:
           pretty: true
@@ -125,7 +125,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-contrib-cssmin')
   grunt.loadNpmTasks('grunt-nodemon')
   grunt.loadNpmTasks('grunt-concurrent')
-  grunt.loadNpmTasks('grunt-contrib-jade')
+  grunt.loadNpmTasks('grunt-contrib-pug')
   grunt.loadNpmTasks('grunt-contrib-copy')
   grunt.loadNpmTasks('grunt-ng-annotate')
   grunt.loadNpmTasks('grunt-angular-templates')
@@ -133,4 +133,4 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-contrib-concat')
 
   grunt.registerTask('default', ['copy', 'concurrent:dev'])
-  grunt.registerTask('production', ['copy', 'jade', 'ngtemplates', 'concat:templates', 'browserify:app', 'ngAnnotate', 'cssmin'])
+  grunt.registerTask('production', ['copy', 'pug', 'ngtemplates', 'concat:templates', 'browserify:app', 'ngAnnotate', 'cssmin'])
