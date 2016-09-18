@@ -5,7 +5,7 @@
   "version": "0.0.1",
   "homepage": "",
   "scripts": {
-    "start":"grunt",
+    "start": "grunt",
     "production": "grunt production; coffee server"
   },
   "repository": {
