@@ -1,0 +1,26 @@
+form(name="add" layout="column")
+  md-autocomplete(
+    md-selected-item="query.conso"
+    md-search-text-change="search(query.filter)"
+    md-search-text="query.filter"
+    md-selected-item-change="selectedItemChange(item)"
+    md-items="conso in consommations"
+    md-item-text="conso.nom"
+    md-min-length="0"
+    placeholder="Consommation"
+    required
+  )
+    md-item-template
+      span(md-highlight-text="query.filter" md-highlight-flags="^i") {{conso.nom}} ({{conso.qte_frigo}})
+    md-not-found Aucune consommation trouvée
+
+  md-input-container(class="md-block")
+    label Ajouter
+    input(name="ajout" type="number" ng-model="query.ajout" placeholder="12" required ng-min="1")
+    
+  md-list(ng-if="query.conso")
+    md-list-item.md-2-line
+      div.md-list-item-text(layout="column")
+        h3 {{query.conso.nom}} ({{query.conso.nomreduit}}) : {{query.conso.qte_frigo}} -> {{query.conso.qte_frigo + query.ajout}}
+        p {{query.conso.commentaire}}
+  md-button.md-raised.md-primary(ng-disabled="add.$invalid") Ajouter
