@@ -116,7 +116,7 @@ angular.module("ardoise", [
     controller: "LoggedAuthCtrl"
     resolve:
       rf: (UserService) ->
-        UserService.hasRole('rf')
+        UserService.hasRole()
   .state "logged.rf",
     abstract: true
     templateUrl: "logged.rf.jade"
