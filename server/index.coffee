@@ -11,6 +11,8 @@ app.use session
   cookie:
     maxAge: conf.cookie.maxAge
   rolling: true
+  resave: true
+  saveUninitialized: false
 app.use bodyParser.json()
 
 app.use require './api/login'

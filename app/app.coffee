@@ -96,7 +96,7 @@ angular.module("ardoise", [
     templateUrl: "logged.consommation.jade"
     controller: "LoggedConsommationCtrl"
     resolve:
-      consommations: ($http, $q) ->
+      consommations: ($http, $q, lieu) ->
         $q (resolve, reject) ->
           $http.get "api/me/consommation"
           .success (data) ->

@@ -123,7 +123,8 @@ module.exports =
         @connection.client.query """
           UPDATE stockgroupe SET qte_frigo = qte_frigo - $1::int
           WHERE stockgroupe.groupe_id = $2::int
-        """, [consommation.quantity, consommation.groupe_id]
+          AND stockgroupe.lieu_id = $3::int
+        """, [consommation.quantity, consommation.groupe_id, req.lieuId]
     .then ->
       # update user
       @connection.client.query """

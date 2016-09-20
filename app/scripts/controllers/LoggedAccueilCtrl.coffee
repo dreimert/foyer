@@ -2,7 +2,7 @@ angular = require 'angular'
 
 angular.module "ardoise.controllers"
 .controller "LoggedAccueilCtrl",
-  ($scope, $http, $state, $mdToast, UserService, consommables) ->
+  ($scope, $http, $state, $mdToast, UserService, consommables, lieu) ->
     $scope.consommations = []
     $scope.consommables = consommables
     $scope.disabled = false
@@ -10,7 +10,7 @@ angular.module "ardoise.controllers"
     $scope.payer = (sum) ->
       $scope.disabled = true
 
-      $http.post 'api/me/consommation',
+      $http.post "api/me/consommation/#{lieu.value}",
         consommations: $scope.consommations
       .success (data) ->
         UserService.user.montant = data.montant

@@ -36,6 +36,7 @@ app.route '/:lieu'
     @connection.done()
 .post(
   access.rf, #TODO check User
+  middles.getLieu,
   middles.checkUser,
   middles.checkAndParseConsommations,
   middles.registerConsommations,
