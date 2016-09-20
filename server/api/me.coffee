@@ -11,7 +11,7 @@ app.route '/'
 .get access.logged, (req, res) ->
   res.send req.session.user
 
-app.route '/consommation'
+app.route '/consommation/:lieu'
 .get access.logged, (req, res) ->
   utils.requestAndSend(
     req,
@@ -38,6 +38,7 @@ app.route '/consommation'
   )
 .post(
   access.logged,
+  middles.getLieu,
   middles.checkAndParseConsommations,
   middles.registerConsommations,
   utils.sendUserHandler

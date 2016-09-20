@@ -9,6 +9,7 @@ Promise  = require "bluebird"
 app.route '/consommation/:lieu'
 .post(
   middles.setAnonyme,
+  middles.getLieu,
   middles.checkAndParseConsommations,
   middles.registerConsommations,
   (req, res) ->
