@@ -66,7 +66,7 @@ angular.module "ardoise.services"
 
     hasRole: (roleName) ->
       @promise.then (user) ->
-        unless roleName? and user.roles.length > 0
+        if not roleName? and user.roles.length > 0
           return true
         for role in user.roles when role.nom is roleName
           return true
