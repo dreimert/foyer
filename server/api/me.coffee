@@ -11,7 +11,7 @@ app.route '/'
 .get access.logged, (req, res) ->
   res.send req.session.user
 
-app.route '/consommation/:lieu'
+app.route '/consommation'
 .get access.logged, (req, res) ->
   utils.requestAndSend(
     req,
@@ -36,6 +36,8 @@ app.route '/consommation/:lieu'
     [(req.query.limit or 10), (req.query.skip or 0)],
     "GET consommations"
   )
+
+app.route '/consommation/:lieu'
 .post(
   access.logged,
   middles.getLieu,
